@@ -1,25 +1,55 @@
 <div class="space-y-4 max-h-[600px] overflow-y-auto pr-2">
         <?php
+            $no = 1;
             foreach ($questions as $key => $value) {
+                $answer = explode(':', $value['jawaban']);
                 ?>
                 <div class="rounded-lg border border-gray-300 p-4">
-                    <p class="mb-3 text-sm font-medium text-gray-700"><?= $key+1 ?>. <?= $value['pertanyaan'] ?></p>
+                    <p class="mb-3 text-sm font-medium text-gray-700"><?= $key > 1 ? $no++ . '.' : '' ?> <?= $value['pertanyaan'] ?></p>
                     <div class="flex justify-between text-sm">
                         <?php
                         $q = $key + 1;
                         ?>
+
+                        <?php if ($key === 0): ?>
+                            <!-- DROPDOWN -->
+                            <select
+                                name="q<?= $q ?>"
+                                class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm
+                                    focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 outline-none"
+                                required
+                            >
+                                <option value="">-- Pilih Jawaban --</option>
+                                <option value="<?= $answer[0] ?>"><?= $answer[0] ?></option>
+                                <option value="<?= $answer[1] ?>"><?= $answer[1] ?></option>
+                                <option value="<?= $answer[2] ?>"><?= $answer[2] ?></option>
+                                <option value="<?= $answer[3] ?>"><?= $answer[3] ?></option>
+                            </select>
+
+                    <?php elseif ($key === 1): ?>
+                        <!-- TANGGAL -->
+                        <input
+                            type="date"
+                            name="q<?= $key + 1 ?>"
+                            class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm
+                                focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 outline-none"
+                            required
+                        />
+
+                    <?php else: ?>
                         <label class="flex items-center gap-2">
-                            <input type="radio" name="<?= $q ?>" value="1"> Sangat Tidak sesuai
+                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[0] ?>" required> <?= $answer[0] ?>
                         </label>
                         <label class="flex items-center gap-2">
-                            <input type="radio" name="<?= $q ?>" value="2"> Tidak Sesuai
+                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[1] ?>" required> <?= $answer[1] ?>
                         </label>
                         <label class="flex items-center gap-2">
-                            <input type="radio" name="<?= $q ?>" value="3"> Cukup
+                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[2] ?>" required> <?= $answer[2] ?>
                         </label>
                         <label class="flex items-center gap-2">
-                            <input type="radio" name="<?= $q ?>" value="4"> Puas
+                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[3] ?>" required> <?= $answer[3] ?>
                         </label>
+                    <?php endif ?>
                     </div>
                 </div>
                 <?php

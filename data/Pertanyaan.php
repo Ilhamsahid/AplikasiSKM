@@ -10,7 +10,7 @@ class Pertanyaan {
     public function getAll(){
         $data = [];
 
-        $query = 'SELECT pertanyaan FROM tb_pertanyaan ORDER BY id ASC';
+        $query = 'SELECT pertanyaan,jawaban FROM tb_pertanyaan ORDER BY id ASC';
         $result = $this->conn->query($query);
 
         while ($row = $result->fetch_assoc()) {

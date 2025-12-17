@@ -46,7 +46,7 @@
         <input
           type="radio"
           name="jenis_kelamin"
-          value="Laki-laki"
+          value="L"
           class="h-4 w-4 text-blue-600 focus:ring-blue-500"
         />
         <span class="text-sm text-gray-700">Laki-laki</span>
@@ -58,7 +58,7 @@
         <input
        type="radio"
           name="jenis_kelamin"
-          value="Perempuan"
+          value="P"
           class="h-4 w-4 text-blue-600 focus:ring-blue-500"
         />
         <span class="text-sm text-gray-700">Perempuan</span>
