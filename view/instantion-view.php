@@ -125,8 +125,8 @@
   <button
     type="button"
     onclick="nextStep()"
-  class="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white
+    class="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white
         hover:bg-blue-700 transition"
->
-  Berikutnya →
+    >
+    Berikutnya →
 </button>

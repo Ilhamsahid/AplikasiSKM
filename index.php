@@ -1,3 +1,10 @@
+<?php
+require_once __DIR__.'/data/Pertanyaan.php';
+
+$question = new Pertanyaan();
+$questions = $question->getQuestion();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
