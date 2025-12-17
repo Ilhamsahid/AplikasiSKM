@@ -80,9 +80,31 @@
         <input
           type="radio"
           name="pendidikan"
-          value="SMA/SMK"
+          value="SD"
           class="h-4 w-4 text-blue-600 focus:ring-blue-500"
 
+        />
+        <span class="text-sm text-gray-700">SD</span>
+      </label>
+
+      <label class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
+                    hover:border-blue-500 transition">
+        <input
+          type="radio"
+          name="pendidikan"
+          value="SMP"
+          class="h-4 w-4 text-blue-600 focus:ring-blue-500"
+        />
+        <span class="text-sm text-gray-700">SMP</span>
+      </label>
+
+      <label class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
+                    hover:border-blue-500 transition">
+        <input
+          type="radio"
+          name="pendidikan"
+          value="SMA"
+          class="h-4 w-4 text-blue-600 focus:ring-blue-500"
         />
         <span class="text-sm text-gray-700">SMA / SMK</span>
       </label>
@@ -92,10 +114,10 @@
         <input
           type="radio"
           name="pendidikan"
-          value="D3"
+          value="D1/D2/D3"
           class="h-4 w-4 text-blue-600 focus:ring-blue-500"
         />
-        <span class="text-sm text-gray-700">D3</span>
+        <span class="text-sm text-gray-700">D1 / D2 / D3</span>
       </label>
 
       <label class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
@@ -103,10 +125,10 @@
         <input
           type="radio"
           name="pendidikan"
-          value="S1"
+          value="S1/D4"
           class="h-4 w-4 text-blue-600 focus:ring-blue-500"
         />
-        <span class="text-sm text-gray-700">S1</span>
+        <span class="text-sm text-gray-700">S1 / D4</span>
       </label>
 
       <label class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
@@ -114,11 +136,23 @@
         <input
           type="radio"
           name="pendidikan"
-          value="S2/S3"
+          value="S2"
           class="h-4 w-4 text-blue-600 focus:ring-blue-500"
         />
-        <span class="text-sm text-gray-700">S2 / S3</span>
+        <span class="text-sm text-gray-700">S2</span>
       </label>
+
+            <label class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
+                    hover:border-blue-500 transition">
+        <input
+          type="radio"
+          name="pendidikan"
+          value="S3"
+          class="h-4 w-4 text-blue-600 focus:ring-blue-500"
+        />
+        <span class="text-sm text-gray-700">S3</span>
+      </label>
+      <label class="text-red-500 text-sm" id="pendidikanMsg" for=""></label>
       <label class="text-red-500 text-sm" id="pendidikanMsg" for=""></label>
     </label>
   </div>

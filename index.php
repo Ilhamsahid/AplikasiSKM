@@ -15,8 +15,8 @@ $questions = $question->getAll();
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
-    <form action="" class="max-w-lg mx-auto">
-        <h2 class="text-3xl text-center mb-5">Survey Kepuasan</h2>
+    <form action="Process/ProsesSubmit.php" class="max-w-lg mx-auto" method="post">
+        <h2 class="text-3xl text-center my-5">Survey Kepuasan</h2>
         <div class="space-y-6" id="step1">
             <?php
             include 'view/instantion-view.php';

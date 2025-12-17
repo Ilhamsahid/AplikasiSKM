@@ -20,10 +20,10 @@
                                 required
                             >
                                 <option value="">-- Pilih Jawaban --</option>
-                                <option value="<?= $answer[0] ?>"><?= $answer[0] ?></option>
-                                <option value="<?= $answer[1] ?>"><?= $answer[1] ?></option>
-                                <option value="<?= $answer[2] ?>"><?= $answer[2] ?></option>
-                                <option value="<?= $answer[3] ?>"><?= $answer[3] ?></option>
+                                <option value="<?= $answer[0] ?>:1"><?= $answer[0] ?></option>
+                                <option value="<?= $answer[1] ?>:2"><?= $answer[1] ?></option>
+                                <option value="<?= $answer[2] ?>:3"><?= $answer[2] ?></option>
+                                <option value="<?= $answer[3] ?>:4"><?= $answer[3] ?></option>
                             </select>
 
                     <?php elseif ($key === 1): ?>
@@ -38,21 +38,22 @@
 
                     <?php else: ?>
                         <label class="flex items-center gap-2">
-                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[0] ?>" required> <?= $answer[0] ?>
+                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[0] ?>:1" required> <?= $answer[0] ?>
                         </label>
                         <label class="flex items-center gap-2">
-                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[1] ?>" required> <?= $answer[1] ?>
+                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[1] ?>:2" required> <?= $answer[1] ?>
                         </label>
                         <label class="flex items-center gap-2">
-                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[2] ?>" required> <?= $answer[2] ?>
+                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[2] ?>:3" required> <?= $answer[2] ?>
                         </label>
                         <label class="flex items-center gap-2">
-                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[3] ?>" required> <?= $answer[3] ?>
+                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[3] ?>:4" required> <?= $answer[3] ?>
                         </label>
                     <?php endif ?>
                     </div>
                 </div>
                 <?php
+                $lastIndex = $key;
             }
         ?>
     </div>
