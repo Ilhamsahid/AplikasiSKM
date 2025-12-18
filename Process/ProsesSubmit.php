@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../configs/database.php';
 require_once '../data/Pertanyaan.php';
 require_once '../data/Instansi.php';
@@ -33,5 +34,11 @@ foreach ($questions as $index => $question) {
         $ansValue
     );
 }
+
+// Membuat flash message
+$_SESSION['flash'] = [
+    'type' => 'success',
+    'message' => 'Kuis selesai terimakasih sudah menggunakan kuis ini',
+];
 
 header("Location: ../index.php");
