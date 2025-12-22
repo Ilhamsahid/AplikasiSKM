@@ -1,6 +1,6 @@
 <?php
 
-class Instansi {
+class Responden {
     public $conn;
 
     public function __construct($conn)
@@ -8,9 +8,9 @@ class Instansi {
         $this->conn = $conn;
     }
 
-    public function insertInstansi($data)
+    public function insertResponden($data)
     {
-        $sql = "INSERT INTO tb_instansi (instansi, umur, kelamin, lulusan) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO tb_responden (responden, umur, kelamin, lulusan) VALUES (?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -19,7 +19,7 @@ class Instansi {
         }
 
         $stmt->bind_param('siss',
-            $data['instansi'],
+            $data['responden'],
             $data['umur'],
             $data['kelamin'],
             $data['lulusan'],

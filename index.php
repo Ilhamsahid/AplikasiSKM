@@ -21,7 +21,7 @@ $questions = $question->getAll();
         <h2 class="text-3xl text-center my-5">Survey Kepuasan</h2>
         <div class="space-y-6" id="step1">
             <?php
-            include 'view/instantion-view.php';
+            include 'view/responden-view.php';
             ?>
         </div>
         <div class="space-y-6 hidden" id="step2">

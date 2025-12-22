@@ -20,9 +20,9 @@ CREATE DATABASE IF NOT EXISTS `survei_kepuasan` /*!40100 DEFAULT CHARACTER SET u
 USE `survei_kepuasan`;
 
 -- Dumping structure for table survei_kepuasan.tb_instansi
-CREATE TABLE IF NOT EXISTS `tb_instansi` (
+CREATE TABLE IF NOT EXISTS `tb_responden` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `instansi` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `responden` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
   `umur` tinyint NOT NULL DEFAULT (0),
   `kelamin` enum('L','P') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'L',
   `lulusan` enum('SD','SMP','SMA','D1/D2/D3','S1/D4','S2','S3') COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -43,13 +43,13 @@ CREATE TABLE IF NOT EXISTS `tb_pertanyaan` (
 CREATE TABLE `tb_jawaban` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_pertanyaan` int NOT NULL DEFAULT '0',
-  `id_instansi` int NOT NULL DEFAULT '0',
+  `id_responden` int NOT NULL DEFAULT '0',
   `jawaban` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
   `nilai` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK__tb_pertanyaan` (`id_pertanyaan`),
-  KEY `FK__tb_instansi` (`id_instansi`),
-  CONSTRAINT `FK__tb_instansi` FOREIGN KEY (`id_instansi`) REFERENCES `tb_instansi` (`id`),
+  KEY `FK__tb_responden` (`id_responden`),
+  CONSTRAINT `FK__tb_responden` FOREIGN KEY (`id_responden`) REFERENCES `tb_responden` (`id`),
   CONSTRAINT `FK__tb_pertanyaan` FOREIGN KEY (`id_pertanyaan`) REFERENCES `tb_pertanyaan` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=246 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

@@ -7,7 +7,7 @@
     </label>
     <input
       type="text"
-      name="instansi"
+      name="responden"
       placeholder="Contoh: SMKN 1 Probolinggo"
       class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm
              focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 outline-none"
