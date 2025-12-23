@@ -1,78 +1,56 @@
-<div class="space-y-4 max-h-[600px] overflow-y-auto pr-2">
-        <?php
-            $no = 1;
-            foreach ($questions as $key => $value) {
-                $answer = explode(':', $value['jawaban']);
-                ?>
-                <div class="rounded-lg border border-gray-300 p-4">
-                    <p class="mb-3 text-sm font-medium text-gray-700"><?= $key > 1 ? $no++ . '.' : '' ?> <?= $value['pertanyaan'] ?></p>
-                    <div class="flex justify-between text-sm">
-                        <?php
-                        $q = $key + 1;
-                        ?>
+            <!-- PERTANYAAN SURVEY -->
+            <div class="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 sm:mb-6">
+                <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-4 pb-2 border-b-2 border-green-600">Pertanyaan Survey</h3>
 
-                        <?php if ($key === 0): ?>
-                            <!-- DROPDOWN -->
-                            <select
-                                name="q<?= $q ?>"
-                                class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm
-                                    focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 outline-none"
-                                required
-                            >
-                                <option value="">-- Pilih Jawaban --</option>
-                                <option value="<?= $answer[0] ?>:1"><?= $answer[0] ?></option>
-                                <option value="<?= $answer[1] ?>:2"><?= $answer[1] ?></option>
-                                <option value="<?= $answer[2] ?>:3"><?= $answer[2] ?></option>
-                                <option value="<?= $answer[3] ?>:4"><?= $answer[3] ?></option>
-                            </select>
-
-                    <?php elseif ($key === 1): ?>
-                        <!-- TANGGAL -->
-                        <input
-                            type="date"
-                            name="q<?= $key + 1 ?>"
-                            class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm
-                                focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 outline-none"
-                            required
-                        />
-
-                    <?php else: ?>
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[0] ?>:1" required> <?= $answer[0] ?>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[1] ?>:2" required> <?= $answer[1] ?>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[2] ?>:3" required> <?= $answer[2] ?>
-                        </label>
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="q<?= $q ?>" value="<?= $answer[3] ?>:4" required> <?= $answer[3] ?>
-                        </label>
-                    <?php endif ?>
-                    </div>
+                <!-- Desktop View -->
+                <div class="hidden lg:block overflow-x-auto">
+                    <table class="w-full border-collapse border border-gray-300">
+                        <thead>
+                            <tr class="bg-green-700 text-white">
+                                <th class="border border-gray-300 px-4 py-3 text-center text-sm font-semibold w-16">No</th>
+                                <th class="border border-gray-300 px-4 py-3 text-left text-sm font-semibold">Pertanyaan</th>
+                                <th class="border border-gray-300 px-3 py-3 text-center text-sm font-semibold w-32">A</th>
+                                <th class="border border-gray-300 px-3 py-3 text-center text-sm font-semibold w-32">B</th>
+                                <th class="border border-gray-300 px-3 py-3 text-center text-sm font-semibold w-32">C</th>
+                                <th class="border border-gray-300 px-3 py-3 text-center text-sm font-semibold w-32">D</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                            <?php
+                            $no = 1;
+                            foreach ($questions as $key => $value) {
+                                $answer = explode(':', $value['jawaban']);
+                                $q = $key + 1;
+                            ?>
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="border border-gray-300 px-4 py-4 text-sm text-gray-700 text-center font-medium align-top">
+                                    <?= $no++ ?>
+                                </td>
+                                <td class="border border-gray-300 px-4 py-4 text-sm text-gray-700 align-top">
+                                    <?= $value['pertanyaan'] ?>
+                                </td>
+                                <?php
+                                for ($i = 0; $i < 4; $i++) {
+                                    $answerText = isset($answer[$i]) ? $answer[$i] : '';
+                                    $value_idx = $i + 1;
+                                ?>
+                                <td class="border border-gray-300 px-3 py-4 text-center align-middle">
+                                    <div class="flex flex-col items-center gap-2">
+                                        <input
+                                            type="radio"
+                                            name="q<?= $q ?>"
+                                            value="<?= $answerText ?>:<?= $value_idx ?>"
+                                            class="w-5 h-5 text-green-600 focus:ring-green-500 cursor-pointer"
+                                            required
+                                        />
+                                        <span class="text-xs text-gray-600 text-center leading-tight">(<?= $answerText ?>)</span>
+                                    </div>
+                                </td>
+                                <?php } ?>
+                            </tr>
+                            <?php }
+                            ?>
+                        </tbody>
+                    </table>
                 </div>
-                <?php
-                $lastIndex = $key;
-            }
-        ?>
-    </div>
-    <div class="flex gap-3 mt-4">
-    <button
-        type="button"
-        onclick="prevStep()"
-        class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700
-                hover:bg-gray-100 transition"
-    >
-        ← Kembali
-    </button>
-
-    <button
-        type="submit"
-        class="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white
-                hover:bg-blue-700 transition"
-    >
-        Kirim →
-    </button>
-</div>
-</div>
+            </div>

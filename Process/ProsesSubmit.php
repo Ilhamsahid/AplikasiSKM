@@ -11,12 +11,15 @@ $Responden = new Responden($conn);
 $Jawaban = new Jawaban($conn);
 
 // Membuat variable
-$questions = $Question->getAll();
+$questions = $Question->getQuestion();
 $respondenId = $Responden->insertResponden([
     'responden' => $_POST['responden'],
     'umur' => $_POST['umur'],
     'kelamin' => $_POST['jenis_kelamin'],
     'lulusan' => $_POST['pendidikan'],
+    'jenis_pelayanan' => $_POST['jenis_pelayanan'],
+    'tanggal_terakhir_kali' => $_POST['tanggal_terakhir_kali'],
+    'tanggal' => date('Y-m-d'),
 ]);
 
 // Memproses Jawaban Ke database

@@ -1,166 +1,123 @@
+<div class="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 sm:mb-6">
+                <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-4 pb-2 border-b-2 border-green-600">Data Responden</h3>
 
-  <!-- Instansi -->
-  <div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                    <!-- Instansi -->
+                    <div>
+                        <label class="block mb-2 text-xs sm:text-sm font-medium text-gray-700">
+                            Instansi <span class="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            name="responden"
+                            placeholder="Contoh: SMKN 1 Probolinggo"
+                            class="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm
+                                   focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
+                            id="instansi"
+                            required
+                        />
+                    </div>
 
-    <label class="block mb-2 text-sm font-medium text-gray-700">
-      Instansi
-    </label>
-    <input
-      type="text"
-      name="responden"
-      placeholder="Contoh: SMKN 1 Probolinggo"
-      class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm
-             focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 outline-none"
-    id="instansi"
-    />
-    <label class="text-red-500 text-sm" for="" id="instansiMsg"></label>
-  </div>
+                    <!-- Umur -->
+                    <div>
+                        <label class="block mb-2 text-xs sm:text-sm font-medium text-gray-700">
+                            Umur <span class="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="number"
+                            name="umur"
+                            placeholder="Contoh: 18"
+                            class="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm
+                                   focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
+                            id="umur"
+                            required
+                        />
+                    </div>
 
-  <!-- Umur -->
-  <div>
-    <label class="block mb-2 text-sm font-medium text-gray-700">
-      Umur
-    </label>
-    <input
-      type="number"
-      name="umur"
-      placeholder="Contoh: 18"
-      class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm
-             focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 outline-none"
-    id="umur"
-    />
-    <label class="text-red-500 text-sm" for="" id="umurMsg"></label>
-  </div>
+                    <!-- Jenis Kelamin -->
+                    <div>
+                        <label class="block mb-2 text-xs sm:text-sm font-medium text-gray-700">
+                            Jenis Kelamin <span class="text-red-500">*</span>
+                        </label>
+                        <div class="flex gap-2 sm:gap-4">
+                            <label class="flex items-center gap-2 cursor-pointer rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5
+                                          hover:border-green-500 hover:bg-green-50 transition">
+                                <input
+                                    type="radio"
+                                    name="jenis_kelamin"
+                                    value="L"
+                                    class="w-4 h-4 text-green-600 focus:ring-green-500"
+                                    required
+                                />
+                                <span class="text-xs sm:text-sm text-gray-700">Laki-laki</span>
+                            </label>
 
-  <!-- Jenis Kelamin -->
-  <div>
-    <label class="block mb-3 text-sm font-medium text-gray-700">
-      Jenis Kelamin
-    </label>
+                            <label class="flex items-center gap-2 cursor-pointer rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5
+                                          hover:border-green-500 hover:bg-green-50 transition">
+                                <input
+                                    type="radio"
+                                    name="jenis_kelamin"
+                                    value="P"
+                                    class="w-4 h-4 text-green-600 focus:ring-green-500"
+                                    required
+                                />
+                                <span class="text-xs sm:text-sm text-gray-700">Perempuan</span>
+                            </label>
+                        </div>
+                    </div>
 
+                    <!-- Pendidikan -->
+                    <div>
+                        <label class="block mb-2 text-xs sm:text-sm font-medium text-gray-700">
+                            Pendidikan Terakhir <span class="text-red-500">*</span>
+                        </label>
+                        <select
+                            name="pendidikan"
+                            class="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm
+                                   focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
+                            required
+                        >
+                            <option value="">-- Pilih Pendidikan --</option>
+                            <option value="SD">SD</option>
+                            <option value="SMP">SMP</option>
+                            <option value="SMA">SMA / SMK</option>
+                            <option value="D1/D2/D3">D1 / D2 / D3</option>
+                            <option value="S1/D4">S1 / D4</option>
+                            <option value="S2">S2</option>
+                            <option value="S3">S3</option>
+                        </select>
+                    </div>
 
-    <div class="flex gap-4">
-      <!-- Laki-laki -->
-      <label class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
-                    hover:border-blue-500 transition">
-        <input
-          type="radio"
-          name="jenis_kelamin"
-          value="L"
-          class="h-4 w-4 text-blue-600 focus:ring-blue-500"
-        />
-        <span class="text-sm text-gray-700">Laki-laki</span>
-      </label>
+                    <div>
+                        <label class="block mb-2 text-xs sm:text-sm font-medium text-gray-700">
+                            Apa Jenis pelayanan yang pernah Saudara urusi? <span class="text-red-500">*</span>
+                        </label>
+                        <select
+                            name="jenis_pelayanan"
+                            class="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm
+                                    focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
+                            required
+                        >
+                            <option value="">-- Pilih Jawaban --</option>
+                            <option value="Pelayanan Rekomendasi Ijin Praktik/Kerja Tenaga Kesehatan">Pelayanan Rekomendasi Ijin Praktik/Kerja Tenaga Kesehatan</option>
+                            <option value="Pelayanan Rekomendasi Ijin Fasilitas Kesehatan">Pelayanan Rekomendasi Ijin Fasilitas Kesehatan</option>
+                            <option value="Pelayanan Konsultasi PIRT">Pelayanan Konsultasi PIRT</option>
+                            <option value="Pelayanan Fogging">Pelayanan Fogging</option>
+                        </select>
+                    </div>
 
-      <!-- Perempuan -->
-      <div class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
-                    hover:border-blue-500 transition">
-        <input
-       type="radio"
-          name="jenis_kelamin"
-          value="P"
-          class="h-4 w-4 text-blue-600 focus:ring-blue-500"
-        />
-        <span class="text-sm text-gray-700">Perempuan</span>
-      </div>
-    </div>
+                    <div>
+                        <label class="block mb-2 text-xs sm:text-sm font-medium text-gray-700">
+                            Kapan Saudara terakhir mengurus ijin untuk organisasi Saudara <span class="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="date"
+                            name="tanggal_terakhir_kali"
+                            class="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm
+                                    focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
+                            required
+                        />
+                    </div>
 
-    <label class="text-red-500 text-sm" for="" id="jkMsg"></label>
-  </div>
-
-  <!-- Pendidikan Terakhir -->
-  <div>
-    <label class="block mb-3 text-sm font-medium text-gray-700">
-      Pendidikan Terakhir
-    </label>
-
-    <label class="grid grid-cols-2 gap-4">
-      <label class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
-                    hover:border-blue-500 transition">
-        <input
-          type="radio"
-          name="pendidikan"
-          value="SD"
-          class="h-4 w-4 text-blue-600 focus:ring-blue-500"
-
-        />
-        <span class="text-sm text-gray-700">SD</span>
-      </label>
-
-      <label class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
-                    hover:border-blue-500 transition">
-        <input
-          type="radio"
-          name="pendidikan"
-          value="SMP"
-          class="h-4 w-4 text-blue-600 focus:ring-blue-500"
-        />
-        <span class="text-sm text-gray-700">SMP</span>
-      </label>
-
-      <label class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
-                    hover:border-blue-500 transition">
-        <input
-          type="radio"
-          name="pendidikan"
-          value="SMA"
-          class="h-4 w-4 text-blue-600 focus:ring-blue-500"
-        />
-        <span class="text-sm text-gray-700">SMA / SMK</span>
-      </label>
-
-      <label class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
-                    hover:border-blue-500 transition">
-        <input
-          type="radio"
-          name="pendidikan"
-          value="D1/D2/D3"
-          class="h-4 w-4 text-blue-600 focus:ring-blue-500"
-        />
-        <span class="text-sm text-gray-700">D1 / D2 / D3</span>
-      </label>
-
-      <label class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
-                    hover:border-blue-500 transition">
-        <input
-          type="radio"
-          name="pendidikan"
-          value="S1/D4"
-          class="h-4 w-4 text-blue-600 focus:ring-blue-500"
-        />
-        <span class="text-sm text-gray-700">S1 / D4</span>
-      </label>
-
-      <label class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
-                    hover:border-blue-500 transition">
-        <input
-          type="radio"
-          name="pendidikan"
-          value="S2"
-          class="h-4 w-4 text-blue-600 focus:ring-blue-500"
-        />
-        <span class="text-sm text-gray-700">S2</span>
-      </label>
-
-            <label class="flex items-center gap-3 cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5
-                    hover:border-blue-500 transition">
-        <input
-          type="radio"
-          name="pendidikan"
-          value="S3"
-          class="h-4 w-4 text-blue-600 focus:ring-blue-500"
-        />
-        <span class="text-sm text-gray-700">S3</span>
-      </label>
-      <label class="text-red-500 text-sm" id="pendidikanMsg" for=""></label>
-      <label class="text-red-500 text-sm" id="pendidikanMsg" for=""></label>
-    </label>
-  </div>
-  <button
-    type="button"
-    onclick="nextStep()"
-    class="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white
-        hover:bg-blue-700 transition"
-    >
-    Berikutnya →
-</button>
+                </div>
+            </div>
