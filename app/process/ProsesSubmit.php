@@ -1,9 +1,9 @@
 <?php
 session_start();
-include '../configs/database.php';
-require_once '../data/Pertanyaan.php';
-require_once '../data/Responden.php';
-require_once '../data/Jawaban.php';
+include __DIR__ . '/../configs/database.php';
+require_once __DIR__ . '/../data/Pertanyaan.php';
+require_once __DIR__ . '/../data/Responden.php';
+require_once __DIR__ . '/../data/Jawaban.php';
 
 // Membuat Object
 $Question = new Pertanyaan($conn);
@@ -44,4 +44,4 @@ $_SESSION['flash'] = [
     'message' => 'Kuis selesai terimakasih sudah menyelesaikan kuis ini',
 ];
 
-header("Location: ../index.php");
+header("Location: /");
