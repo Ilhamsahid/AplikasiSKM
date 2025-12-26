@@ -1,5 +1,4 @@
 <?php
-session_start();
 include __DIR__ . '/../configs/database.php';
 require_once __DIR__ . '/../data/Pertanyaan.php';
 require_once __DIR__ . '/../data/Responden.php';

@@ -26,23 +26,6 @@
 
     <?= getView('components.modal-login') ?>
 
-    <script>
-        function closeModal(nameModal) {
-            const modal = document.getElementById(nameModal);
-            if (modal) modal.remove();
-        }
-
-        function closeLoginModal() {
-            document.getElementById('loginModal').classList.add('hidden');
-            document.getElementById('loginModal').classList.remove('flex');
-        }
-
-
-        function openLoginModal() {
-            document.getElementById('loginModal').classList.remove('hidden');
-            document.getElementById('loginModal').classList.add('flex');
-        }
-
-    </script>
+    <script src="/scripts/guest.js"></script>
 </body>
 </html>

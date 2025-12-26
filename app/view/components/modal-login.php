@@ -24,7 +24,7 @@
         </div>
 
         <!-- Form -->
-        <form action="Process/Login.php" method="post" class="space-y-4">
+        <form action="/admin/login" method="post" id="formLogin" class="space-y-4">
 
             <!-- Username -->
             <div>
@@ -34,11 +34,11 @@
                 <input
                     type="text"
                     name="username"
-                    required
                     placeholder="Masukkan username"
                     class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm
                            focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
                 />
+                <span id="errorUsername" class="text-red-500 text-sm"></span>
             </div>
 
             <!-- Password -->
@@ -49,12 +49,13 @@
                 <input
                     type="password"
                     name="password"
-                    required
                     placeholder="Masukkan password"
                     class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm
                            focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
                 />
             </div>
+
+            <div id="error" class="text-center text-red-500 text-sm"></div>
 
             <!-- Submit -->
             <button

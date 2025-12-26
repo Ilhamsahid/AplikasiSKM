@@ -8,11 +8,17 @@
                 </svg>
                 <h1 class="text-white text-sm sm:text-lg font-semibold">E-SKM Survei Kepuasan Masyarakat</h1>
             </div>
-            <button
-            onclick="openLoginModal()"
-            class="bg-white text-green-700 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-green-50 transition">
-                Login
-            </button>
+            <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                <a href="/admin" class="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer">
+                    <span class="text-green-700 text-sm font-bold">AD</span >
+                </a>
+            <?php else: ?>
+                <button
+                onclick="openLoginModal()"
+                class="bg-white text-green-700 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium hover:bg-green-50 transition">
+                    Login
+                </button>
+            <?php endif; ?>
         </div>
     </div>
 </nav>
