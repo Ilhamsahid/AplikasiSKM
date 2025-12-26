@@ -1,16 +1,16 @@
 <!-- HEADER -->
-<?= getView('components.page-title') ?>
+<?= getView('components.public.page-title') ?>
 
 <form action="/submit-survey" method="post">
 
     <!-- DATA RESPONDEN -->
-    <?= getView('responden-view') ?>
-    <?= getView('question-view', [
+    <?= getView('public.responden-view') ?>
+    <?= getView('public.question-view', [
         'questions' => $questions
     ]) ?>
 
     <!-- Mobile View -->
-    <?= getView('mobile.question-view') ?>
+    <?= getView('public.mobile.question-view') ?>
 
     <!-- SUBMIT BUTTON -->
     <div class="flex justify-end">

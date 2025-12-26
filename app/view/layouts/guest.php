@@ -20,11 +20,11 @@
     </footer>
 
     <?php if (isset($_SESSION['flash'])): ?>
-        <?= getView('components.modal-notification') ?>
+        <?= getView('components.public.modal-notification') ?>
         <?php unset($_SESSION['flash']); ?>
     <?php endif; ?>
 
-    <?= getView('components.modal-login') ?>
+    <?= getView('components.public.modal-login') ?>
 
     <script src="/scripts/guest.js"></script>
 </body>

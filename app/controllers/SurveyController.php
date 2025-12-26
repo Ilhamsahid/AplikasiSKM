@@ -10,9 +10,9 @@ class SurveyController {
         $questions = $question->getQuestion();
 
         $title = 'E-SKM Survei Kepuasan Masyarakat';
-        $nav = getView('components.navbar-public');
-        $footer = getView('components.footer');
-        $content = getView('index-main', [
+        $nav = getView('components.public.navbar');
+        $footer = getView('components.public.footer');
+        $content = getView('public.index-main', [
             'questions' => $questions
         ]);
 
