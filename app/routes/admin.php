@@ -1,36 +1,42 @@
 <?php
 require_once __DIR__ . '/../controllers/AdminController.php';
 require_once __DIR__ . '/../data/Responden.php';
+
 use app\controllers\AdminController;
 
-$adminController = new AdminController();
+$admin = new AdminController();
+$method = $_SERVER['REQUEST_METHOD'];
+$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
 
-if($path === '/admin/login' && $_SERVER['REQUEST_METHOD'] === 'POST'){
-    $adminController->login();
+if ($path === '/admin/login' && $method === 'POST') {
+    $admin->login();
+    exit;
 }
 
-if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'){
-    if($path === '/admin/tambah/user' && $_SERVER['REQUEST_METHOD'] === 'POST'){
-        $adminController->addUser($path);
-        exit;
-    }
+if (!$isAdmin) return;
 
-    if(strpos($path, '/admin/edit/user') !== false ||
-        strpos($path, '/admin/delete/user') !== false &&
-        $_SERVER['REQUEST_METHOD'] === 'POST'
-    ){
-        $adminController->addUser($path);
-        exit;
-    }
+if (
+    $method === 'POST' &&
+    preg_match('#^/admin/(tambah|edit|delete)/user#', $path)
+) {
+    $admin->processUser($path);
+    exit;
+}
 
-    if($path === '/admin/logout'){
-        $adminController->logout();
-        exit;
-    }
+if(
+    $method === 'POST' &&
+    preg_match('#^/admin/(tambah|edit|delete)/question#', $path)
+){
+    $admin->processQuestion($path);
+    exit;
+}
 
-    if(strpos($path, '/admin/') === 0 && $path !== '/admin/'){
-        $adminController->index();
-        exit;
-    }
+if ($path === '/admin/logout') {
+    $admin->logout();
+    exit;
+}
 
+if (str_starts_with($path, '/admin/') && $path !== '/admin/') {
+    $admin->index();
+    exit;
 }

@@ -1,15 +1,44 @@
 let filteredUser = [...users];
-const perPage = 10;
+let filteredQuestion = [...pertanyaan];
 let idUser = null;
+let idQuestion = null;
 let typeNow = null;
-let currentPage = 1;
-const form = document.getElementById('formUser');
+const formUser = document.getElementById('formUser');
+const formQuestion = document.getElementById('formQuestion');
 
-form.addEventListener('submit', function(e){
-    if (form.dataset.mode === 'add') {
-        form.action = '/admin/tambah/user';
-    } else if (form.dataset.mode === 'edit') {
-        form.action = `/admin/edit/user/${idUser}`;
+const paginations = {
+  users: {
+    data: filteredUser,
+    currentPage: 1,
+    perPage: 10,
+    container: 'paginationUser',
+    info: 'paginationInfoUser',
+    renderTable: renderUserTable
+  },
+
+  questions: {
+    data: filteredQuestion,
+    currentPage: 1,
+    perPage: 10,
+    container: 'paginationQuestion',
+    info: 'paginationInfoQuestion',
+    renderTable: renderQuestions
+  },
+};
+
+formQuestion.addEventListener('submit', function(){
+    if(formQuestion.dataset.mode === 'add'){
+        formQuestion.action = '/admin/tambah/question';
+    }else if(formQuestion.dataset.mode === 'edit'){
+        formQuestion.action = `/admin/edit/question/${idQuestion}`;
+    }
+})
+
+formUser.addEventListener('submit', function(e){
+    if (formUser.dataset.mode === 'add') {
+        formUser.action = '/admin/tambah/user';
+    } else if (formUser.dataset.mode === 'edit') {
+        formUser.action = `/admin/edit/user/${idUser}`;
     }
 });
 
@@ -24,11 +53,17 @@ function closeModal(nameModal) {
 
 function deleteModal(){
     const form = document.getElementById('formDelete')
+    let url = '';
+
     if(typeNow === 'user'){
-        form.addEventListener('submit', function(e){
-            form.action = `/admin/delete/user/${idUser}`;
-        })
+        url = `/admin/delete/user/${idUser}`;
+    }else if(typeNow === 'question'){
+        url = `/admin/delete/question/${idUser}`;
     }
+
+    form.addEventListener('submit', function(e){
+        form.action = url;
+    })
 }
 
 function navigateTo(page, push = true){
@@ -68,22 +103,24 @@ function navigateTo(page, push = true){
     }
 }
 
-function toggleNotFound(show) {
-    document.getElementById('notFound').classList.toggle('hidden', !show);
-    document.getElementById('usersTableBody').classList.toggle('hidden', show);
+function toggleNotFound(show, table) {
+    document.getElementById('notFound' + table).classList.toggle('hidden', !show);
+    document.getElementById(table +  'TableBody').classList.toggle('hidden', show);
 }
 
-function renderTable(page) {
-    const start = (page - 1) * perPage;
-    const end = start + perPage;
-    const slicedUsers = filteredUser.slice(start, end);
+function renderUserTable(page) {
+    const p = paginations.users;
 
-    if (filteredUser.length === 0) {
-        toggleNotFound(true);
+    const start = (page - 1) * p.perPage;
+    const end = start + p.perPage;
+    const slicedUsers = p.data.slice(start, end);
+
+    if (p.data.length === 0) {
+        toggleNotFound(true, 'users');
         return;
     }
 
-    toggleNotFound(false);
+    toggleNotFound(false, 'users');
 
     let html = '';
     slicedUsers.forEach((u, i) => {
@@ -120,8 +157,56 @@ function renderTable(page) {
             </td>
         </tr>`;
     });
-
     document.getElementById('usersTableBody').innerHTML = html;
+
+}
+
+function renderQuestions(page){
+    const p = paginations.questions;
+
+    const start = (page - 1) * p.perPage;
+    const end = start + p.perPage;
+    const slicedQuestions = p.data.slice(start, end);
+
+    if (p.data.length === 0) {
+        toggleNotFound(true, 'questions');
+        return;
+    }
+
+    toggleNotFound(false, 'questions');
+
+
+    let html = '';
+    slicedQuestions.forEach((q, i) => {
+        const answerSplit = q.jawaban.split(':')
+
+        html += `
+        <tr class="hover:bg-gray-50 transition">
+            <td class="px-6 py-4 text-sm text-gray-700 font-medium">${start + i + 1}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">${q.pertanyaan}</td>
+            <td class="px-6 py-4 text-sm text-gray-600">${answerSplit[0]}</td>
+            <td class="px-6 py-4 text-sm text-gray-600">${answerSplit[1]}</td>
+            <td class="px-6 py-4 text-sm text-gray-600">${answerSplit[2]}</td>
+            <td class="px-6 py-4 text-sm text-gray-600">${answerSplit[3]}</td>
+            <td class="px-6 py-4">
+                <div class="flex items-center justify-center gap-2">
+                    <button onclick="openQuestionModal('edit', ${q.id})" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Edit">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                        </svg>
+                    </button>
+                    <button onclick="confirmDelete('question', ${q.id}, '${q.pertanyaan}')" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </td>
+        </tr>
+        `
+    })
+
+    document.getElementById('questionsTableBody').innerHTML = html;
 }
 
 function confirmDelete(type, userId, name){
@@ -129,30 +214,34 @@ function confirmDelete(type, userId, name){
     typeNow = type;
     if(type =='user'){
         document.getElementById('deleteUserName').textContent = `user ${name}`;
+    }else if(type == 'question'){
+        document.getElementById('deleteUserName').textContent = `${name}`;
     }
     document.getElementById('deleteModal').classList.remove('hidden');
 }
 
-function renderPagination() {
-    const totalItems = filteredUser.length;
-    const totalPages = Math.ceil(totalItems / perPage);
+function renderPagination(key) {
+    const p = paginations[key];
+
+    const totalItems = p.data.length;
+    const totalPages = Math.ceil(totalItems / p.perPage);
     let html = '';
 
     const maxRange = 2; // kiri & kanan page aktif
 
-    if (filteredUser.length === 0) {
-        document.getElementById('pagination').innerHTML = '';
-        document.getElementById('paginationInfo').innerHTML = 'Showing 0 of 0';
+    if (totalItems === 0) {
+        document.getElementById(p.container).innerHTML = '';
+        document.getElementById(p.info).innerHTML = 'Showing 0 of 0';
         return;
     }
 
     // PREV
     html += `
     <button
-        ${currentPage === 1 ? 'disabled' : ''}
-        onclick="changePage(${currentPage - 1})"
+        ${p.currentPage === 1 ? 'disabled' : ''}
+        onclick="changePage('${key}', ${p.currentPage - 1})"
         class="px-3 py-2 rounded-lg text-sm font-medium
-        ${currentPage === 1
+        ${p.currentPage === 1
             ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
             : 'bg-white border border-gray-300 text-gray-700 hover:bg-green-50 hover:border-green-400 hover:text-green-700'}
         transition">
@@ -163,20 +252,20 @@ function renderPagination() {
         if (
             i === 1 ||
             i === totalPages ||
-            (i >= currentPage - maxRange && i <= currentPage + maxRange)
+            (i >= p.currentPage - maxRange && i <= p.currentPage + maxRange)
         ) {
             html += `
             <button
-                onclick="changePage(${i})"
+                onclick="changePage('${key}', ${i})"
                 class="px-4 py-2 rounded-lg text-sm font-medium transition
-                ${i === currentPage
+                ${i === p.currentPage
                     ? 'bg-green-600 text-white shadow-md'
                     : 'bg-white border border-gray-300 text-gray-700 hover:bg-green-50 hover:border-green-400 hover:text-green-700'}">
                 ${i}
             </button>`;
         } else if (
-            i === currentPage - maxRange - 1 ||
-            i === currentPage + maxRange + 1
+            i === p.currentPage - maxRange - 1 ||
+            i === p.currentPage + maxRange + 1
         ) {
             html += `<span class="px-2 text-gray-400">…</span>`;
         }
@@ -185,39 +274,42 @@ function renderPagination() {
     // NEXT
     html += `
     <button
-        ${currentPage === totalPages ? 'disabled' : ''}
-        onclick="changePage(${currentPage + 1})"
+        ${p.currentPage === totalPages ? 'disabled' : ''}
+        onclick="changePage('${key}',${p.currentPage + 1})"
         class="px-3 py-2 rounded-lg text-sm font-medium
-        ${currentPage === totalPages
+        ${p.currentPage === totalPages
             ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
             : 'bg-white border border-gray-300 text-gray-700 hover:bg-green-50 hover:border-green-400 hover:text-green-700'}
         transition">
         ›
     </button>`;
 
-    document.getElementById('pagination').innerHTML = html;
+    document.getElementById(p.container).innerHTML = html;
 
-    renderPaginationInfo();
+    renderPaginationInfo(key);
 }
 
-function renderPaginationInfo() {
-    const totalItems = filteredUser.length;
-    const start = (currentPage - 1) * perPage + 1;
-    const end = Math.min(start + perPage - 1, totalItems);
+function renderPaginationInfo(key) {
+    const p = paginations[key];
 
-    document.getElementById('paginationInfo').innerHTML =
+    const totalItems = p.data.length;
+    const start = (p.currentPage - 1) * p.perPage + 1;
+    const end = Math.min(start + p.perPage - 1, totalItems);
+
+    document.getElementById(p.info).innerHTML =
         `Showing <span class="font-medium text-gray-800">${start}</span>
          – <span class="font-medium text-gray-800">${end}</span>
          of <span class="font-medium text-gray-800">${totalItems}</span>`;
 }
 
-function changePage(page) {
-    const totalPages = Math.ceil(filteredUser.length / perPage);
+function changePage(key, page) {
+    const p = paginations[key];
+    const totalPages = Math.ceil(p.data.length / p.perPage);
     if (page < 1 || page > totalPages) return;
 
-    currentPage = page;
-    renderTable(page);
-    renderPagination();
+    p.currentPage = page;
+    p.renderTable(page);
+    renderPagination(key);
 }
 
 // Toggle Sidebar
@@ -230,13 +322,23 @@ function toggleSidebar() {
 }
 
 function searchUser(value){
-    filteredUser = users.filter(user => {
+    paginations.users.data = users.filter(user => {
         return user.responden.toLowerCase().includes(value.toLowerCase().trim())
     });
 
-    currentPage = 1;
-    renderTable(currentPage);
-    renderPagination();
+    paginations.users.currentPage = 1;
+    renderUserTable(1);
+    renderPagination('users');
+}
+
+function searchQuestions(value){
+    paginations.questions.data = pertanyaan.filter(pty => {
+        return pty.pertanyaan.toLowerCase().includes(value.toLowerCase().trim())
+    });
+
+    paginations.questions.currentPage = 1;
+    renderQuestions(1);
+    renderPagination('questions');
 }
 
 function clearModalUser(){
@@ -251,9 +353,8 @@ function clearModalUser(){
 function openUserModal(mode, userId = null) {
     const modal = document.getElementById('userModal');
     const modalTitle = document.getElementById('modalTitle');
-    const form = document.getElementById('formUser');
 
-    form.dataset.mode = mode;
+    formUser.dataset.mode = mode;
     idUser = userId;
 
     if (mode === 'add') {
@@ -274,13 +375,55 @@ function openUserModal(mode, userId = null) {
     modal.classList.remove('hidden');
 }
 
+function clearModalQuestion(){
+    document.getElementById('pertanyaanSurvei').value = '';
+    document.getElementById('jawabanA').value = '';
+    document.getElementById('jawabanB').value = '';
+    document.getElementById('jawabanC').value = '';
+    document.getElementById('jawabanD').value = '';
+}
+
+function openQuestionModal(mode, questionId = null) {
+    const modal = document.getElementById('questionModal');
+    const modalTitle = document.getElementById('modalTitle');
+
+    formQuestion.dataset.mode = mode;
+    idQuestion = questionId;
+
+    if (mode === 'add') {
+        modalTitle.textContent = 'Tambah Pertanyaan';
+        clearModalQuestion();
+    } else {
+        modalTitle.textContent = 'Edit Pertanyaan';
+        const questionEdit = pertanyaan.find((p) => p.id == questionId)
+        const answerSplit = questionEdit.jawaban.split(':')
+
+        document.getElementById('pertanyaanSurvei').value = questionEdit.pertanyaan;
+        document.getElementById('jawabanA').value = answerSplit[0];
+        document.getElementById('jawabanB').value = answerSplit[1];
+        document.getElementById('jawabanC').value = answerSplit[2];
+        document.getElementById('jawabanD').value = answerSplit[3];
+    }
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
+
 function closeUserModal() {
     document.getElementById('userModal').classList.add('hidden');
 }
 
+function closeQuestionModal() {
+    document.getElementById('questionModal').classList.add('hidden');
+}
+
 // load pertama
-renderTable(currentPage);
-renderPagination();
+renderUserTable(1);
+renderQuestions(1);
+
+renderPagination('users');
+renderPagination('questions');
 
 window.addEventListener('DOMContentLoaded', () => {
     const path = window.location.pathname;

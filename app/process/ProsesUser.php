@@ -6,7 +6,7 @@ $Responden = new Responden($conn);
 
 $explode = explode('/', $path);
 $getId = $explode[4] ?? null;
-$getMethod = $explode[2];
+$getMode = $explode[2];
 
 $nama = $_POST['nama'] ?? null;
 $umur = $_POST['umur'] ?? null;
@@ -15,13 +15,13 @@ $lulusan = $_POST['lulusan'] ?? null;
 $layanan = $_POST['jenis_layanan'] ?? null;
 $tanggal_terakhir = $_POST['tanggal_terakhir'] ?? null;
 
-if($getMethod === 'delete'){
+if($getMode === 'delete'){
     $Responden->deleteResponden($getId);
 
     // Membuat flash message
     $_SESSION['flash'] = [
         'type' => 'success',
-        'message' => 'Berhasil menghapus data',
+        'message' => 'Berhasil menghapus data responden',
     ];
 }else if(!isset($getId)){
     $Responden->insertResponden([
@@ -37,7 +37,7 @@ if($getMethod === 'delete'){
     // Membuat flash message
     $_SESSION['flash'] = [
         'type' => 'success',
-        'message' => 'Berhasil menambahkan data',
+        'message' => 'Berhasil menambahkan data responden',
     ];
 }else{
     $Responden->updateResponden([
@@ -54,7 +54,7 @@ if($getMethod === 'delete'){
     // Membuat flash message
     $_SESSION['flash'] = [
         'type' => 'success',
-        'message' => 'Berhasil memperbarui data',
+        'message' => 'Berhasil memperbarui data responden',
     ];
 }
 

@@ -21,4 +21,70 @@ class Pertanyaan {
 
         return $data;
     }
+
+    public function insertPertanyaan($data)
+    {
+        $sql = "INSERT INTO tb_pertanyaan (pertanyaan, jawaban) VALUES (?, ?)";
+
+        $stmt = $this->conn->prepare($sql);
+
+        if(!$stmt){
+            return false;
+        }
+
+        $stmt->bind_param('ss',
+            $data['pertanyaan'],
+            $data['jawaban'],
+        );
+
+        if($stmt->execute()){
+            return true;
+        }
+
+        return False;
+    }
+
+    public function updatePertanyaan($data, $id)
+    {
+        $sql = "UPDATE
+        tb_pertanyaan SET pertanyaan = ?, jawaban = ? WHERE id = ?";
+
+        $stmt = $this->conn->prepare($sql);
+
+        if(!$stmt){
+            return false;
+        }
+
+        $stmt->bind_param('ssi',
+            $data['pertanyaan'],
+            $data['jawaban'],
+            $id
+        );
+
+        if($stmt->execute()){
+            return true;
+        }
+
+        return False;
+    }
+
+    public function deletePertanyaan($id)
+    {
+        $sql = "DELETE FROM tb_pertanyaan WHERE id = ?";
+
+        $stmt = $this->conn->prepare($sql);
+
+        if (!$stmt) {
+            return false;
+        }
+
+        $stmt->bind_param('i', $id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

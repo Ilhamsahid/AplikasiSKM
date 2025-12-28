@@ -36,7 +36,7 @@
         </table>
     </div>
 
-    <div id="notFound"
+    <div id="notFoundusers"
         class="hidden flex flex-col items-center justify-center py-16 text-center">
         <svg class="w-16 h-16 text-green-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -52,9 +52,10 @@
     </div>
 
     <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div id="pagination" class="flex flex-wrap items-center gap-2"></div>
-        <div id="paginationInfo" class="text-sm text-gray-600"></div>
+        <div id="paginationUser" class="flex flex-wrap items-center gap-2"></div>
+        <div id="paginationInfoUser" class="text-sm text-gray-600"></div>
     </div>
+</div>
 
 
     <script>

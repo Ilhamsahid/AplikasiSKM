@@ -13,8 +13,8 @@ class AdminController {
         $nav = getView('components.admin.navbar');
         $header = getView('components.admin.header');
         $sidebar = getView('components.admin.sidebar');
-        $content = $this->getDashboard() . $this->getUsersPage() . getView('admin.questions');
-        $modal = getView('components.admin.modal-user') . getView('components.admin.delete-confirmation-modal');
+        $content = $this->getDashboard() . $this->getUsersPage() . $this->getQuestionsPage() . $this->getResultsPage();
+        $modal = getView('components.admin.modal-user') . getView('components.admin.delete-confirmation-modal') . getView('components.admin.modal-question');
 
         include __DIR__ . '/../view/layouts/admin.php';
     }
@@ -36,6 +36,23 @@ class AdminController {
         ]);
     }
 
+    public function getQuestionsPage()
+    {
+        global $conn;
+
+        $question = new \Pertanyaan($conn);
+        $questions = $question->getQuestion();
+
+        return getView('admin.survey-question-page',[
+            'pertanyaan' => $questions
+        ]);
+    }
+
+    public function getResultsPage()
+    {
+        return getView('admin.results-page');
+    }
+
     public function login()
     {
         require_once __DIR__ . '/../process/ProsesLogin.php';
@@ -46,8 +63,13 @@ class AdminController {
         require_once __DIR__ . '/../process/ProsesLogout.php';
     }
 
-    public function addUser($path)
+    public function processUser($path)
     {
         require_once __DIR__ . '/../process/ProsesUser.php';
+    }
+
+    public function processQuestion($path)
+    {
+        require_once __DIR__ . '/../process/ProsesQuestion.php';
     }
 }

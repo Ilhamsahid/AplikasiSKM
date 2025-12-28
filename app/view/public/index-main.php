@@ -10,7 +10,9 @@
     ]) ?>
 
     <!-- Mobile View -->
-    <?= getView('public.mobile.question-view') ?>
+    <?= getView('public.mobile.question-view',[
+        'questions' => $questions
+    ]) ?>
 
     <!-- SUBMIT BUTTON -->
     <div class="flex justify-end">
