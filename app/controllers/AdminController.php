@@ -50,7 +50,18 @@ class AdminController {
 
     public function getResultsPage()
     {
-        return getView('admin.results-page');
+        global $conn;
+
+        $respondent = new \Responden($conn);
+
+        $start = $_GET['start'] ?? null;
+        $end = $_GET['end'] ?? null;
+
+        $respondents = $respondent->getRespondentByDateFilter($start, $end);
+
+        return getView('admin.results-page', [
+            'respondents' => $respondents
+        ]);
     }
 
     public function login()
@@ -71,5 +82,10 @@ class AdminController {
     public function processQuestion($path)
     {
         require_once __DIR__ . '/../process/ProsesQuestion.php';
+    }
+
+    public function processResults($path)
+    {
+        require_once __DIR__ . '/../process/ProsesResults.php';
     }
 }

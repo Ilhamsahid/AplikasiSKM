@@ -31,6 +31,13 @@ if(
     exit;
 }
 
+if(
+    preg_match('#^/admin/reset/results#', $path)
+){
+    header('Location: /admin/results');
+    exit;
+}
+
 if ($path === '/admin/logout') {
     $admin->logout();
     exit;

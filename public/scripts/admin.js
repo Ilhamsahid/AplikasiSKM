@@ -1,4 +1,8 @@
 let filteredUser = [...users];
+const tanggalMulai = "2025-12-1";
+const tanggalAkhir = "2025-12-31";
+console.log(userResults);
+
 let filteredQuestion = [...pertanyaan];
 let idUser = null;
 let idQuestion = null;
@@ -24,6 +28,15 @@ const paginations = {
     info: 'paginationInfoQuestion',
     renderTable: renderQuestions
   },
+
+  results: {
+    data: userResults.data,
+    currentPage: 1,
+    perPage: 10,
+    container: 'paginationResults',
+    info: 'paginationInfoResults',
+    renderTable: renderResults
+  }
 };
 
 formQuestion.addEventListener('submit', function(){
@@ -207,6 +220,80 @@ function renderQuestions(page){
     })
 
     document.getElementById('questionsTableBody').innerHTML = html;
+}
+
+function renderResults(page){
+    const p = paginations.results;
+
+    const start = (page - 1) * p.perPage;
+    const end = start + p.perPage;
+    const slicedQuestions = p.data.slice(start, end);
+
+    const container = document.getElementById('respondenContainer');
+    container.innerHTML = '';
+
+    if(p.data.length === 0){
+      container.innerHTML += `
+            <div class="flex flex-col items-center justify-center py-16 px-4">
+                <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Tidak Ada Data</h3>
+                <p class="text-gray-500 text-center mb-4">Tidak ada data responden pada periode yang dipilih</p>
+            </div>
+      `
+      return;
+    }
+
+    let rows = '';
+
+    slicedQuestions.forEach((r, i) => {
+        rows += `
+        <tr class="hover:bg-gray-50 transition">
+            <td class="px-4 py-3 text-gray-700 text-sm">${start + i + 1}</td>
+            <td class="px-4 py-3 text-gray-800 font-medium">${r.responden}</td>
+            <td class="px-4 py-3 text-gray-600">${r.umur}</td>
+            <td class="px-4 py-3 text-gray-600">${r.kelamin}</td>
+            <td class="px-4 py-3">
+                <span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
+                    ${r.lulusan}
+                </span>
+            </td>
+            <td class="px-4 py-3 text-gray-600">${(r.tanggal)}</td>
+            <td class="px-4 py-3 text-center ">
+                <button onclick="viewDetail(<?= $r['id'] ?>)" class="text-green-600 hover:text-green-700 text-sm font-medium flex items-center gap-1 mx-auto">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                    Detail
+                </button>
+            </td>
+        </tr>
+        `;
+    });
+
+    container.innerHTML = `
+        <div class="hidden lg:block overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600">No</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600">Nama</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600">Umur</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600">JK</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600">Pendidikan</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600">Tanggal</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    ${rows}
+                </tbody>
+            </table>
+        </div>
+    `;
+
 }
 
 function confirmDelete(type, userId, name){
@@ -421,15 +508,21 @@ function closeQuestionModal() {
 // load pertama
 renderUserTable(1);
 renderQuestions(1);
+renderResults(1);
 
 renderPagination('users');
 renderPagination('questions');
+renderPagination('results');
 
 window.addEventListener('DOMContentLoaded', () => {
-    const path = window.location.pathname;
-    const page = path.split('/').pop() || 'dashboard';
+    const path = window.location.pathname
+    .replace(/\/+$/, ''); // hapus trailing slash
+
+    const segments = path.split('/');
+    const page = segments[segments.length - 1] || 'dashboard';
+
     navigateTo(page, false);
-    toggleSidebar()
+    toggleSidebar();
 });
 
 window.addEventListener('popstate', () => {

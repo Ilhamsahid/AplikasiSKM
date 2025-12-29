@@ -22,6 +22,71 @@ class Responden {
         return $data;
     }
 
+    public function getRespondentByDateFilter($start, $end)
+    {
+        $sql = " SELECT
+        r.id,
+        r.responden,
+        r.umur,
+        r.kelamin,
+        r.lulusan,
+        r.tanggal,
+        j.jawaban,
+        j.nilai
+        FROM tb_responden r LEFT JOIN tb_jawaban j
+        ON j.id_responden = r.id
+        WHERE r.tanggal BETWEEN ? AND ?
+        ORDER BY r.tanggal DESC
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ss", $start, $end);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $grouped = [];
+        $jumlahSemua = 0;
+
+
+        while ($row = $result->fetch_assoc()) {
+            // Kalau baris ini TIDAK punya jawaban → skip
+            if (empty($row['jawaban'])) {
+                continue;
+            }
+
+            $id = $row['id'];
+
+            // Kalau responden belum ada, buat dulu
+            if (!isset($grouped[$id])) {
+                $grouped[$id] = [
+                    'id' => $row['id'],
+                    'responden' => $row['responden'],
+                    'umur' => $row['umur'],
+                    'kelamin' => $row['kelamin'],
+                    'lulusan' => $row['lulusan'],
+                    'tanggal' => $row['tanggal'],
+                    'jawaban' => [],
+                    'nilai' => 0,
+                ];
+            }
+
+            // Masukkan jawaban (kalau ada)
+            $grouped[$id]['jawaban'][] = $row['jawaban'];
+            $grouped[$id]['nilai'] += (int)$row['nilai'];
+
+            $jumlahSemua += $row['nilai'];
+        }
+
+        // Reset index biar jadi array normal
+        $data = array_values($grouped);
+
+        return [
+            'data' => $data,
+            'jumlahSemua' => $jumlahSemua,
+        ];
+    }
+
     public function insertResponden($data)
     {
         $sql = "INSERT INTO tb_responden (responden, umur, kelamin, lulusan, jenis_pelayanan, tanggal_terakhir_kali, tanggal) VALUES (?, ?, ?, ?, ?, ?, ?)";

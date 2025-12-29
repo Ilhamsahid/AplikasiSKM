@@ -1,5 +1,4 @@
 <?php
-$responden = [];
 $chartData = [];
 ?>
 <div id="resultsPage" class="page-content hidden p-4 sm:p-6 lg:p-8">
@@ -13,30 +12,30 @@ $chartData = [];
             Filter Periode
         </h3>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <form method="get" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Mulai</label>
-                <input type="date" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" value="2024-12-01">
+                <input type="date" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" name="start" value="<?= $_GET['start'] ?? null ?>">
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Akhir</label>
-                <input type="date" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" value="2024-12-31">
+                <input type="date" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" name="end" value="<?= $_GET['end'] ?? null ?>">
             </div>
             <div class="sm:col-span-2 flex items-end gap-2">
-                <button class="flex-1 sm:flex-none bg-green-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-green-700 transition flex items-center justify-center gap-2">
+                <button class="flex-1 sm:flex-none bg-green-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-green-700 transition flex items-center justify-center gap-2" type="submit">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                     Tampilkan
                 </button>
-                <button class="flex-1 sm:flex-none border-2 border-gray-300 text-gray-700 px-6 py-2.5 rounded-lg font-medium hover:bg-gray-50 transition flex items-center justify-center gap-2">
+                <a href="/admin/reset/results" class="flex-1 sm:flex-none border-2 border-gray-300 text-gray-700 px-6 py-2.5 rounded-lg font-medium hover:bg-gray-50 transition flex items-center justify-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                     </svg>
                     Reset
-                </button>
+                </a>
             </div>
-        </div>
+    </form>
     </div>
 
     <!-- Summary Cards -->
@@ -109,109 +108,15 @@ $chartData = [];
             </h3>
         </div>
 
-        <?php if (count($responden) === 0): ?>
-            <!-- Empty State -->
-            <div class="flex flex-col items-center justify-center py-16 px-4">
-                <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-                <h3 class="text-xl font-semibold text-gray-700 mb-2">Tidak Ada Data</h3>
-                <p class="text-gray-500 text-center mb-4">Tidak ada data responden pada periode yang dipilih</p>
-                <button class="bg-green-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-green-700 transition flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                    </svg>
-                    Reset Filter
-                </button>
-            </div>
-        <?php else: ?>
-        <!-- Desktop Table -->
-        <div class="hidden lg:block overflow-x-auto">
-            <table class="w-full">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600">No</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600">Nama/Instansi</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600">Umur</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600">JK</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600">Pendidikan</th>
-                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600">Tanggal</th>
-                        <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    <?php foreach ($responden as $index => $r): ?>
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="px-4 py-3 text-sm text-gray-700"><?= $index + 1 ?></td>
-                        <td class="px-4 py-3 text-sm text-gray-800 font-medium"><?= $r['nama'] ?></td>
-                        <td class="px-4 py-3 text-sm text-gray-600"><?= $r['umur'] ?></td>
-                        <td class="px-4 py-3 text-sm text-gray-600"><?= $r['jk'] ?></td>
-                        <td class="px-4 py-3">
-                            <span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full"><?= $r['pendidikan'] ?></span>
-                        </td>
-                        <td class="px-4 py-3 text-sm text-gray-600"><?= date('d M Y', strtotime($r['tanggal'])) ?></td>
-                        <td class="px-4 py-3 text-center">
-                            <button onclick="viewDetail(<?= $r['id'] ?>)" class="text-green-600 hover:text-green-700 text-sm font-medium flex items-center gap-1 mx-auto">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                </svg>
-                                Detail
-                            </button>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-                    </table>
-        </div>
-
-        <!-- Mobile Cards -->
-        <div class="lg:hidden divide-y divide-gray-200">
-            <?php foreach ($responden as $index => $r): ?>
-            <div class="p-4 hover:bg-gray-50 transition">
-                <div class="flex items-start justify-between mb-3">
-                    <div class="flex items-center gap-3 flex-1">
-                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <span class="text-sm font-bold text-green-700"><?= $index + 1 ?></span>
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-gray-800 text-sm"><?= $r['nama'] ?></h4>
-                            <p class="text-xs text-gray-600"><?= date('d M Y', strtotime($r['tanggal'])) ?></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid grid-cols-3 gap-2 mb-3 text-xs">
-                    <div class="bg-gray-50 rounded p-2">
-                        <span class="text-gray-500 block">Umur</span>
-                        <span class="font-semibold text-gray-800"><?= $r['umur'] ?> th</span>
-                    </div>
-                    <div class="bg-gray-50 rounded p-2">
-                        <span class="text-gray-500 block">JK</span>
-                        <span class="font-semibold text-gray-800"><?= $r['jk'] ?></span>
-                    </div>
-                    <div class="bg-gray-50 rounded p-2">
-                        <span class="text-gray-500 block">Pendidikan</span>
-                        <span class="font-semibold text-gray-800"><?= $r['pendidikan'] ?></span>
-                    </div>
-                </div>
-                <button onclick="viewDetail(<?= $r['id'] ?>)" class="w-full bg-green-50 text-green-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-100 transition flex items-center justify-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                    </svg>
-                    Lihat Detail Jawaban
-                </button>
-            </div>
-            <?php endforeach; ?>
-        </div>
-
-        <?php endif; ?>
+        <div id="respondenContainer"></div>
+    </div>
+    <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div id="paginationResults" class="flex flex-wrap items-center gap-2"></div>
+        <div id="paginationInfoResults" class="text-sm text-gray-600"></div>
     </div>
 
-
-
     <!-- Grafik Per Indikator -->
-    <div class="space-y-6">
+    <div class="mt-5 space-y-6">
         <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
             <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
@@ -242,3 +147,7 @@ $chartData = [];
         <?php endif; ?>
     </div>
 </div>
+
+<script>
+    userResults = <?= json_encode($respondents) ?>
+</script>
