@@ -14,7 +14,7 @@ class AdminController {
         $header = getView('components.admin.header');
         $sidebar = getView('components.admin.sidebar');
         $content = $this->getDashboard() . $this->getUsersPage() . $this->getQuestionsPage() . $this->getResultsPage();
-        $modal = getView('components.admin.modal-user') . getView('components.admin.delete-confirmation-modal') . getView('components.admin.modal-question');
+        $modal = getView('components.admin.modal-user') . getView('components.admin.delete-confirmation-modal') . getView('components.admin.modal-question') . getView('components.admin.modal-detail-responden');
 
         include __DIR__ . '/../view/layouts/admin.php';
     }

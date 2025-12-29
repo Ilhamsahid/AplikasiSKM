@@ -227,7 +227,7 @@ function renderResults(page){
 
     const start = (page - 1) * p.perPage;
     const end = start + p.perPage;
-    const slicedQuestions = p.data.slice(start, end);
+    const slicedResults = p.data.slice(start, end);
 
     const container = document.getElementById('respondenContainer');
     container.innerHTML = '';
@@ -247,7 +247,7 @@ function renderResults(page){
 
     let rows = '';
 
-    slicedQuestions.forEach((r, i) => {
+    slicedResults.forEach((r, i) => {
         rows += `
         <tr class="hover:bg-gray-50 transition">
             <td class="px-4 py-3 text-gray-700 text-sm">${start + i + 1}</td>
@@ -261,7 +261,7 @@ function renderResults(page){
             </td>
             <td class="px-4 py-3 text-gray-600">${(r.tanggal)}</td>
             <td class="px-4 py-3 text-center ">
-                <button onclick="viewDetail(<?= $r['id'] ?>)" class="text-green-600 hover:text-green-700 text-sm font-medium flex items-center gap-1 mx-auto">
+                <button onclick="viewDetailRespondent(${r.id})" class="text-green-600 hover:text-green-700 text-sm font-medium flex items-center gap-1 mx-auto">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -460,6 +460,42 @@ function openUserModal(mode, userId = null) {
     }
 
     modal.classList.remove('hidden');
+}
+
+function viewDetailRespondent(id){
+    document.getElementById('detailModal').classList.remove('hidden');
+    document.getElementById('detailModal').classList.add('flex');
+
+
+    const responden = paginations.results.data.find((u) => u.id == id);
+    document.getElementById('namaResponden').textContent = responden.responden;
+    document.getElementById('umurResponden').textContent = responden.umur;
+    document.getElementById('kelaminResponden').textContent = responden.kelamin == 'L' ? 'Laki-laki' : 'Perempuan';
+    document.getElementById('pendidikanResponden').textContent = responden.lulusan;
+    document.getElementById('poinResponden').textContent = responden.nilai;
+
+    let jawabanContainer = document.getElementById('listJawaban');
+
+    jawabanContainer.innerHTML = '';
+
+    let cards = '';
+    for(let i = 0; i < responden.jawaban.length; i++){
+        cards += `
+            <div class="border border-gray-200 rounded-lg p-4 hover:border-green-500 transition">
+                <p class="text-sm font-medium text-gray-700 mb-2">${i + 1}. ${pertanyaan[i].pertanyaan}</p>
+                <div class="bg-green-100 text-green-700 px-3 py-2 rounded-lg text-sm font-semibold inline-block">
+                    ${responden.jawaban[i]}
+                </div>
+            </div>
+        `;
+    }
+
+    jawabanContainer.innerHTML = cards;
+}
+
+function closeDetailModal() {
+    document.getElementById('detailModal').classList.add('hidden');
+    document.getElementById('detailModal').classList.remove('flex');
 }
 
 function clearModalQuestion(){

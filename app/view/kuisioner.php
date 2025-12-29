@@ -363,9 +363,7 @@ $chartData = [
                 </div>
             </div>
         </main>
-    </div>
-
-    <!-- Detail Modal -->
+    </div> <!-- Detail Modal -->
     <div id="detailModal" class="fixed inset-0 backdrop-blur-sm bg-black/20 z-50 hidden items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl my-8 transform transition-all">
             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-green-700 rounded-t-xl">
