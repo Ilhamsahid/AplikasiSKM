@@ -57,10 +57,13 @@ class AdminController {
         $start = $_GET['start'] ?? null;
         $end = $_GET['end'] ?? null;
 
-        $respondents = $respondent->getRespondentByDateFilter($start, $end);
+        $respondents = $respondent->getRespondentByDateFilter($start, $end, true);
+        $respondentsWithNoFilter = $respondent->getRespondentByDateFilter($start, $end, false);
+        $respondentsChart = $respondent->getRespondentChart($respondentsWithNoFilter);
 
         return getView('admin.results-page', [
-            'respondents' => $respondents
+            'respondents' => $respondents,
+            'chartData' => $respondentsChart
         ]);
     }
 

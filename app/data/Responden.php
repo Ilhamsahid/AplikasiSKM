@@ -22,7 +22,7 @@ class Responden {
         return $data;
     }
 
-    public function getRespondentByDateFilter($start, $end)
+    public function getRespondentByDateFilter($start, $end, $filterJumlah)
     {
         $sql = " SELECT
         r.id,
@@ -67,13 +67,17 @@ class Responden {
                     'lulusan' => $row['lulusan'],
                     'tanggal' => $row['tanggal'],
                     'jawaban' => [],
-                    'nilai' => 0,
+                    'nilai' => $filterJumlah == true ? 0 : [],
                 ];
             }
 
             // Masukkan jawaban (kalau ada)
             $grouped[$id]['jawaban'][] = $row['jawaban'];
-            $grouped[$id]['nilai'] += (int)$row['nilai'];
+            if($filterJumlah){
+                $grouped[$id]['nilai'] += (int)$row['nilai'];
+            }else{
+                $grouped[$id]['nilai'][] = $row['nilai'];
+            }
 
             $jumlahSemua += $row['nilai'];
         }
@@ -85,6 +89,45 @@ class Responden {
             'data' => $data,
             'jumlahSemua' => $jumlahSemua,
         ];
+    }
+
+    public function getRespondentChart($respondents)
+    {
+        $question = new Pertanyaan($this->conn);
+        $respondent = $respondents['data'];
+        $getQuestion = $question->getQuestion();
+
+        $result = [];
+        $questions = '';
+        $labels = [];
+
+        if($respondent === []){
+            return $result;
+        }
+
+        foreach ($getQuestion as $qIdx => $q) {
+            $questions = $q['pertanyaan'];
+            $labels = explode(':', $q['jawaban']);
+            $labelIndexMap = array_flip($labels);
+            $values = [0, 0, 0, 0];
+
+            foreach ($respondent as $idx => $res) {
+                $answer = $res['jawaban'][$qIdx];
+                $score = (int)$res['nilai'][$qIdx];
+
+                if(isset($labelIndexMap[$answer])){
+                    $values[$labelIndexMap[$answer]] += $score;
+                }
+            }
+
+            $result[] = [
+                'question' => $questions,
+                'labels' => $labels,
+                'values' => $values,
+            ];
+        }
+
+        return $result;
     }
 
     public function insertResponden($data)
