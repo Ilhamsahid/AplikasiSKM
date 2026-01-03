@@ -1,4 +1,6 @@
 <?php
+$jumlahNnrPerUnsur = 0;
+$jumlahNnrPerTimbang = 0;
 ?>
 <div id="resultsPage" class="page-content hidden p-4 sm:p-6 lg:p-8">
 
@@ -82,7 +84,7 @@
 
     <!-- Export Buttons -->
     <div class="flex flex-wrap gap-3 mb-6">
-        <button class="bg-red-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-red-700 transition flex items-center gap-2 shadow-md">
+        <button onclick="exportPDF()" class="bg-red-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-red-700 transition flex items-center gap-2 shadow-md">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
             </svg>
@@ -108,6 +110,7 @@
         </div>
 
         <div id="respondenContainer"></div>
+        <div id="mobileCardResults"></div>
     </div>
     <div class="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div id="paginationResults" class="flex flex-wrap items-center gap-2"></div>
@@ -125,6 +128,105 @@
 
         <div id="chartResult">
         </div>
+
+        <?php if(count($chartData) != 0): ?>
+        <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm bg-white">
+            <table class="w-full border-collapse">
+                <thead class="bg-green-700 text-white">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-sm font-semibold">No</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold">Pertanyaan</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold">Nilai per unsur</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold">NRR per unsur</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold">NRR tertimbang</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100">
+                    <?php foreach ($chartData as $key => $value): ?>
+                        <?php
+                        $nilaiPerUnsur = array_sum($value['values']);
+                        $nnrPerUnsur = number_format(array_sum($value['values']) / count($respondents['data']), 2, '.', ',');
+                        $nnrPerTimbang = number_format($nnrPerUnsur  / $jumlahPertanyaan, 2, '.', ',');
+                        $jumlahNnrPerUnsur += $nnrPerUnsur;
+                        $jumlahNnrPerTimbang += $nnrPerTimbang;
+                        ?>
+                        <tr class="hover:bg-green-50 transition-colors">
+                            <td class="px-6 py-4 text-sm"><?= $key + 1 ?></td>
+                            <td class="px-6 py-4 text-sm"><?= $value['question'] ?></td>
+                            <td class="px-6 py-4 text-sm font-medium">
+                                <?= $nilaiPerUnsur ?>
+                            </td>
+                            <td
+                                class="px-6 py-4 font-bold font-medium">
+                                <?= $nnrPerUnsur ?>
+                            </td>
+                            <td
+                                class="px-6 py-4 font-bold font-medium">
+                                <?= $nnrPerTimbang ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+
+                <tfoot>
+                    <tr class="bg-green-50 border-t-2 border-green-600">
+                        <td colspan="2"
+                            class="px-6 py-4 font-semibold text-green-800">
+                            Total Keseluruhan
+                        </td>
+                        <td
+                            class="px-6 py-4 font-bold text-green-900 text-lg">
+                            <?= $respondents['jumlahSemua'] ?>
+                        </td>
+                        <td
+                            class="px-6 py-4 font-bold text-green-900 text-lg">
+                            <?= $jumlahNnrPerUnsur ?>
+                        </td>
+                        <td
+                            class="px-6 py-4 font-bold text-green-900 text-lg">
+                            <?= $jumlahNnrPerTimbang ?>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="mt-8 flex justify-center">
+                <div class="w-full max-w-3xl bg-green-50 border border-green-600 rounded-xl shadow-sm">
+                    <!-- Header -->
+                    <div class="bg-green-700 text-white px-6 py-4 rounded-t-xl">
+                        <h2 class="text-lg font-semibold tracking-wide">
+                            Rata-rata Indeks Kepuasan Masyarakat (IKM)
+                        </h2>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="px-6 py-8 text-center">
+                        <p class="text-sm text-gray-600 mb-2">
+                            Nilai diperoleh dari perhitungan:
+                        </p>
+
+                        <p class="text-base text-gray-800 mb-6">
+                            <span class="font-semibold">Jumlah NRR Tertimbang × 25</span><br>
+                            <span class="text-sm text-gray-500">(<?= $jumlahNnrPerTimbang ?> × 25)</span>
+                        </p>
+
+                        <div class="inline-flex items-center justify-center
+                                    w-40 h-40 rounded-full
+                                    bg-green-700 text-white shadow-md">
+                            <span class="text-5xl font-bold"><?= $jumlahNnrPerTimbang * 25 ?></span>
+                        </div>
+
+                        <p class="mt-6 text-sm text-gray-700">
+                            Nilai ini merupakan <span class="font-semibold">rata-rata keseluruhan</span>
+                            dari <?= $jumlahPertanyaan ?> unsur pelayanan yang dinilai oleh responden.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <?php endif; ?>
     </div>
 </div>
 

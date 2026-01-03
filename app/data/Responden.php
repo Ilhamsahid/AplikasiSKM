@@ -110,6 +110,7 @@ class Responden {
             $labels = explode(':', $q['jawaban']);
             $labelIndexMap = array_flip($labels);
             $values = [0, 0, 0, 0];
+            $user = [0, 0, 0, 0];
 
             foreach ($respondent as $idx => $res) {
                 $answer = $res['jawaban'][$qIdx];
@@ -117,6 +118,7 @@ class Responden {
 
                 if(isset($labelIndexMap[$answer])){
                     $values[$labelIndexMap[$answer]] += $score;
+                    $user[$labelIndexMap[$answer]] += 1;
                 }
             }
 
@@ -124,6 +126,7 @@ class Responden {
                 'question' => $questions,
                 'labels' => $labels,
                 'values' => $values,
+                'user' => $user,
             ];
         }
 

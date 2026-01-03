@@ -9,10 +9,10 @@
                 <tr class="bg-green-700 text-white">
                     <th class="border border-gray-300 px-4 py-3 text-center text-sm font-semibold w-16">No</th>
                     <th class="border border-gray-300 px-4 py-3 text-left text-sm font-semibold">Pertanyaan</th>
-                    <th class="border border-gray-300 px-3 py-3 text-center text-sm font-semibold w-32">A</th>
-                    <th class="border border-gray-300 px-3 py-3 text-center text-sm font-semibold w-32">B</th>
-                    <th class="border border-gray-300 px-3 py-3 text-center text-sm font-semibold w-32">C</th>
-                    <th class="border border-gray-300 px-3 py-3 text-center text-sm font-semibold w-32">D</th>
+                    <th class="border border-gray-300 px-3 py-3 text-center text-sm font-semibold w-32">1</th>
+                    <th class="border border-gray-300 px-3 py-3 text-center text-sm font-semibold w-32">2</th>
+                    <th class="border border-gray-300 px-3 py-3 text-center text-sm font-semibold w-32">3</th>
+                    <th class="border border-gray-300 px-3 py-3 text-center text-sm font-semibold w-32">4</th>
                 </tr>
             </thead>
             <tbody class="bg-white">

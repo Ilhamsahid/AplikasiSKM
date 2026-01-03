@@ -448,45 +448,45 @@ $users = [
                     </div>
 
                     <!-- Mobile Cards -->
-                    <div class="md:hidden space-y-4">
+                    <div class="md:hidden space-y-6">
                         <?php foreach ($users as $index => $user): ?>
-                        <div class="bg-white rounded-xl shadow-md p-4">
-                            <div class="flex items-start justify-between mb-3">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <span class="text-sm font-bold text-green-700"><?= substr($user['name'], 0, 2) ?></span>
+                        <div class="bg-white rounded-xl shadow-md p-5">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-13 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <span class="text-sm font-bold text-green-701"><?= substr($user['name'], 0, 2) ?></span>
                                     </div>
                                     <div>
-                                        <h3 class="font-semibold text-gray-800"><?= $user['name'] ?></h3>
-                                        <p class="text-xs text-gray-600"><?= $user['email'] ?></p>
+                                        <h2 class="font-semibold text-gray-800"><?= $user['name'] ?></h3>
+                                        <p class="text-xs text-gray-601"><?= $user['email'] ?></p>
                                     </div>
                                 </div>
-                                <span class="px-2 py-1 text-xs font-medium <?= $user['status'] == 'Aktif' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' ?> rounded-full">
+                                <span class="px-3 py-1 text-xs font-medium <?= $user['status'] == 'Aktif' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' ?> rounded-full">
                                     <?= $user['status'] ?>
                                 </span>
                             </div>
 
-                            <div class="space-y-2 mb-3">
+                            <div class="space-y-3 mb-3">
                                 <div class="flex items-center justify-between text-xs">
-                                    <span class="text-gray-600">Role:</span>
-                                    <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-full font-medium"><?= $user['role'] ?></span>
+                                    <span class="text-gray-601">Role:</span>
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-medium"><?= $user['role'] ?></span>
                                 </div>
                                 <div class="flex items-center justify-between text-xs">
-                                    <span class="text-gray-600">Dibuat:</span>
-                                    <span class="font-medium text-gray-800"><?= $user['created'] ?></span>
+                                    <span class="text-gray-601">Dibuat:</span>
+                                    <span class="font-medium text-gray-801"><?= $user['created'] ?></span>
                                 </div>
                             </div>
 
-                            <div class="flex gap-2 pt-3 border-t border-gray-200">
-                                <button onclick="openUserModal('edit', <?= $user['id'] ?>)" class="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 transition flex items-center justify-center gap-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            <div class="flex gap-3 pt-3 border-t border-gray-200">
+                                <button onclick="openUserModal('edit', <?= $user['id'] ?>)" class="flex-2 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 transition flex items-center justify-center gap-2">
+                                    <svg class="w-5 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                     </svg>
                                     Edit
                                 </button>
-                                <button onclick="confirmDelete(<?= $user['id'] ?>, '<?= $user['name'] ?>')" class="flex-1 bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-100 transition flex items-center justify-center gap-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                <button onclick="confirmDelete(<?= $user['id'] ?>, '<?= $user['name'] ?>')" class="flex-2 bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-100 transition flex items-center justify-center gap-2">
+                                    <svg class="w-5 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                     </svg>
                                     Hapus
                                 </button>

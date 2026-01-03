@@ -36,6 +36,8 @@
         </table>
     </div>
 
+    <div id="mobileCardQuestions"></div>
+
     <div id="notFoundquestions"
         class="hidden flex flex-col items-center justify-center py-16 text-center">
         <svg class="w-16 h-16 text-green-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -184,7 +184,7 @@ $questions = [
                 </div>
 
                 <!-- Mobile Cards -->
-                <div class="lg:hidden space-y-4">
+               <div class="lg:hidden space-y-4">
                     <?php foreach ($questions as $index => $q): ?>
                     <div class="bg-white rounded-xl shadow-md p-4">
                         <div class="flex items-start justify-between mb-3">
