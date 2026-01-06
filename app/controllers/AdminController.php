@@ -50,18 +50,7 @@ class AdminController {
 
     public function getResultsPage()
     {
-        global $conn;
-
-        $respondent = new \Responden($conn);
-        $question = new \Pertanyaan($conn);
-
-        $start = $_GET['start'] ?? null;
-        $end = $_GET['end'] ?? null;
-
-        $jumlahPertanyaan = count($question->getQuestion());
-        $respondents = $respondent->getRespondentByDateFilter($start, $end, true);
-        $respondentsWithNoFilter = $respondent->getRespondentByDateFilter($start, $end, false);
-        $respondentsChart = $respondent->getRespondentChart($respondentsWithNoFilter);
+        require __DIR__ . '/../logic/ikm_result.php';
 
         return getView('admin.results-page', [
             'respondents' => $respondents,
@@ -88,10 +77,5 @@ class AdminController {
     public function processQuestion($path)
     {
         require_once __DIR__ . '/../process/ProsesQuestion.php';
-    }
-
-    public function processResults($path)
-    {
-        require_once __DIR__ . '/../process/ProsesResults.php';
     }
 }

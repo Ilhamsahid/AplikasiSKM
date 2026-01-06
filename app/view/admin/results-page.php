@@ -1,6 +1,15 @@
 <?php
 $jumlahNnrPerUnsur = 0;
 $jumlahNnrPerTimbang = 0;
+
+foreach ($chartData as $value) {
+    $nilaiPerUnsur = array_sum($value['values']);
+    $nnrPerUnsur = number_format(array_sum($value['values']) / count($respondents['data']), 2, '.', ',');
+    $nnrPerTimbang = number_format($nnrPerUnsur  / $jumlahPertanyaan, 2, '.', ',');
+
+    $jumlahNnrPerUnsur += $nnrPerUnsur;
+    $jumlahNnrPerTimbang += $nnrPerTimbang;
+}
 ?>
 <div id="resultsPage" class="page-content hidden p-4 sm:p-6 lg:p-8">
 
@@ -83,18 +92,22 @@ $jumlahNnrPerTimbang = 0;
     </div>
 
     <!-- Export Buttons -->
-    <div class="flex flex-wrap gap-3 mb-6">
-        <button onclick="exportPDF()" class="bg-red-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-red-700 transition flex items-center gap-2 shadow-md">
+    <div class="flex flex-wrap justify-between gap-3 mb-6">
+        <button onclick="window.open(
+        '/pdf/result_pdf.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&nilaiRataRata=<?= $jumlahNnrPerTimbang * 25 ?>',
+        '_blank')"
+        class="bg-red-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-red-700 transition flex items-center gap-2 shadow-md">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
             </svg>
-            Export PDF
+            Export Hasil IKM PDF
         </button>
-        <button class="bg-green-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-green-700 transition flex items-center gap-2 shadow-md">
+        <button onclick=""
+        class="bg-red-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-red-700 transition flex items-center gap-2 shadow-md">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
             </svg>
-            Export Excel
+            Export Responden PDF
         </button>
     </div>
 
@@ -144,13 +157,6 @@ $jumlahNnrPerTimbang = 0;
 
                 <tbody class="divide-y divide-gray-100">
                     <?php foreach ($chartData as $key => $value): ?>
-                        <?php
-                        $nilaiPerUnsur = array_sum($value['values']);
-                        $nnrPerUnsur = number_format(array_sum($value['values']) / count($respondents['data']), 2, '.', ',');
-                        $nnrPerTimbang = number_format($nnrPerUnsur  / $jumlahPertanyaan, 2, '.', ',');
-                        $jumlahNnrPerUnsur += $nnrPerUnsur;
-                        $jumlahNnrPerTimbang += $nnrPerTimbang;
-                        ?>
                         <tr class="hover:bg-green-50 transition-colors">
                             <td class="px-6 py-4 text-sm"><?= $key + 1 ?></td>
                             <td class="px-6 py-4 text-sm"><?= $value['question'] ?></td>
@@ -227,6 +233,7 @@ $jumlahNnrPerTimbang = 0;
         </div>
 
         <?php endif; ?>
+
     </div>
 </div>
 
