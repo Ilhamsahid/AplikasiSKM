@@ -19,6 +19,35 @@ class SurveyController {
         include __DIR__ . '/../view/layouts/guest.php';
     }
 
+
+    public function hasilIkm()
+    {
+        require __DIR__ . '/../logic/ikm_result.php';
+        $jumlahNnrPerUnsur = 0;
+        $jumlahNnrPerTimbang = 0;
+
+        foreach ($respondentsChart as $res) {
+            $nilaiPerUnsur = array_sum($res['values']);
+            $nnrPerUnsur = number_format($nilaiPerUnsur / count($respondents['data']), 2, '.', ',');
+            $nnrPerTimbang = number_format($nnrPerUnsur  / $jumlahPertanyaan, 2, '.', ',');
+
+            $jumlahNnrPerUnsur += $nnrPerUnsur;
+            $jumlahNnrPerTimbang += $nnrPerTimbang;
+        }
+
+        $title = 'E-SKM Hasil IKM';
+        $nav = getView('components.public.navbar');
+        $footer = getView('components.public.footer');
+        $content = getView('public.hasil-ikm', [
+            'nilaiRataRata' => $jumlahNnrPerTimbang * 25,
+            'nnrPerUnsur' => $jumlahNnrPerTimbang,
+            'totalResponden' => count($respondents['data']),
+            'jumlahPertanyaan' => $jumlahPertanyaan,
+        ]);
+
+        include __DIR__ . '/../view/layouts/guest.php';
+    }
+
     public function submit()
     {
         require __DIR__ . '/../process/ProsesSubmit.php';

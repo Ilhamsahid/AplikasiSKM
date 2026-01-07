@@ -21,7 +21,76 @@ class AdminController {
 
     public function getDashboard()
     {
-        return getView('admin.dashboard');
+        global $conn;
+        $respondent = new \Responden($conn);
+        $pertanyaan = new \Pertanyaan($conn);
+
+        $allRespondent = $respondent->getAllRespondent(false);
+        $recentResponden = $respondent->getAllRespondent(true);
+        $totalPertanyaan = count($pertanyaan->getQuestion());
+        $total = count($allRespondent);
+
+        $dataRespondent = [
+            'kelamin' => [
+                'L' => 0,
+                'P' => 0
+            ],
+            'pendidikan' => [
+                'SD' => 0,
+                'SMP' => 0,
+                'SMA' => 0,
+                'D1/D2/D3' => 0,
+                'S1/D4' => 0,
+                'S2' => 0,
+                'S3' => 0,
+            ],
+            'umur' => [
+                '<17' => 0,
+                '>17' => 0,
+                '>25<40' => 0,
+                '>41<60' => 0,
+                '>60' => 0,
+            ]
+        ];
+
+        $filterPersen = function($value) use ($total){
+            return $total > 0 ? number_format($value / $total * 100, 2, '.', ',') : 0;
+        };
+
+        $filterRespondent = array_reduce($allRespondent, function($carry, $item){
+            $carry['kelamin'][$item['kelamin']]++;
+            $carry['pendidikan'][$item['lulusan']]++;
+
+            if($item['umur'] > 60){
+                $carry['umur']['>60']++;
+            }else if($item['umur'] > 41 && $item['umur'] < 60){
+                $carry['umur']['>41<60']++;
+            }else if($item['umur'] > 25 && $item['umur'] < 40){
+                $carry['umur']['>25<40']++;
+            }else if($item['umur'] > 17 ){
+                $carry['umur']['>17']++;
+            }else {
+                $carry['umur']['<17']++;
+            }
+
+            return $carry;
+        }, $dataRespondent);
+
+        $filterPersenRespondent = [];
+
+        foreach ($filterRespondent as $kategori => $values) {
+            foreach ($values as $key => $value) {
+                $filterPersenRespondent[$kategori][$key] = $filterPersen($value);
+            }
+        }
+
+        return getView('admin.dashboard',[
+            'totalPertanyaan' => $totalPertanyaan,
+            'jumlahResponden' => $total,
+            'filterRespondent' => $filterRespondent,
+            'recentRespondent' => $recentResponden,
+            'filterPersenRespondent' => $filterPersenRespondent,
+        ]);
     }
 
     public function getUsersPage()
@@ -29,7 +98,7 @@ class AdminController {
         global $conn;
 
         $respondent = new \Responden($conn);
-        $respondents = $respondent->getAllRespondent();
+        $respondents = $respondent->getAllRespondent(false);
 
         return getView('admin.users-page', [
             'respondents' => $respondents

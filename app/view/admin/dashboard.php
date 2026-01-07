@@ -1,11 +1,3 @@
-<?php
-// Simulasi data - nanti bisa diganti dengan query database
-$totalResponden = 1250;
-$totalPertanyaan = 12;
-$rataKepuasan = 4.2;
-$respondenBulanIni = 87;
-?>
-
 <!-- Dashboard Content -->
 <div id="dashboardPage" class="page-content hidden p-4 sm:p-6 lg:p-8">
 
@@ -18,7 +10,7 @@ $respondenBulanIni = 87;
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                 </svg>
             </div>
-            <h3 class="text-2xl font-bold mb-1">100</h3>
+            <h3 class="text-2xl font-bold mb-1"><?= $jumlahResponden ?></h3>
             <p class="text-green-100 text-sm">Total Responden</p>
         </div>
 
@@ -28,7 +20,7 @@ $respondenBulanIni = 87;
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
             </div>
-            <h3 class="text-2xl font-bold mb-1">13</h3>
+            <h3 class="text-2xl font-bold mb-1"><?= $totalPertanyaan ?></h3>
             <p class="text-orange-100 text-sm">Total Pertanyaan</p>
         </div>
     </div>
@@ -52,19 +44,19 @@ $respondenBulanIni = 87;
             <div class="space-y-2">
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-gray-600">Laki laki</span>
-                    <span class="font-semibold text-green-600">456</span>
+                    <span class="font-semibold text-green-600"><?= $filterRespondent['kelamin']['L'] ?></span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-gray-600">Perempuan</span>
-                    <span class="font-semibold text-blue-600">342</span>
+                    <span class="font-semibold text-blue-600"><?= $filterRespondent['kelamin']['P'] ?></span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-gray-600">Presentase Laki-laki</span>
-                    <span class="font-semibold text-blue-600">55%</span>
+                    <span class="font-semibold text-blue-600"><?= $filterPersenRespondent['kelamin']['L'] ?>%</span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-gray-600">Presentase perempuan</span>
-                    <span class="font-semibold text-blue-600">50%</span>
+                    <span class="font-semibold text-blue-600"><?= $filterPersenRespondent['kelamin']['P'] ?>%</span>
                 </div>
             </div>
         </div>
@@ -84,20 +76,24 @@ $respondenBulanIni = 87;
             </div>
             <div class="space-y-2">
                 <div class="flex items-center justify-between text-xs">
-                    <span class="text-gray-600">Usia 17-25</span>
-                    <span class="font-semibold text-gray-800">23%</span>
+                    <span class="text-gray-600">Usia <17</span>
+                    <span class="font-semibold text-gray-800"><?= $filterPersenRespondent['umur']['<17'] ?>%</span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
-                    <span class="text-gray-600">Usia 26-40</span>
-                    <span class="font-semibold text-gray-800">45%</span>
+                    <span class="text-gray-600">Usia 18-24</span>
+                    <span class="font-semibold text-gray-800"><?= $filterPersenRespondent['umur']['>17'] ?>%</span>
+                </div>
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-gray-600">Usia 25-40</span>
+                    <span class="font-semibold text-gray-800"><?= $filterPersenRespondent['umur']['>25<40'] ?>%</span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-gray-600">Usia 41-60</span>
-                    <span class="font-semibold text-gray-800">28%</span>
+                    <span class="font-semibold text-gray-800"><?= $filterPersenRespondent['umur']['>41<60'] ?>%<span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-gray-600">Usia 60+</span>
-                    <span class="font-semibold text-gray-800">4%</span>
+                    <span class="font-semibold text-gray-800"><?= $filterPersenRespondent['umur']['>60'] ?>%</span>
                 </div>
             </div>
         </div>
@@ -118,31 +114,31 @@ $respondenBulanIni = 87;
             <div class="space-y-2">
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-gray-600">SD</span>
-                    <span class="font-semibold text-gray-800">42%</span>
+                    <span class="font-semibold text-gray-800"><?= $filterPersenRespondent['pendidikan']['SD'] ?>%</span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-gray-600">SMP</span>
-                    <span class="font-semibold text-gray-800">31%</span>
+                    <span class="font-semibold text-gray-800"><?= $filterPersenRespondent['pendidikan']['SMP'] ?>%</span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-gray-600">SMA/SMK</span>
-                    <span class="font-semibold text-gray-800">18%</span>
+                    <span class="font-semibold text-gray-800"><?= $filterPersenRespondent['pendidikan']['SMA'] ?>%</span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-gray-600">D1/D2/D3</span>
-                    <span class="font-semibold text-gray-800">9%</span>
+                    <span class="font-semibold text-gray-800"><?= $filterPersenRespondent['pendidikan']['D1/D2/D3'] ?>%</span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-gray-600">S1/D4</span>
-                    <span class="font-semibold text-gray-800">9%</span>
+                    <span class="font-semibold text-gray-800"><?= $filterPersenRespondent['pendidikan']['S1/D4'] ?>%</span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-gray-600">S2</span>
-                    <span class="font-semibold text-gray-800">9%</span>
+                    <span class="font-semibold text-gray-800"><?= $filterPersenRespondent['pendidikan']['S2'] ?>%<</span>
                 </div>
                 <div class="flex items-center justify-between text-xs">
                     <span class="text-gray-600">S3</span>
-                    <span class="font-semibold text-gray-800">9%</span>
+                    <span class="font-semibold text-gray-800"><?= $filterPersenRespondent['pendidikan']['S3'] ?>%</span>
                 </div>
             </div>
         </div>
@@ -157,12 +153,6 @@ $respondenBulanIni = 87;
                 </svg>
                 Responden Terbaru
             </h3>
-            <button class="text-sm text-green-600 hover:text-green-700 font-medium flex items-center gap-1">
-                Lihat Semua
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                </svg>
-            </button>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full">
@@ -178,32 +168,27 @@ $respondenBulanIni = 87;
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     <?php
-                    $recentData = [
-                        ['name' => 'SMKN 1 Probolinggo', 'age' => 35, 'edu' => 'S1', 'date' => '23 Des 2024', 'score' => 4.5],
-                        ['name' => 'Dinas Kesehatan', 'age' => 42, 'edu' => 'S2', 'date' => '23 Des 2024', 'score' => 4.8],
-                        ['name' => 'PT Maju Jaya', 'age' => 28, 'edu' => 'S1', 'date' => '22 Des 2024', 'score' => 4.2],
-                        ['name' => 'RSUD Kota', 'age' => 38, 'edu' => 'S1', 'date' => '22 Des 2024', 'score' => 4.6],
-                        ['name' => 'Bank BRI', 'age' => 31, 'edu' => 'D3', 'date' => '21 Des 2024', 'score' => 4.3],
-                    ];
-                    foreach ($recentData as $data):
+                    foreach ($recentRespondent as $data):
                     ?>
                     <tr class="hover:bg-gray-50 transition">
-                        <td class="px-6 py-4 text-sm text-gray-800 font-medium"><?= $data['name'] ?></td>
-                        <td class="px-6 py-4 text-sm text-gray-600"><?= $data['age'] ?> tahun</td>
+                        <td class="px-6 py-4 text-sm text-gray-800 font-medium"><?= $data['responden'] ?></td>
+                        <td class="px-6 py-4 text-sm text-gray-600"><?= $data['umur'] ?> tahun</td>
                         <td class="px-6 py-4">
-                            <span class="px-3 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full"><?= $data['edu'] ?></span>
+                            <span class="px-3 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full"><?= $data['lulusan'] ?></span>
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-600"><?= $data['date'] ?></td>
+                        <td class="px-6 py-4 text-sm text-gray-600"><?= $data['tanggal'] ?></td>
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-1">
                                 <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                 </svg>
-                                <span class="text-sm font-semibold text-gray-700"><?= $data['score'] ?></span>
+                                <span class="text-sm font-semibold text-gray-700"><?=
+                                number_format(($data['nilai'] / (4 * $totalPertanyaan) / 20) * 100, 2, '.', ',')
+                                ?></span>
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <button class="text-green-600 hover:text-green-700 text-sm font-medium flex items-center gap-1">
+                            <button class="text-green-600 hover:text-green-700 text-sm font-medium flex items-center gap-1" onclick="viewDetailRespondent(<?= $data['id'] ?>)">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -219,3 +204,7 @@ $respondenBulanIni = 87;
     </div>
 
 </div>
+
+<script>
+    const recentRespondent = <?= json_encode($recentRespondent) ?>;
+</script>

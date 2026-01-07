@@ -8,14 +8,35 @@ class Responden {
         $this->conn = $conn;
     }
 
-    public function getAllRespondent()
+    public function getAllRespondent($limit)
     {
         $data = [];
 
-        $query = 'SELECT * FROM tb_responden ORDER BY id DESC';
+        $query = $limit == false ? 'SELECT * FROM tb_responden ORDER BY id DESC' :
+        'SELECT * FROM tb_responden ORDER BY id DESC limit 5';
         $result = $this->conn->query($query);
 
         while($row = $result->fetch_assoc()){
+            if($limit == true) {
+                $stmt = $this->conn->prepare(
+                    "SELECT nilai, jawaban FROM tb_jawaban WHERE id_responden = ?"
+                );
+                $stmt->bind_param("i", $row['id']);
+                $stmt->execute();
+
+                $jawaban = $stmt->get_result();
+
+                $nilai = 0;
+                $jawabanRespondent = [];
+                while($j = $jawaban->fetch_assoc()){
+                    $nilai += $j['nilai'];
+                    $jawabanRespondent[] = $j['jawaban'];
+                }
+
+                $row['nilai'] = $nilai;
+                $row['jawaban'] = $jawabanRespondent;
+            }
+
             $data[] = $row;
         }
 
@@ -30,6 +51,7 @@ class Responden {
         r.umur,
         r.kelamin,
         r.lulusan,
+        r.jenis_pelayanan,
         r.tanggal,
         j.jawaban,
         j.nilai
@@ -65,6 +87,7 @@ class Responden {
                     'umur' => $row['umur'],
                     'kelamin' => $row['kelamin'],
                     'lulusan' => $row['lulusan'],
+                    'jenis_pelayanan' => $row['jenis_pelayanan'],
                     'tanggal' => $row['tanggal'],
                     'jawaban' => [],
                     'nilai' => $filterJumlah == true ? 0 : [],
@@ -113,8 +136,8 @@ class Responden {
             $user = [0, 0, 0, 0];
 
             foreach ($respondent as $idx => $res) {
-                $answer = $res['jawaban'][$qIdx];
-                $score = (int)$res['nilai'][$qIdx];
+                $answer = $res['jawaban'][$qIdx] ?? null;
+                $score = isset($res['nilai'][$qIdx]) ? (int)$res['nilai'][$qIdx] : 0;
 
                 if(isset($labelIndexMap[$answer])){
                     $values[$labelIndexMap[$answer]] += $score;

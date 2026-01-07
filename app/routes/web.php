@@ -10,4 +10,6 @@ if($path === '/'){
     $surveyController->index();
 }else if($path === '/submit-survey' && $_SERVER['REQUEST_METHOD'] === 'POST'){
     $surveyController->submit();
+}else if($path === '/hasil-ikm'){
+    $surveyController->hasilIkm();
 }

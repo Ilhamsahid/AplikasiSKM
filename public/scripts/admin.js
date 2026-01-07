@@ -26,7 +26,7 @@ const paginations = {
   },
 
   results: {
-    data: userResults.data,
+    data: userResults.data !== null ? userResults.data : ['hai', 'hai'] ,
     currentPage: 1,
     perPage: 10,
     container: 'paginationResults',
@@ -651,8 +651,9 @@ function viewDetailRespondent(id){
     document.getElementById('detailModal').classList.remove('hidden');
     document.getElementById('detailModal').classList.add('flex');
 
+    const responden = paginations.results.data.length > 0 ? paginations.results.data.find((u) => u.id == id) : recentRespondent.find((u) => u.id == id);
+    console.log(responden);
 
-    const responden = paginations.results.data.find((u) => u.id == id);
     document.getElementById('namaResponden').textContent = responden.responden;
     document.getElementById('umurResponden').textContent = responden.umur;
     document.getElementById('kelaminResponden').textContent = responden.kelamin == 'L' ? 'Laki-laki' : 'Perempuan';
