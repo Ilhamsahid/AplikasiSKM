@@ -1,6 +1,7 @@
 <?php
 
-class Jawaban{
+class Jawaban
+{
     private $conn;
 
     public function __construct($conn)
@@ -14,7 +15,7 @@ class Jawaban{
 
         $stmt = $this->conn->prepare($sql);
 
-        if(!$stmt){
+        if (!$stmt) {
             return false;
         }
 

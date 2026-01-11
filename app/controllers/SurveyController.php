@@ -1,7 +1,9 @@
 <?php
+
 namespace app\controllers;
 
-class SurveyController {
+class SurveyController
+{
     public function index()
     {
         global $conn;

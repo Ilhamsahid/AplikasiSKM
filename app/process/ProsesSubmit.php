@@ -23,7 +23,7 @@ $respondenId = $Responden->insertResponden([
 
 // Memproses Jawaban Ke database
 foreach ($questions as $index => $question) {
-    $answers = $_POST['q'. ($index + 1)];
+    $answers = $_POST['q' . ($index + 1)];
 
     $ansExplode = explode(':', $answers);
     $ansWord = $ansExplode[0];

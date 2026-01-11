@@ -1,7 +1,9 @@
 <?php
+
 namespace app\controllers;
 
-class AdminController {
+class AdminController
+{
 
     private $perPage = 10;
 
@@ -53,23 +55,23 @@ class AdminController {
             ]
         ];
 
-        $filterPersen = function($value) use ($total){
+        $filterPersen = function ($value) use ($total) {
             return $total > 0 ? number_format($value / $total * 100, 2, '.', ',') : 0;
         };
 
-        $filterRespondent = array_reduce($allRespondent, function($carry, $item){
+        $filterRespondent = array_reduce($allRespondent, function ($carry, $item) {
             $carry['kelamin'][$item['kelamin']]++;
             $carry['pendidikan'][$item['lulusan']]++;
 
-            if($item['umur'] > 60){
+            if ($item['umur'] > 60) {
                 $carry['umur']['>60']++;
-            }else if($item['umur'] > 41 && $item['umur'] < 60){
+            } else if ($item['umur'] > 41 && $item['umur'] < 60) {
                 $carry['umur']['>41<60']++;
-            }else if($item['umur'] > 25 && $item['umur'] < 40){
+            } else if ($item['umur'] > 25 && $item['umur'] < 40) {
                 $carry['umur']['>25<40']++;
-            }else if($item['umur'] > 17 ){
+            } else if ($item['umur'] > 17) {
                 $carry['umur']['>17']++;
-            }else {
+            } else {
                 $carry['umur']['<17']++;
             }
 
@@ -84,7 +86,7 @@ class AdminController {
             }
         }
 
-        return getView('admin.dashboard',[
+        return getView('admin.dashboard', [
             'totalPertanyaan' => $totalPertanyaan,
             'jumlahResponden' => $total,
             'filterRespondent' => $filterRespondent,
@@ -112,7 +114,7 @@ class AdminController {
         $question = new \Pertanyaan($conn);
         $questions = $question->getQuestion();
 
-        return getView('admin.survey-question-page',[
+        return getView('admin.survey-question-page', [
             'pertanyaan' => $questions
         ]);
     }
