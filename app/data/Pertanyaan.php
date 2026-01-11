@@ -12,7 +12,7 @@ class Pertanyaan {
     {
         $data = [];
 
-        $query = "SELECT * FROM tb_pertanyaan ORDER BY id ASC";
+        $query = "SELECT * FROM tb_pertanyaan ORDER BY id DESC";
         $result = $this->conn->query($query);
 
         while ($row = $result->fetch_assoc()) {

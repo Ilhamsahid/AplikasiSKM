@@ -125,6 +125,8 @@ class AdminController {
             'respondents' => $respondents,
             'chartData' => $respondentsChart,
             'jumlahPertanyaan' => $jumlahPertanyaan,
+            'filterRespondent' => $filterRespondent,
+            'filterPersenRespondent' => $filterPersenRespondent,
         ]);
     }
 

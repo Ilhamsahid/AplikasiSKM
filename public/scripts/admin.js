@@ -354,6 +354,9 @@ function renderResults(page){
       return;
     }
 
+    document.getElementById('EksportHasilButton').classList.remove('hidden');
+    document.getElementById('EksportRespondenButton').classList.remove('hidden');
+
     let rows = '';
     let mobileCard = '';
 

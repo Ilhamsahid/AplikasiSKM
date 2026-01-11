@@ -50,7 +50,7 @@
                             id="jawabanA"
                             name="jawabanA"
                             class="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
-                            placeholder="Contoh: Tidak Mudah"
+                            placeholder="Contoh: Tidak Mudah - 1 point"
                         >
                     </div>
 
@@ -64,7 +64,7 @@
                             id="jawabanB"
                             name="jawabanB"
                             class="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
-                            placeholder="Contoh: Kurang Mudah"
+                            placeholder="Contoh: Kurang Mudah - 2 point"
                         >
                     </div>
 
@@ -78,7 +78,7 @@
                             id="jawabanC"
                             name="jawabanC"
                             class="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
-                            placeholder="Contoh: Mudah"
+                            placeholder="Contoh: Mudah - 3 point"
                         >
                     </div>
 
@@ -92,7 +92,7 @@
                             id="jawabanD"
                             name="jawabanD"
                             class="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
-                            placeholder="Contoh: Sangat Mudah"
+                            placeholder="Contoh: Sangat Mudah - 4 point"
                         >
                     </div>
                 </div>

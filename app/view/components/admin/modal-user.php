@@ -56,7 +56,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Terakhir Pelayanan</label>
-                <input name="tanggal_terakhir" id="tanggal_terakhir" type="date" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" required>
+                <input name="tanggal_terakhir" id="tanggal_terakhir" type="date" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" required max="<?= date('Y-m-d') ?>">
             </div>
 
             <div class="flex gap-3 pt-4">

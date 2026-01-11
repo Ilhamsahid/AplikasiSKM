@@ -52,8 +52,8 @@ CREATE TABLE `tb_jawaban` (
   PRIMARY KEY (`id`),
   KEY `FK__tb_pertanyaan` (`id_pertanyaan`),
   KEY `FK__tb_responden` (`id_responden`),
-  CONSTRAINT `FK__tb_responden` FOREIGN KEY (`id_responden`) REFERENCES `tb_responden` (`id`),
-  CONSTRAINT `FK__tb_pertanyaan` FOREIGN KEY (`id_pertanyaan`) REFERENCES `tb_pertanyaan` (`id`)
+  CONSTRAINT `FK__tb_responden` FOREIGN KEY (`id_responden`) REFERENCES `tb_responden` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK__tb_pertanyaan` FOREIGN KEY (`id_pertanyaan`) REFERENCES `tb_pertanyaan` (`id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=246 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `tb_pertanyaan` (`id`, `pertanyaan`, `tipe`, `jawaban`) VALUES
