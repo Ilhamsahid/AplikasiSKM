@@ -29,7 +29,7 @@ class AdminController
 
         $allRespondent = $respondent->getAllRespondent(false);
         $recentResponden = $respondent->getAllRespondent(true);
-        $totalPertanyaan = count($pertanyaan->getQuestion());
+        $totalPertanyaan = count($pertanyaan->getQuestion(false));
         $total = count($allRespondent);
 
         $dataRespondent = [
@@ -112,7 +112,7 @@ class AdminController
         global $conn;
 
         $question = new \Pertanyaan($conn);
-        $questions = $question->getQuestion();
+        $questions = $question->getQuestion(true);
 
         return getView('admin.survey-question-page', [
             'pertanyaan' => $questions

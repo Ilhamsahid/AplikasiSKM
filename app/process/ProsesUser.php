@@ -15,7 +15,7 @@ $lulusan = $_POST['lulusan'] ?? null;
 $layanan = $_POST['jenis_layanan'] ?? null;
 $tanggal_terakhir = $_POST['tanggal_terakhir'] ?? null;
 
-if($getMode === 'delete'){
+if ($getMode === 'delete') {
     $Responden->deleteResponden($getId);
 
     // Membuat flash message
@@ -23,7 +23,7 @@ if($getMode === 'delete'){
         'type' => 'success',
         'message' => 'Berhasil menghapus data responden',
     ];
-}else if(!isset($getId)){
+} else if (!isset($getId)) {
     $Responden->insertResponden([
         'responden' => $nama,
         'umur' => $umur,
@@ -39,7 +39,17 @@ if($getMode === 'delete'){
         'type' => 'success',
         'message' => 'Berhasil menambahkan data responden',
     ];
-}else{
+} else {
+    if ($umur < 1 || $umur > 120) {
+        // Membuat flash message
+        $_SESSION['flash'] = [
+            'type' => 'error',
+            'title' => 'Error',
+            'message' => 'Tidak dapat Memperbarui Responden',
+        ];
+        return header('Location: /admin/users');
+    }
+
     $Responden->updateResponden([
         'responden' => $nama,
         'umur' => $umur,

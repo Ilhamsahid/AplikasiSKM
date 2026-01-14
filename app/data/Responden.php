@@ -1,6 +1,7 @@
 <?php
 
-class Responden {
+class Responden
+{
     private $conn;
 
     public function __construct($conn)
@@ -13,11 +14,11 @@ class Responden {
         $data = [];
 
         $query = $limit == false ? 'SELECT * FROM tb_responden ORDER BY id DESC' :
-        'SELECT * FROM tb_responden ORDER BY id DESC limit 5';
+            'SELECT * FROM tb_responden ORDER BY id DESC limit 5';
         $result = $this->conn->query($query);
 
-        while($row = $result->fetch_assoc()){
-            if($limit == true) {
+        while ($row = $result->fetch_assoc()) {
+            if ($limit == true) {
                 $stmt = $this->conn->prepare(
                     "SELECT nilai, jawaban FROM tb_jawaban WHERE id_responden = ?"
                 );
@@ -28,7 +29,7 @@ class Responden {
 
                 $nilai = 0;
                 $jawabanRespondent = [];
-                while($j = $jawaban->fetch_assoc()){
+                while ($j = $jawaban->fetch_assoc()) {
                     $nilai += $j['nilai'];
                     $jawabanRespondent[] = $j['jawaban'];
                 }
@@ -96,9 +97,9 @@ class Responden {
 
             // Masukkan jawaban (kalau ada)
             $grouped[$id]['jawaban'][] = $row['jawaban'];
-            if($filterJumlah){
+            if ($filterJumlah) {
                 $grouped[$id]['nilai'] += (int)$row['nilai'];
-            }else{
+            } else {
                 $grouped[$id]['nilai'][] = $row['nilai'];
             }
 
@@ -118,13 +119,13 @@ class Responden {
     {
         $question = new Pertanyaan($this->conn);
         $respondent = $respondents['data'];
-        $getQuestion = $question->getQuestion();
+        $getQuestion = $question->getQuestion(false);
 
         $result = [];
         $questions = '';
         $labels = [];
 
-        if($respondent === []){
+        if ($respondent === []) {
             return $result;
         }
 
@@ -139,7 +140,7 @@ class Responden {
                 $answer = $res['jawaban'][$qIdx] ?? null;
                 $score = isset($res['nilai'][$qIdx]) ? (int)$res['nilai'][$qIdx] : 0;
 
-                if(isset($labelIndexMap[$answer])){
+                if (isset($labelIndexMap[$answer])) {
                     $values[$labelIndexMap[$answer]] += $score;
                     $user[$labelIndexMap[$answer]] += 1;
                 }
@@ -162,11 +163,12 @@ class Responden {
 
         $stmt = $this->conn->prepare($sql);
 
-        if(!$stmt){
+        if (!$stmt) {
             return false;
         }
 
-        $stmt->bind_param('sisssss',
+        $stmt->bind_param(
+            'sisssss',
             $data['responden'],
             $data['umur'],
             $data['kelamin'],
@@ -176,7 +178,7 @@ class Responden {
             $data['tanggal'],
         );
 
-        if($stmt->execute()){
+        if ($stmt->execute()) {
             return $this->conn->insert_id;
         }
 
@@ -199,7 +201,7 @@ class Responden {
 
         $stmt = $this->conn->prepare($sql);
 
-        if(!$stmt){
+        if (!$stmt) {
             return false;
         }
 
@@ -215,7 +217,7 @@ class Responden {
             $id
         );
 
-        if($stmt->execute()){
+        if ($stmt->execute()) {
             return true;
         }
 
@@ -242,5 +244,4 @@ class Responden {
         $stmt->close();
         return false;
     }
-
 }

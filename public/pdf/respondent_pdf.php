@@ -11,6 +11,7 @@ ob_start();
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <style>
@@ -36,7 +37,8 @@ ob_start();
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #000;
             padding: 6px 8px;
             font-size: 9px;
@@ -60,47 +62,49 @@ ob_start();
         }
     </style>
 </head>
+
 <body>
 
-<h2>DAFTAR RESPONDEN</h2>
-<div class="subtitle">
-    Survei Kepuasan Masyarakat (IKM)
-</div>
+    <h2>DAFTAR RESPONDEN</h2>
+    <div class="subtitle">
+        Survei Kepuasan Masyarakat (IKM)
+    </div>
 
-<table>
-    <thead>
-        <tr>
-            <th class="text-center">No</th>
-            <th>Nama</th>
-            <th class="text-center">Umur</th>
-            <th class="text-center">Kelamin</th>
-            <th>Lulusan</th>
-            <th>Jenis Pelayanan</th>
-            <th class="text-center">Tanggal Terakhir</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($respondents['data'] as $i => $r): ?>
-        <tr>
-            <td class="text-center"><?= $i + 1 ?></td>
-            <td><?= htmlspecialchars($r['responden']) ?></td>
-            <td class="text-center"><?= $r['umur'] ?></td>
-            <td class="text-center"><?= $r['kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan' ?></td>
-            <td><?= $r['lulusan'] ?></td>
-            <td><?= $r['jenis_pelayanan'] ?></td>
-            <td class="text-center">
-                <?= $r['tanggal'] ?>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+    <table>
+        <thead>
+            <tr>
+                <th class="text-center">No</th>
+                <th>Nama</th>
+                <th class="text-center">Umur</th>
+                <th class="text-center">Kelamin</th>
+                <th>Lulusan</th>
+                <th>Jenis Pelayanan</th>
+                <th class="text-center">Tanggal Terakhir Pelayanan</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($respondents['data'] as $i => $r): ?>
+                <tr>
+                    <td class="text-center"><?= $i + 1 ?></td>
+                    <td><?= htmlspecialchars($r['responden']) ?></td>
+                    <td class="text-center"><?= $r['umur'] ?></td>
+                    <td class="text-center"><?= $r['kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan' ?></td>
+                    <td><?= $r['lulusan'] ?></td>
+                    <td><?= $r['jenis_pelayanan'] ?></td>
+                    <td class="text-center">
+                        <?= $r['tanggal'] ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 
-<footer>
-    TERIMA KASIH ATAS PARTISIPASI ANDA DALAM SURVEI KEPUASAN MASYARAKAT
-</footer>
+    <footer>
+        TERIMA KASIH ATAS PARTISIPASI ANDA DALAM SURVEI KEPUASAN MASYARAKAT
+    </footer>
 
 </body>
+
 </html>
 
 <?php

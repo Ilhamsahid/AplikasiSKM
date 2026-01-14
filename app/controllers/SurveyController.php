@@ -9,7 +9,7 @@ class SurveyController
         global $conn;
 
         $question = new \Pertanyaan($conn);
-        $questions = $question->getQuestion();
+        $questions = $question->getQuestion(false);
 
         $title = 'E-SKM Survei Kepuasan Masyarakat';
         $nav = getView('components.public.navbar');

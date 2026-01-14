@@ -23,17 +23,17 @@ if (
     exit;
 }
 
-if(
+if (
     $method === 'POST' &&
     preg_match('#^/admin/(tambah|edit|delete)/question#', $path)
-){
+) {
     $admin->processQuestion($path);
     exit;
 }
 
-if(
+if (
     preg_match('#^/admin/reset/results#', $path)
-){
+) {
     header('Location: /admin/results');
     exit;
 }

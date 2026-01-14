@@ -1,6 +1,7 @@
 <?php
 
-class Pertanyaan {
+class Pertanyaan
+{
     private $conn;
 
     public function __construct($conn)
@@ -8,11 +9,13 @@ class Pertanyaan {
         $this->conn = $conn;
     }
 
-    public function getQuestion()
+    public function getQuestion($isDesc)
     {
         $data = [];
 
-        $query = "SELECT * FROM tb_pertanyaan ORDER BY id DESC";
+        $order = $isDesc ? 'DESC' : 'ASC';
+
+        $query = "SELECT * FROM tb_pertanyaan ORDER BY id $order";
         $result = $this->conn->query($query);
 
         while ($row = $result->fetch_assoc()) {
@@ -28,16 +31,17 @@ class Pertanyaan {
 
         $stmt = $this->conn->prepare($sql);
 
-        if(!$stmt){
+        if (!$stmt) {
             return false;
         }
 
-        $stmt->bind_param('ss',
+        $stmt->bind_param(
+            'ss',
             $data['pertanyaan'],
             $data['jawaban'],
         );
 
-        if($stmt->execute()){
+        if ($stmt->execute()) {
             return true;
         }
 
@@ -51,17 +55,18 @@ class Pertanyaan {
 
         $stmt = $this->conn->prepare($sql);
 
-        if(!$stmt){
+        if (!$stmt) {
             return false;
         }
 
-        $stmt->bind_param('ssi',
+        $stmt->bind_param(
+            'ssi',
             $data['pertanyaan'],
             $data['jawaban'],
             $id
         );
 
-        if($stmt->execute()){
+        if ($stmt->execute()) {
             return true;
         }
 
@@ -86,5 +91,4 @@ class Pertanyaan {
 
         return false;
     }
-
 }

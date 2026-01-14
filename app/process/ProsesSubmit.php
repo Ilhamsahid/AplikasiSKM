@@ -10,7 +10,7 @@ $Responden = new Responden($conn);
 $Jawaban = new Jawaban($conn);
 
 // Membuat variable
-$questions = $Question->getQuestion();
+$questions = $Question->getQuestion(false);
 $respondenId = $Responden->insertResponden([
     'responden' => $_POST['responden'],
     'umur' => $_POST['umur'],
