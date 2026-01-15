@@ -78,6 +78,8 @@ ob_start();
                 <th class="text-center">Umur</th>
                 <th class="text-center">Kelamin</th>
                 <th>Lulusan</th>
+                <th>No HP</th>
+                <th>Pekerjaan</th>
                 <th>Jenis Pelayanan</th>
                 <th class="text-center">Tanggal Terakhir Pelayanan</th>
             </tr>
@@ -90,6 +92,8 @@ ob_start();
                     <td class="text-center"><?= $r['umur'] ?></td>
                     <td class="text-center"><?= $r['kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan' ?></td>
                     <td><?= $r['lulusan'] ?></td>
+                    <td><?= $r['no_hp'] ?></td>
+                    <td><?= $r['pekerjaan'] ?></td>
                     <td><?= $r['jenis_pelayanan'] ?></td>
                     <td class="text-center">
                         <?= $r['tanggal'] ?>

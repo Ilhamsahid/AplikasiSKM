@@ -52,6 +52,8 @@ class Responden
         r.umur,
         r.kelamin,
         r.lulusan,
+        r.no_hp,
+        r.pekerjaan,
         r.jenis_pelayanan,
         r.tanggal,
         j.jawaban,
@@ -88,15 +90,19 @@ class Responden
                     'umur' => $row['umur'],
                     'kelamin' => $row['kelamin'],
                     'lulusan' => $row['lulusan'],
+                    'no_hp' => $row['no_hp'],
+                    'pekerjaan' => $row['pekerjaan'],
                     'jenis_pelayanan' => $row['jenis_pelayanan'],
                     'tanggal' => $row['tanggal'],
                     'jawaban' => [],
+                    'nilaiSatuan' => [],
                     'nilai' => $filterJumlah == true ? 0 : [],
                 ];
             }
 
             // Masukkan jawaban (kalau ada)
             $grouped[$id]['jawaban'][] = $row['jawaban'];
+            $grouped[$id]['nilaiSatuan'][] = $row['nilai'];
             if ($filterJumlah) {
                 $grouped[$id]['nilai'] += (int)$row['nilai'];
             } else {
