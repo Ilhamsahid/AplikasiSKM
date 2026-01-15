@@ -390,6 +390,8 @@ function renderResults(page) {
 	container.innerHTML = "";
 
 	if (p.data.length === 0) {
+		document.getElementById("eksportButton").classList.add("hidden");
+
 		container.innerHTML += `
             <div class="flex flex-col items-center justify-center py-16 px-4">
                 <svg class="w-24 h-24 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -398,12 +400,10 @@ function renderResults(page) {
                 <h3 class="text-xl font-semibold text-gray-700 mb-2">Tidak Ada Data</h3>
                 <p class="text-gray-500 text-center mb-4">Tidak ada data responden pada periode yang dipilih</p>
             </div>
-      `;
+      	`;
 		return;
 	}
-
-	document.getElementById("EksportHasilButton").classList.remove("hidden");
-	document.getElementById("EksportRespondenButton").classList.remove("hidden");
+	document.getElementById("eksportButton").classList.remove("hidden");
 
 	let rows = "";
 	let mobileCard = "";
@@ -809,6 +809,11 @@ function closeQuestionModal() {
 	document.getElementById("questionModal").classList.add("hidden");
 }
 
+function toggleExportDropdown() {
+	const menu = document.getElementById("exportMenu");
+	menu.classList.toggle("hidden");
+}
+
 // load pertama
 renderUserTable(1);
 renderQuestions(1);
@@ -833,6 +838,22 @@ window.addEventListener("popstate", () => {
 	const path = window.location.pathname;
 	const page = path.split("/").pop() || "dashboard";
 	navigateTo(page, false);
+});
+
+// Tutup dropdown kalau klik di luar
+document.addEventListener("click", function (e) {
+	const button = e.target.closest("#EksportDropdown button");
+	const menu = document.getElementById("exportMenu");
+
+	if (!button && !menu.contains(e.target)) {
+		menu.classList.add("hidden");
+	}
+});
+
+document.querySelectorAll(".export-link").forEach((link) => {
+	link.addEventListener("click", () => {
+		document.getElementById("exportMenu").classList.add("hidden");
+	});
 });
 
 const colors = ["#dc2626", "#f59e0b", "#3b82f6", "#16a34a"];

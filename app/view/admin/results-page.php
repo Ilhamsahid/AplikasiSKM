@@ -1,16 +1,37 @@
 <?php
+$totalResponden = count($respondents['data']);
 $jumlahNnrPerUnsur = 0;
 $jumlahNnrPerTimbang = 0;
 
-foreach ($chartData as $value) {
-    $nilaiPerUnsur = array_sum($value['values']);
-    $nnrPerUnsur = number_format(array_sum($value['values']) / count($respondents['data']), 2, '.', ',');
-    $nnrPerTimbang = number_format($nnrPerUnsur  / $jumlahPertanyaan, 2, '.', ',');
+foreach ($chartData as $index => $item) {
 
+    // 1. Nilai per unsur (total nilai jawaban)
+    $nilaiPerUnsur = array_sum($item['values']);
+
+    // 2. NRR per unsur
+    $nnrPerUnsur = $totalResponden > 0
+        ? $nilaiPerUnsur / $totalResponden
+        : 0;
+
+    // 3. NRR tertimbang
+    $nnrPerTimbang = $jumlahPertanyaan > 0
+        ? $nnrPerUnsur / $jumlahPertanyaan
+        : 0;
+
+    // Simpan kembali ke chartData
+    $chartData[$index]['nilai_per_unsur'] = $nilaiPerUnsur;
+    $chartData[$index]['nnr_per_unsur'] = $nnrPerUnsur;
+    $chartData[$index]['nnr_tertimbang'] = $nnrPerTimbang;
+
+    // Akumulasi total
     $jumlahNnrPerUnsur += $nnrPerUnsur;
     $jumlahNnrPerTimbang += $nnrPerTimbang;
 }
+
+// Nilai IKM final
+$nilaiIKM = $jumlahNnrPerTimbang * 25;
 ?>
+
 <div id="resultsPage" class="page-content hidden p-4 sm:p-6 lg:p-8">
 
     <!-- Filter Section -->
@@ -49,26 +70,66 @@ foreach ($chartData as $value) {
         </form>
     </div>
 
-    <!-- Export Buttons -->
-    <div class="flex flex-wrap justify-between gap-3 mb-6">
-        <button onclick="window.open(
-        '/pdf/result_pdf.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&nilaiRataRata=<?= $jumlahNnrPerTimbang * 25 ?>',
-        '_blank')"
-            class="bg-red-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-red-700 transition flex items-center gap-2 shadow-md hidden" id="EksportHasilButton">
+    <div class="relative inline-block mb-6" id="EksportDropdown">
+        <button
+            onclick="toggleExportDropdown()"
+            class="bg-red-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-red-700 transition
+            flex items-center gap-2 shadow-md"
+            id="eksportButton">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 4v16h16M8 12l4 4m0 0l4-4m-4 4V4" />
             </svg>
-            Export Hasil IKM PDF
-        </button>
-        <button onclick="window.open(
-        '/pdf/respondent_pdf.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>',
-        '_blank')"
-            class="bg-red-600 text-white px-6 py-2.5 rounded-lg font-medium hover:bg-red-700 transition flex items-center gap-2 shadow-md hidden" id="EksportRespondenButton">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            Export Data
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 9l-7 7-7-7" />
             </svg>
-            Export Responden PDF
         </button>
+
+        <!-- Dropdown Menu -->
+        <div
+            id="exportMenu"
+            class="absolute left-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200
+            hidden z-50 overflow-hidden">
+
+            <!-- PDF -->
+            <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase bg-gray-50">
+                PDF
+            </div>
+
+            <a
+                href="/pdf/result_pdf.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&nilaiRataRata=<?= $jumlahNnrPerTimbang * 25 ?>"
+                class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-red-50 transition">
+                Export Hasil IKM (PDF)
+            </a>
+
+            <a
+                href="/pdf/respondent_pdf.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>"
+                class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-red-50 transition">
+                Export Responden (PDF)
+            </a>
+
+
+            <!-- Excel -->
+            <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase bg-gray-50">
+                Excel
+            </div>
+
+            <a
+                href="/excel/result_excel.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>"
+                target="_blank"
+                class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
+                Export Hasil IKM (Excel)
+            </a>
+
+            <a
+                href="/excel/respondent_excel.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>"
+                target="_blank"
+                class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
+                Export Responden (Excel)
+            </a>
+        </div>
     </div>
 
     <!-- Data Responden Table -->
@@ -241,20 +302,25 @@ foreach ($chartData as $value) {
                         <?php foreach ($chartData as $key => $value): ?>
                             <tr class="hover:bg-green-50 transition-colors">
                                 <td class="px-6 py-4 text-sm"><?= $key + 1 ?></td>
-                                <td class="px-6 py-4 text-sm"><?= $value['question'] ?></td>
+
+                                <td class="px-6 py-4 text-sm">
+                                    <?= htmlspecialchars($value['question']) ?>
+                                </td>
+
                                 <td class="px-6 py-4 text-sm font-medium">
-                                    <?= $nilaiPerUnsur ?>
+                                    <?= number_format($value['nilai_per_unsur'], 2) ?>
                                 </td>
-                                <td
-                                    class="px-6 py-4 font-bold font-medium">
-                                    <?= $nnrPerUnsur ?>
+
+                                <td class="px-6 py-4 text-sm font-bold">
+                                    <?= number_format($value['nnr_per_unsur'], 2) ?>
                                 </td>
-                                <td
-                                    class="px-6 py-4 font-bold font-medium">
-                                    <?= $nnrPerTimbang ?>
+
+                                <td class="px-6 py-4 text-sm font-bold">
+                                    <?= number_format($value['nnr_tertimbang'], 2) ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
+
                     </tbody>
 
                     <tfoot>
@@ -269,11 +335,11 @@ foreach ($chartData as $value) {
                             </td>
                             <td
                                 class="px-6 py-4 font-bold text-green-900 text-lg">
-                                <?= $jumlahNnrPerUnsur ?>
+                                <?= number_format($jumlahNnrPerUnsur, 2) ?>
                             </td>
                             <td
                                 class="px-6 py-4 font-bold text-green-900 text-lg">
-                                <?= $jumlahNnrPerTimbang ?>
+                                <?= number_format($jumlahNnrPerTimbang) ?>
                             </td>
                         </tr>
                     </tfoot>
@@ -301,7 +367,7 @@ foreach ($chartData as $value) {
                             <div class="inline-flex items-center justify-center
                                     w-40 h-40 rounded-full
                                     bg-green-700 text-white shadow-md">
-                                <span class="text-5xl font-bold"><?= $jumlahNnrPerTimbang * 25 ?></span>
+                                <span class="text-5xl font-bold"><?= number_format($jumlahNnrPerTimbang * 25, 2) ?></span>
                             </div>
 
                             <p class="mt-6 text-sm text-gray-700">
