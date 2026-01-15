@@ -4,12 +4,12 @@
             <h3 id="modalTitle" class="text-lg font-bold text-gray-800">Tambah User</h3>
             <button onclick="closeUserModal()" class="text-gray-400 hover:text-gray-600 transition cursor-pointer">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
         </div>
 
-        <form method="post" id="formUser" class="p-6 space-y-4" >
+        <form method="post" id="formUser" class="p-6 space-y-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
                 <input type="text" name="nama" id="nama" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" placeholder="Masukkan nama lengkap" required>
@@ -22,7 +22,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Kelamin</label>
-                <select name="kelamin" id="kelamin"class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" required>
+                <select name="kelamin" id="kelamin" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" required>
                     <option value="">Pilih Kelamin</option>
                     <option value="L">Laki-laki</option>
                     <option value="P">Perempuan</option>
@@ -41,6 +41,16 @@
                     <option value="S2">S2</option>
                     <option value="S3">S3</option>
                 </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">No Hp</label>
+                <input type="text" name="no_hp" id="noHp" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" placeholder="Masukkan No HP" required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Pekerjaan</label>
+                <input type="text" name="pekerjaan" id="pekerjaan" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" placeholder="Masukkan Pekerjaan" required>
             </div>
 
             <div>

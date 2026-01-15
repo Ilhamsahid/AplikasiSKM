@@ -714,6 +714,8 @@ function openUserModal(mode, userId = null) {
 		document.getElementById("umur").value = userEdit.umur;
 		document.getElementById("kelamin").value = userEdit.kelamin;
 		document.getElementById("lulusan").value = userEdit.lulusan;
+		document.getElementById("noHp").value = userEdit.no_hp;
+		document.getElementById("pekerjaan").value = userEdit.pekerjaan;
 		document.getElementById("layanan").value = userEdit.jenis_pelayanan;
 		document.getElementById("tanggal_terakhir").value =
 			userEdit.tanggal_terakhir_kali;

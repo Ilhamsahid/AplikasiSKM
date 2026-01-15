@@ -12,6 +12,8 @@ $nama = $_POST['nama'] ?? null;
 $umur = $_POST['umur'] ?? null;
 $kelamin = $_POST['kelamin'] ?? null;
 $lulusan = $_POST['lulusan'] ?? null;
+$noHp = $_POST['no_hp'] ?? null;
+$pekerjaan = $_POST['pekerjaan'] ?? null;
 $layanan = $_POST['jenis_layanan'] ?? null;
 $tanggal_terakhir = $_POST['tanggal_terakhir'] ?? null;
 
@@ -29,6 +31,8 @@ if ($getMode === 'delete') {
         'umur' => $umur,
         'kelamin' => $kelamin,
         'lulusan' => $lulusan,
+        'no_hp' => $noHp,
+        'pekerjaan' => $pekerjaan,
         'jenis_pelayanan' => $layanan,
         'tanggal_terakhir_kali' => $tanggal_terakhir,
         'tanggal' => Date('Y-m-d'),
@@ -55,6 +59,8 @@ if ($getMode === 'delete') {
         'umur' => $umur,
         'kelamin' => $kelamin,
         'lulusan' => $lulusan,
+        'no_hp' => $noHp,
+        'pekerjaan' => $pekerjaan,
         'jenis_pelayanan' => $layanan,
         'tanggal_terakhir_kali' => $tanggal_terakhir,
         'tanggal' => Date('Y-m-d'),
