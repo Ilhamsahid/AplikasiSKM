@@ -30,6 +30,9 @@
                                    focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
                 id="umur"
                 required />
+            <p id="umur-error" class="mt-1 text-xs text-red-500 hidden">
+                Umur tidak boleh kurang dari 0
+            </p>
         </div>
 
         <!-- Jenis Kelamin -->

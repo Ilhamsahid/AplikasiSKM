@@ -21,6 +21,18 @@ $respondenId = $Responden->insertResponden([
     'tanggal' => date('Y-m-d'),
 ]);
 
+if ($_POST['umur'] < 1 || $_POST['umur'] > 120) {
+    // Membuat flash message
+    $_SESSION['flash'] = [
+        'type' => 'error',
+        'title' => 'error',
+        'message' => 'Kuis tidak valid, pastikan inputan anda benar',
+    ];
+
+    header("Location: /");
+    return;
+}
+
 // Memproses Jawaban Ke database
 foreach ($questions as $index => $question) {
     $answers = $_POST['q' . ($index + 1)];
