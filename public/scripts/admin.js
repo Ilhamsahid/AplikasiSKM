@@ -98,7 +98,7 @@ function navigateTo(page, push = true) {
 			title: "Dashboard",
 			subtitle: "Selamat datang di panel admin E-SKM",
 		},
-		users: { title: "Manajemen User", subtitle: "Kelola data pengguna sistem" },
+		users: { title: "Manajemen Responden", subtitle: "Kelola data responden" },
 		questions: {
 			title: "Pertanyaan Survei",
 			subtitle: "Kelola pertanyaan kuisioner",
@@ -154,7 +154,7 @@ function renderUserTable(page) {
             <td class="px-6 py-4">${u.umur}</td>
             <td class="px-6 py-4">
                 <span class="px-3 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full">
-                    ${u.kelamin == "L" ? "Laki-laki" : "Perempuan"}
+                    ${u.kelamin == "L" ? "Pria" : "Perempuan"}
                 </span>
             </td>
             <td class="px-6 py-4">
@@ -163,6 +163,8 @@ function renderUserTable(page) {
                 </span>
             </td>
             <td class="px-6 py-4">${u.jenis_pelayanan}</td>
+            <td class="px-6 py-4">${u.no_hp}</td>
+            <td class="px-6 py-4">${u.pekerjaan}</td>
             <td class="px-6 py-4 text-center">${u.tanggal_terakhir_kali}</td>
             <td class="px-6 py-4 text-center">
                 <div class="flex items-center justify-center gap-2">
@@ -208,6 +210,18 @@ function renderUserTable(page) {
                         <span class="text-gray-601">Lulusan:</span>
                         <span class="px-3 py-1 text-xs font-medium bg-green-100 text-green-700 rounded-full">
                             ${u.lulusan}
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-gray-601">No hp:</span>
+                        <span class="font-medium text-gray-801">
+                            ${u.no_hp}
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-gray-601">Pekerjaan:</span>
+                        <span class="font-medium text-gray-801">
+                            ${u.pekerjaan}
                         </span>
                     </div>
                     <div class="flex items-center justify-between text-xs">

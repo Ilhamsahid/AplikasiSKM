@@ -22,6 +22,8 @@
                     <th class="px-6 py-4 text-left text-sm font-semibold">Kelamin</th>
                     <th class="px-6 py-4 text-left text-sm font-semibold">Lulusan</th>
                     <th class="px-6 py-4 text-left text-sm font-semibold">Jenis pelayanan</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold">No HandPhone</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold">Pekerjaan</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold">Tanggal Terakhir Pelayanan</th>
                     <th class="px-6 py-4 text-center text-sm font-semibold">Aksi</th>
                 </tr>
