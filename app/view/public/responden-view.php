@@ -86,6 +86,35 @@
             </select>
         </div>
 
+
+        <!-- No HP -->
+        <div>
+            <label class="block mb-2 text-xs sm:text-sm font-medium text-gray-700">
+                No hp
+            </label>
+            <input
+                type="text"
+                name="no_hp"
+                placeholder="Contoh: 08123456789"
+                class="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm
+                                   focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
+                id="" />
+        </div>
+
+        <!-- Pekerjaan -->
+        <div>
+            <label class="block mb-2 text-xs sm:text-sm font-medium text-gray-700">
+                Pekerjaan
+            </label>
+            <input
+                type="text"
+                name="pekerjaan"
+                placeholder="Contoh: ANS"
+                class="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm
+                                   focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
+                id="pekerjaan" />
+        </div>
+
         <div>
             <label class="block mb-2 text-xs sm:text-sm font-medium text-gray-700">
                 Apa Jenis pelayanan yang pernah Saudara urusi? <span class="text-red-500">*</span>
