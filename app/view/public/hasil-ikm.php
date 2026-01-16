@@ -23,7 +23,7 @@
                         type="date"
                         id="tanggal-awal"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        value="<?= isset($_GET['start']) ? htmlspecialchars($_GET['end']) : '' ?>"
+                        value="<?= isset($_GET['start']) ? htmlspecialchars($_GET['start']) : '' ?>"
                         name="start"
                         max="<?= date('Y-m-d') ?>">
                 </div>
@@ -130,7 +130,7 @@
                         <div class="inline-flex items-center justify-center
                                 w-40 h-40 rounded-full
                                 bg-green-700 text-white shadow-md">
-                            <span class="text-5xl font-bold" id="nilai-ikm"><?= $nilaiRataRata ?></span>
+                            <span class="text-5xl font-bold" id="nilai-ikm"><?= number_format($nilaiRataRata, 2) ?></span>
                         </div>
                         <p class="mt-6 text-sm text-gray-700">
                             Nilai ini merupakan <span class="font-semibold">rata-rata keseluruhan</span>

@@ -30,8 +30,8 @@ class SurveyController
 
         foreach ($respondentsChart as $res) {
             $nilaiPerUnsur = array_sum($res['values']);
-            $nnrPerUnsur = number_format($nilaiPerUnsur / count($respondents['data']), 2, '.', ',');
-            $nnrPerTimbang = number_format($nnrPerUnsur  / $jumlahPertanyaan, 2, '.', ',');
+            $nnrPerUnsur = $nilaiPerUnsur / count($respondents['data']);
+            $nnrPerTimbang = $nnrPerUnsur  / $jumlahPertanyaan;
 
             $jumlahNnrPerUnsur += $nnrPerUnsur;
             $jumlahNnrPerTimbang += $nnrPerTimbang;
