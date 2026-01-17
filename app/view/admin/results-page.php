@@ -121,6 +121,12 @@ $nilaiIKM = $jumlahNnrPerTimbang * 25;
                 class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
                 Export Responden (Excel)
             </a>
+
+            <a
+                href="/excel/pertanyaan_per_respondent.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>"
+                class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
+                Export Pertanyaan Per Responden (Excel)
+            </a>
         </div>
     </div>
 
