@@ -35,12 +35,7 @@ for ($i = 0; $i < count($respondentsChart); $i++) {
 $headerStyle = [
     'font' => [
         'bold' => true,
-        'color' => ['rgb' => 'FFFFFF'],
         'size' => 11
-    ],
-    'fill' => [
-        'fillType' => Fill::FILL_SOLID,
-        'startColor' => ['rgb' => '4472C4']
     ],
     'alignment' => [
         'horizontal' => Alignment::HORIZONTAL_CENTER,
@@ -230,9 +225,6 @@ $sheet->getRowDimension($row)->setRowHeight(20);
 foreach (range('A', $lastColumn) as $col) {
     $sheet->getColumnDimension($col)->setAutoSize(true);
 }
-
-// Freeze first row
-$sheet->freezePane('A2');
 
 // Output
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
