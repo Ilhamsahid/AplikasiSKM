@@ -163,8 +163,12 @@ function renderUserTable(page) {
                 </span>
             </td>
             <td class="px-6 py-4">${u.jenis_pelayanan}</td>
-            <td class="px-6 py-4">${u.no_hp}</td>
-            <td class="px-6 py-4">${u.pekerjaan}</td>
+            <td class="px-6 py-4">${
+							u.no_hp != null ? u.no_hp : "tidak diisi"
+						}</td>
+            <td class="px-6 py-4">${
+							u.pekerjaan != null ? u.pekerjaan : "tidak diisi"
+						}</td>
             <td class="px-6 py-4 text-center">${u.tanggal_terakhir_kali}</td>
             <td class="px-6 py-4 text-center">
                 <div class="flex items-center justify-center gap-2">
