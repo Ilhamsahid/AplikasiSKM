@@ -117,21 +117,27 @@ $nilaiIKM = $jumlahNnrPerTimbang * 25;
             </div>
 
             <a
-                href="/excel/respondent_excel.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>"
-                class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
-                Export Responden (Excel)
-            </a>
-
-            <a
                 href="/excel/result_excel.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&nilaiRataRata=<?= $jumlahNnrPerTimbang * 25 ?>"
                 class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
                 Export Hasil IKM (Excel)
             </a>
 
             <a
+                href="/excel/respondent_excel.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>"
+                class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
+                Export Responden (Excel)
+            </a>
+
+            <a
                 href="/excel/pertanyaan_per_respondent.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>"
                 class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
                 Export Pertanyaan Per Responden (Excel)
+            </a>
+
+            <a
+                href="/excel/grafik_pertanyaan.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>"
+                class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
+                Export Grafik Responden (Excel)
             </a>
         </div>
     </div>
