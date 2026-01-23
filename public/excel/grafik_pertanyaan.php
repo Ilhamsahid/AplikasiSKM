@@ -214,7 +214,7 @@ $sheet->getPageSetup()->setFitToHeight(0);
 
 // Output
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="hasil-ikm.xlsx"');
+header('Content-Disposition: attachment; filename="grafik pertanyaan.xlsx"');
 header('Cache-Control: max-age=0');
 
 $writer = new Xlsx($spreadsheet);

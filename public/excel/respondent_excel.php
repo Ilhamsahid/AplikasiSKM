@@ -116,7 +116,7 @@ $sheet->getRowDimension(1)->setRowHeight(25);
 
 // ================= OUTPUT =================
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment; filename="hasil-ikm.xlsx"');
+header('Content-Disposition: attachment; filename="responden.xlsx"');
 header('Cache-Control: max-age=0');
 
 $writer = new Xlsx($spreadsheet);
