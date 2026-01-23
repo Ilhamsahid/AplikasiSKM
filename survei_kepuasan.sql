@@ -58,6 +58,13 @@ CREATE TABLE `tb_jawaban` (
   CONSTRAINT `FK__tb_pertanyaan` FOREIGN KEY (`id_pertanyaan`) REFERENCES `tb_pertanyaan` (`id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=246 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE IF NOT EXISTS `tb_faskes` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nama_faskes` VARCHAR(150) NOT NULL,
+  `jenis` ENUM('PUSKESMAS','RUMAH_SAKIT') NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 INSERT INTO `tb_pertanyaan` (`id`, `pertanyaan`, `tipe`, `jawaban`) VALUES
 (1, 'Kemudahan akses informasi layanan  Dinas Kesehatan Pengendalian Penduduk dan KB Kota Probolinggo. (informasi layanan tersedia di berbagai media elektronik dan nonelektronik)', 'SelectOne', 'Tidak Mudah:Kurang Mudah:Mudah:Sangat Mudah'),
 (2, 'Kesesuaian persyaratan pelayanan dengan jenis pelayanannya', 'SelectOne', 'Tidak Sesuai:Kurang Sesuai:Sesuai:Sangat Sesuai'),
@@ -198,3 +205,23 @@ INSERT INTO `tb_jawaban` (`id`, `id_pertanyaan`, `id_responden`, `jawaban`, `nil
 (477, 11, 20, 'Baik', 3),
 (478, 12, 20, 'Sangat Baik', 4),
 (479, 13, 20, 'Sangat Sesuai', 4);
+
+INSERT INTO `tb_faskes` (`id`, `nama_faskes`, `jenis`) VALUES
+(1, 'Puskesmas Wonoasih', 'PUSKESMAS'),
+(2, 'Puskesmas Kanigaran', 'PUSKESMAS'),
+(3, 'Puskesmas Kedopok', 'PUSKESMAS'),
+(4, 'Puskesmas Ketapang', 'PUSKESMAS'),
+(5, 'RSUD Kota Probolinggo', 'RUMAH_SAKIT');
+
+ALTER TABLE `tb_responden`
+ADD COLUMN `faskes_id` INT NULL AFTER `id`;
+
+ALTER TABLE `tb_responden`
+ADD CONSTRAINT `fk_responden_faskes`
+FOREIGN KEY (`faskes_id`)
+REFERENCES `tb_faskes` (`id`)
+ON DELETE RESTRICT
+ON UPDATE CASCADE;
+
+UPDATE tb_responden SET faskes_id = 1 WHERE id BETWEEN 11 AND 15;
+UPDATE tb_responden SET faskes_id = 3 WHERE id BETWEEN 16 AND 20;
