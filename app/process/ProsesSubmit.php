@@ -13,6 +13,7 @@ $Jawaban = new Jawaban($conn);
 $questions = $Question->getQuestion(false);
 $respondenId = $Responden->insertResponden([
     'responden' => $_POST['responden'],
+    'faskes_id' => $_POST['faskes_id'],
     'umur' => $_POST['umur'],
     'kelamin' => $_POST['jenis_kelamin'],
     'lulusan' => $_POST['pendidikan'],
@@ -54,7 +55,7 @@ foreach ($questions as $index => $question) {
 // Membuat flash message
 $_SESSION['flash'] = [
     'type' => 'success',
-    'message' => 'Kuis selesai terimakasih sudah menyelesaikan kuis ini',
+    'message' => 'Kuis selesai terimakasih sudah menyelesaikan survei kepuasan masyarakat',
 ];
 
 header("Location: /");

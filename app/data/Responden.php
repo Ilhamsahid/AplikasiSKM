@@ -165,7 +165,7 @@ class Responden
 
     public function insertResponden($data)
     {
-        $sql = "INSERT INTO tb_responden (responden, umur, kelamin, lulusan, no_hp, pekerjaan, jenis_pelayanan, tanggal_terakhir_kali, tanggal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO tb_responden (responden, faskes_id, umur, kelamin, lulusan, no_hp, pekerjaan, jenis_pelayanan, tanggal_terakhir_kali, tanggal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -174,8 +174,9 @@ class Responden
         }
 
         $stmt->bind_param(
-            'sisssssss',
+            'siisssssss',
             $data['responden'],
+            $data['faskes_id'],
             $data['umur'],
             $data['kelamin'],
             $data['lulusan'],

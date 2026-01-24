@@ -9,13 +9,16 @@ class SurveyController
         global $conn;
 
         $question = new \Pertanyaan($conn);
+        $faskes = new \Faskes($conn);
         $questions = $question->getQuestion(false);
+        $allFaskes = $faskes->getAllFaskes();
 
         $title = 'E-SKM Survei Kepuasan Masyarakat';
         $nav = getView('components.public.navbar');
         $footer = getView('components.public.footer');
         $content = getView('public.index-main', [
-            'questions' => $questions
+            'questions' => $questions,
+            'faskes' => $allFaskes
         ]);
 
         include __DIR__ . '/../view/layouts/guest.php';

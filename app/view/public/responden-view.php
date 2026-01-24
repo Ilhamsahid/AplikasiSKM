@@ -1,25 +1,35 @@
 <div class="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-4 sm:mb-6">
     <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-4 pb-2 border-b-2 border-green-600">Data Responden</h3>
 
+    <div>
+        <label class="block mb-2 text-xs sm:text-sm font-medium text-gray-700">
+            Faskes <span class="text-red-500">*</span>
+        </label>
+        <select name="faskes_id" id="" class="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none">
+            <option value="">Pilih Faskes</option>
+            <?php foreach ($faskes as $fk): ?>
+                <option value="<?= $fk['id'] ?>"><?= $fk['nama_faskes'] ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         <!-- Instansi -->
+
         <div>
-            <label class="block mb-2 text-xs sm:text-sm font-medium text-gray-700">
+            <label class="block mt-2 mb-2 text-xs sm:text-sm font-medium text-gray-700">
                 Instansi/Nama <span class="text-red-500">*</span>
             </label>
             <input
                 type="text"
                 name="responden"
                 placeholder="Contoh: SMKN 1 Probolinggo"
-                class="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm
-                                   focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
+                class="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none"
                 id="instansi"
                 required />
         </div>
-
         <!-- Umur -->
         <div>
-            <label class="block mb-2 text-xs sm:text-sm font-medium text-gray-700">
+            <label class="block mt-2 mb-2 text-xs sm:text-sm font-medium text-gray-700">
                 Umur <span class="text-red-500">*</span>
             </label>
             <input
