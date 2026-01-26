@@ -2,11 +2,22 @@ let filteredUser = [...users];
 let filteredQuestion = [...pertanyaan];
 let idUser = null;
 let idQuestion = null;
+let idFaskes = null;
 let typeNow = null;
 const formUser = document.getElementById("formUser");
+const formFaskes = document.getElementById("formFaskes");
 const formQuestion = document.getElementById("formQuestion");
 
 const paginations = {
+  faskes: {
+    data: faskes,
+    currentPage: 1,
+    perPage: 10,
+    container: "paginationFaskes",
+    info: "paginationInfoFaskes",
+    renderTable: renderFaskesTable,
+  },
+
   users: {
     data: filteredUser,
     currentPage: 1,
@@ -51,6 +62,14 @@ formUser.addEventListener("submit", function(e) {
   }
 });
 
+formFaskes.addEventListener("submit", function(e) {
+  if (formFaskes.dataset.mode === "add") {
+    formFaskes.action = "/admin/tambah/faskes";
+  } else if (formFaskes.dataset.mode === "edit") {
+    formFaskes.action = `/admin/edit/faskes/${idFaskes}`;
+  }
+})
+
 function closeModal(nameModal) {
   const modal = document.getElementById(nameModal);
   if (nameModal !== "flashModal") {
@@ -68,6 +87,8 @@ function deleteModal() {
     url = `/admin/delete/user/${idUser}`;
   } else if (typeNow === "question") {
     url = `/admin/delete/question/${idUser}`;
+  } else if (typeNow === "faskes") {
+    url = `/admin/delete/faskes/${idUser}`;
   }
 
   form.addEventListener("submit", function(e) {
@@ -131,6 +152,47 @@ function navigateTo(page, push = true) {
 function toggleNotFound(show, table) {
   document.getElementById("notFound" + table).classList.toggle("hidden", !show);
   document.getElementById(table + "TableBody").classList.toggle("hidden", show);
+}
+
+function renderFaskesTable(page) {
+  const p = paginations.faskes;
+
+  const start = (page - 1) * p.perPage;
+  const end = start + p.perPage;
+  const slicedFaskes = p.data.slice(start, end);
+
+  if (p.data.length === 0) {
+    toggleNotFound(true, "faskes");
+    return;
+  }
+
+  console.log(faskes);
+  let html = "";
+  slicedFaskes.forEach((f, i) => {
+    html += `
+      <tr>
+        <td class="px-6 py-4">${start + i + 1}</td>
+        <td class="px-6 py-4">${f.nama_faskes}</td>
+        <td class="px-6 py-4">${f.jenis}</td>
+        <td class="px-6 py-4 text-center">
+                <div class="flex items-center justify-center gap-2">
+                    <button onclick="openFaskesModal('edit', ${f.id})" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition cursor-pointer" title="Edit">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                          </svg>
+                      </button>
+                      <button onclick="confirmDelete('faskes', ${f.id}, '${f.nama_faskes}')" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition cursor-pointer" title="Hapus">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                          </svg>
+                      </button>
+                </div>
+            </td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("faskesTableBody").innerHTML = html;
 }
 
 function renderUserTable(page) {
@@ -542,6 +604,8 @@ function confirmDelete(type, userId, name) {
     document.getElementById("deleteUserName").textContent = `user ${name}`;
   } else if (type == "question") {
     document.getElementById("deleteUserName").textContent = `${name}`;
+  } else if (type == "faskes") {
+    document.getElementById("deleteUserName").textContent = `faskes ${name}`;
   }
   document.getElementById("deleteModal").classList.remove("hidden");
 }
@@ -758,6 +822,34 @@ function clearModalQuestion() {
   document.getElementById("jawabanD").value = "";
 }
 
+function openFaskesModal(mode, faskesId = null) {
+  const modal = document.getElementById("faskesModal");
+  const modalTitle = document.getElementById("modalTitleFaskes");
+
+  formFaskes.dataset.mode = mode;
+  console.log(faskesId);
+  idFaskes = faskesId;
+
+  if (mode == 'add') {
+    modalTitle.textContent = "Tambah Faskes";
+  } else if (mode == 'edit') {
+    modalTitle.textContent = "Edit Faskes";
+    const editFaskes = faskes.find((f) => f.id == faskesId);
+    console.log(editFaskes);
+
+    document.getElementById("namaFaskes").value = editFaskes.nama_faskes;
+    document.getElementById("jenisFaskes").value = editFaskes.jenis;
+  }
+
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+function closeFaskesModal() {
+  document.getElementById("faskesModal").classList.add("hidden");
+  document.getElementById("faskesModal").classList.remove("flex");
+}
+
 function openQuestionModal(mode, questionId = null) {
   const modal = document.getElementById("questionModal");
   const modalTitle = document.getElementById("modalTitle");
@@ -798,6 +890,7 @@ function toggleExportDropdown() {
 }
 
 // load pertama
+renderFaskesTable(1);
 renderUserTable(1);
 renderQuestions(1);
 renderResults(1);
@@ -971,7 +1064,6 @@ chartResults.forEach((data, index) => {
           callbacks: {
             label: (context) => {
               const value = context.parsed;
-              const percentage = ((value / total) * 100).toFixed(1);
 
               return `${context.label}: ${value} Responden`;
             },

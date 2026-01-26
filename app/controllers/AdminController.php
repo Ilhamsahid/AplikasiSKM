@@ -16,7 +16,7 @@ class AdminController
     $header = getView('components.admin.header');
     $sidebar = getView('components.admin.sidebar');
     $content = $this->getDashboard() . $this->getFaskesPage() . $this->getUsersPage() . $this->getQuestionsPage() . $this->getResultsPage();
-    $modal = getView('components.admin.modal-user') . getView('components.admin.delete-confirmation-modal') . getView('components.admin.modal-question') . getView('components.admin.modal-detail-responden');
+    $modal = getView('components.admin.modal-user') . getView('components.admin.delete-confirmation-modal') . getView('components.admin.modal-question') . getView('components.admin.modal-detail-responden') . getView('components.admin.modal-faskes');
 
     include __DIR__ . '/../view/layouts/admin.php';
   }
@@ -97,7 +97,14 @@ class AdminController
 
   public function getFaskesPage()
   {
-    return getView('admin.faskes-page');
+    global $conn;
+
+    $faskes = new \Faskes($conn);
+    $allFaskes = $faskes->getAllFaskes();
+
+    return getView('admin.faskes-page', [
+      'allFaskes' => $allFaskes,
+    ]);
   }
 
   public function getUsersPage()
@@ -145,6 +152,11 @@ class AdminController
   public function logout()
   {
     require_once __DIR__ . '/../process/ProsesLogout.php';
+  }
+
+  public function processFaskes($path)
+  {
+    require_once __DIR__ . '/../process/ProsesFaskes.php';
   }
 
   public function processUser($path)
