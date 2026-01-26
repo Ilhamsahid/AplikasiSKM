@@ -10,9 +10,32 @@ $getId = $explode[4] ?? null;
 $getMode = $explode[2];
 
 if ($getMode === "delete") {
-  echo "ini delete";
+  $faskes->deleteFaskes($getId);
+
+  $_SESSION['flash'] = [
+    'type' => 'success',
+    'message' => 'Berhasil menghapus data faskes',
+  ];
 } else if ($getMode === "tambah") {
-  echo "ini tambah";
+  $faskes->insertFaskes([
+    'nama_faskes' => $_POST['namaFaskes'],
+    'jenis_faskes' => $_POST['jenisFaskes'],
+  ]);
+
+  $_SESSION['flash'] = [
+    'type' => 'success',
+    'message' => 'Berhasil menambahkan data faskes',
+  ];
 } else {
-  echo "ini update";
+  $faskes->updateFaskes([
+    'nama_faskes' => $_POST['namaFaskes'],
+    'jenis_faskes' => $_POST['jenisFaskes'],
+  ], $getId);
+
+  $_SESSION['flash'] = [
+    'type' => 'success',
+    'message' => 'Berhasil memperbarui data faskes',
+  ];
 }
+
+header('location: /admin/faskes');
