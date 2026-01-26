@@ -2,51 +2,53 @@
 
 class Responden
 {
-    private $conn;
+  private $conn;
 
-    public function __construct($conn)
-    {
-        $this->conn = $conn;
-    }
+  public function __construct($conn)
+  {
+    $this->conn = $conn;
+  }
 
-    public function getAllRespondent($limit)
-    {
-        $data = [];
+  public function getAllRespondent($limit)
+  {
+    $data = [];
 
-        $query = $limit == false ? 'SELECT * FROM tb_responden ORDER BY id DESC' :
-            'SELECT * FROM tb_responden ORDER BY id DESC limit 5';
-        $result = $this->conn->query($query);
+    $query = $limit == false ? 'SELECT * FROM tb_responden ORDER BY id DESC' :
+      'SELECT * FROM tb_responden ORDER BY id DESC limit 5';
+    $result = $this->conn->query($query);
 
-        while ($row = $result->fetch_assoc()) {
-            if ($limit == true) {
-                $stmt = $this->conn->prepare(
-                    "SELECT nilai, jawaban FROM tb_jawaban WHERE id_responden = ?"
-                );
-                $stmt->bind_param("i", $row['id']);
-                $stmt->execute();
+    while ($row = $result->fetch_assoc()) {
+      if ($limit == true) {
+        $stmt = $this->conn->prepare(
+          "SELECT nilai, jawaban FROM tb_jawaban WHERE id_responden = ?"
+        );
+        $stmt->bind_param("i", $row['id']);
+        $stmt->execute();
 
-                $jawaban = $stmt->get_result();
+        $jawaban = $stmt->get_result();
 
-                $nilai = 0;
-                $jawabanRespondent = [];
-                while ($j = $jawaban->fetch_assoc()) {
-                    $nilai += $j['nilai'];
-                    $jawabanRespondent[] = $j['jawaban'];
-                }
-
-                $row['nilai'] = $nilai;
-                $row['jawaban'] = $jawabanRespondent;
-            }
-
-            $data[] = $row;
+        $nilai = 0;
+        $jawabanRespondent = [];
+        while ($j = $jawaban->fetch_assoc()) {
+          $nilai += $j['nilai'];
+          $jawabanRespondent[] = $j['jawaban'];
         }
 
-        return $data;
+        $row['nilai'] = $nilai;
+        $row['jawaban'] = $jawabanRespondent;
+      }
+
+      $data[] = $row;
     }
 
-    public function getRespondentByDateFilter($start, $end, $filterJumlah)
-    {
-        $sql = " SELECT
+    return $data;
+  }
+
+  public function getRespondentByDateFilter($start, $end, $filterJumlah, $faskesId)
+  {
+    $sql = $faskesId === "all"
+      ?
+      "SELECT
         r.id,
         r.responden,
         r.umur,
@@ -62,143 +64,165 @@ class Responden
         ON j.id_responden = r.id
         WHERE r.tanggal BETWEEN ? AND ?
         ORDER BY r.tanggal DESC
-        ";
+      " :
+      "SELECT
+        r.id,
+        r.responden,
+        r.umur,
+        r.kelamin,
+        r.lulusan,
+        r.no_hp,
+        r.pekerjaan,
+        r.jenis_pelayanan,
+        r.tanggal,
+        j.jawaban,
+        j.nilai
+        FROM tb_responden r LEFT JOIN tb_jawaban j
+        ON j.id_responden = r.id
+        WHERE r.tanggal BETWEEN ? AND ?
+        AND r.faskes_id = ?
+        ORDER BY r.tanggal DESC
+      ";
 
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ss", $start, $end);
-        $stmt->execute();
+    $stmt = $this->conn->prepare($sql);
+    if ($faskesId === "all") {
+      $stmt->bind_param("ss", $start, $end);
+    } else {
+      $stmt->bind_param("ssi", $start, $end, $faskesId);
+    }
+    $stmt->execute();
 
-        $result = $stmt->get_result();
+    $result = $stmt->get_result();
 
-        $grouped = [];
-        $jumlahSemua = 0;
+    $grouped = [];
+    $jumlahSemua = 0;
 
 
-        while ($row = $result->fetch_assoc()) {
-            // Kalau baris ini TIDAK punya jawaban → skip
-            if (empty($row['jawaban'])) {
-                continue;
-            }
+    while ($row = $result->fetch_assoc()) {
+      // Kalau baris ini TIDAK punya jawaban → skip
+      if (empty($row['jawaban'])) {
+        continue;
+      }
 
-            $id = $row['id'];
+      $id = $row['id'];
 
-            // Kalau responden belum ada, buat dulu
-            if (!isset($grouped[$id])) {
-                $grouped[$id] = [
-                    'id' => $row['id'],
-                    'responden' => $row['responden'],
-                    'umur' => $row['umur'],
-                    'kelamin' => $row['kelamin'],
-                    'lulusan' => $row['lulusan'],
-                    'no_hp' => $row['no_hp'],
-                    'pekerjaan' => $row['pekerjaan'],
-                    'jenis_pelayanan' => $row['jenis_pelayanan'],
-                    'tanggal' => $row['tanggal'],
-                    'jawaban' => [],
-                    'nilaiSatuan' => [],
-                    'nilai' => $filterJumlah == true ? 0 : [],
-                ];
-            }
-
-            // Masukkan jawaban (kalau ada)
-            $grouped[$id]['jawaban'][] = $row['jawaban'];
-            $grouped[$id]['nilaiSatuan'][] = $row['nilai'];
-            if ($filterJumlah) {
-                $grouped[$id]['nilai'] += (int)$row['nilai'];
-            } else {
-                $grouped[$id]['nilai'][] = $row['nilai'];
-            }
-
-            $jumlahSemua += $row['nilai'];
-        }
-
-        // Reset index biar jadi array normal
-        $data = array_values($grouped);
-
-        return [
-            'data' => $data,
-            'jumlahSemua' => $jumlahSemua,
+      // Kalau responden belum ada, buat dulu
+      if (!isset($grouped[$id])) {
+        $grouped[$id] = [
+          'id' => $row['id'],
+          'responden' => $row['responden'],
+          'umur' => $row['umur'],
+          'kelamin' => $row['kelamin'],
+          'lulusan' => $row['lulusan'],
+          'no_hp' => $row['no_hp'],
+          'pekerjaan' => $row['pekerjaan'],
+          'jenis_pelayanan' => $row['jenis_pelayanan'],
+          'tanggal' => $row['tanggal'],
+          'jawaban' => [],
+          'nilaiSatuan' => [],
+          'nilai' => $filterJumlah == true ? 0 : [],
         ];
+      }
+
+      // Masukkan jawaban (kalau ada)
+      $grouped[$id]['jawaban'][] = $row['jawaban'];
+      $grouped[$id]['nilaiSatuan'][] = $row['nilai'];
+      if ($filterJumlah) {
+        $grouped[$id]['nilai'] += (int)$row['nilai'];
+      } else {
+        $grouped[$id]['nilai'][] = $row['nilai'];
+      }
+
+      $jumlahSemua += $row['nilai'];
     }
 
-    public function getRespondentChart($respondents)
-    {
-        $question = new Pertanyaan($this->conn);
-        $respondent = $respondents['data'];
-        $getQuestion = $question->getQuestion(false);
+    // Reset index biar jadi array normal
+    $data = array_values($grouped);
 
-        $result = [];
-        $questions = '';
-        $labels = [];
+    return [
+      'data' => $data,
+      'jumlahSemua' => $jumlahSemua,
+    ];
+  }
 
-        if ($respondent === []) {
-            return $result;
-        }
+  public function getRespondentChart($respondents)
+  {
+    $question = new Pertanyaan($this->conn);
+    $respondent = $respondents['data'];
+    $getQuestion = $question->getQuestion(false);
 
-        foreach ($getQuestion as $qIdx => $q) {
-            $questions = $q['pertanyaan'];
-            $labels = explode(':', $q['jawaban']);
-            $labelIndexMap = array_flip($labels);
-            $values = [0, 0, 0, 0];
-            $user = [0, 0, 0, 0];
+    $result = [];
+    $questions = '';
+    $labels = [];
 
-            foreach ($respondent as $idx => $res) {
-                $answer = $res['jawaban'][$qIdx] ?? null;
-                $score = isset($res['nilai'][$qIdx]) ? (int)$res['nilai'][$qIdx] : 0;
-
-                if (isset($labelIndexMap[$answer])) {
-                    $values[$labelIndexMap[$answer]] += $score;
-                    $user[$labelIndexMap[$answer]] += 1;
-                }
-            }
-
-            $result[] = [
-                'question' => $questions,
-                'labels' => $labels,
-                'values' => $values,
-                'user' => $user,
-            ];
-        }
-
-        return $result;
+    if ($respondent === []) {
+      return $result;
     }
 
-    public function insertResponden($data)
-    {
-        $sql = "INSERT INTO tb_responden (responden, faskes_id, umur, kelamin, lulusan, no_hp, pekerjaan, jenis_pelayanan, tanggal_terakhir_kali, tanggal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    foreach ($getQuestion as $qIdx => $q) {
+      $questions = $q['pertanyaan'];
+      $labels = explode(':', $q['jawaban']);
+      $labelIndexMap = array_flip($labels);
+      $values = [0, 0, 0, 0];
+      $user = [0, 0, 0, 0];
 
-        $stmt = $this->conn->prepare($sql);
+      foreach ($respondent as $idx => $res) {
+        $answer = $res['jawaban'][$qIdx] ?? null;
+        $score = isset($res['nilai'][$qIdx]) ? (int)$res['nilai'][$qIdx] : 0;
 
-        if (!$stmt) {
-            return false;
+        if (isset($labelIndexMap[$answer])) {
+          $values[$labelIndexMap[$answer]] += $score;
+          $user[$labelIndexMap[$answer]] += 1;
         }
+      }
 
-        $stmt->bind_param(
-            'siisssssss',
-            $data['responden'],
-            $data['faskes_id'],
-            $data['umur'],
-            $data['kelamin'],
-            $data['lulusan'],
-            $data['no_hp'],
-            $data['pekerjaan'],
-            $data['jenis_pelayanan'],
-            $data['tanggal_terakhir_kali'],
-            $data['tanggal'],
-        );
-
-        if ($stmt->execute()) {
-            return $this->conn->insert_id;
-        }
-
-        $stmt->close();
-
-        return False;
+      $result[] = [
+        'question' => $questions,
+        'labels' => $labels,
+        'values' => $values,
+        'user' => $user,
+      ];
     }
 
-    public function updateResponden($data, $id)
-    {
-        $sql = "UPDATE tb_responden
+    return $result;
+  }
+
+  public function insertResponden($data)
+  {
+    $sql = "INSERT INTO tb_responden (responden, faskes_id, umur, kelamin, lulusan, no_hp, pekerjaan, jenis_pelayanan, tanggal_terakhir_kali, tanggal) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = $this->conn->prepare($sql);
+
+    if (!$stmt) {
+      return false;
+    }
+
+    $stmt->bind_param(
+      'siisssssss',
+      $data['responden'],
+      $data['faskes_id'],
+      $data['umur'],
+      $data['kelamin'],
+      $data['lulusan'],
+      $data['no_hp'],
+      $data['pekerjaan'],
+      $data['jenis_pelayanan'],
+      $data['tanggal_terakhir_kali'],
+      $data['tanggal'],
+    );
+
+    if ($stmt->execute()) {
+      return $this->conn->insert_id;
+    }
+
+    $stmt->close();
+
+    return False;
+  }
+
+  public function updateResponden($data, $id)
+  {
+    $sql = "UPDATE tb_responden
                 SET responden = ?,
                     umur = ?,
                     kelamin = ?,
@@ -210,51 +234,51 @@ class Responden
                     tanggal = ?
                 WHERE id = ?";
 
-        $stmt = $this->conn->prepare($sql);
+    $stmt = $this->conn->prepare($sql);
 
-        if (!$stmt) {
-            return false;
-        }
-
-        $stmt->bind_param(
-            'sisssssssi',
-            $data['responden'],
-            $data['umur'],
-            $data['kelamin'],
-            $data['lulusan'],
-            $data['no_hp'],
-            $data['pekerjaan'],
-            $data['jenis_pelayanan'],
-            $data['tanggal_terakhir_kali'],
-            $data['tanggal'],
-            $id
-        );
-
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        $stmt->close();
-        return false;
+    if (!$stmt) {
+      return false;
     }
 
-    public function deleteResponden($id)
-    {
-        $sql = "DELETE FROM tb_responden WHERE id = ?";
+    $stmt->bind_param(
+      'sisssssssi',
+      $data['responden'],
+      $data['umur'],
+      $data['kelamin'],
+      $data['lulusan'],
+      $data['no_hp'],
+      $data['pekerjaan'],
+      $data['jenis_pelayanan'],
+      $data['tanggal_terakhir_kali'],
+      $data['tanggal'],
+      $id
+    );
 
-        $stmt = $this->conn->prepare($sql);
-
-        if (!$stmt) {
-            return false;
-        }
-
-        $stmt->bind_param('i', $id);
-
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        $stmt->close();
-        return false;
+    if ($stmt->execute()) {
+      return true;
     }
+
+    $stmt->close();
+    return false;
+  }
+
+  public function deleteResponden($id)
+  {
+    $sql = "DELETE FROM tb_responden WHERE id = ?";
+
+    $stmt = $this->conn->prepare($sql);
+
+    if (!$stmt) {
+      return false;
+    }
+
+    $stmt->bind_param('i', $id);
+
+    if ($stmt->execute()) {
+      return true;
+    }
+
+    $stmt->close();
+    return false;
+  }
 }

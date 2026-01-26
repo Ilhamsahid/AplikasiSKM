@@ -46,17 +46,18 @@ $nilaiIKM = $jumlahNnrPerTimbang * 25;
     <form method="get" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Mulai</label>
-        <input type="date" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" name="start" value="<?= $_GET['start'] ?? null ?>" max="<?= date('Y-m-d') ?>">
+        <input type="date" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" name="start" value="<?= $_GET['start'] ?? null ?>" max="<?= date('Y-m-d') ?>" required>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Akhir</label>
         <input type="date" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" name="end" value="<?= $_GET['end'] ?? null ?>"
-          max="<?= date('Y-m-d') ?>">
+          max="<?= date('Y-m-d') ?>" required>
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Faskes</label>
-        <select name="faskes_id" id="" class="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none">
+        <select name="faskes_id" id="" class="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" required>
           <option value="">Pilih Faskes</option>
+          <option value="all">Semua Faskes</option>
           <?php foreach ($allFaskes as $fk): ?>
             <option value="<?= $fk['id'] ?>"><?= $fk['nama_faskes'] ?></option>
           <?php endforeach; ?>

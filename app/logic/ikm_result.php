@@ -11,11 +11,12 @@ $faskes = new Faskes($conn);
 
 $start = $_GET['start'] ?? null;
 $end = $_GET['end'] ?? null;
+$faskes_id = $_GET['faskes_id'] ?? null;
 
 $allFaskes = $faskes->getAllFaskes();
 $jumlahPertanyaan = count($question->getQuestion(false));
-$respondents = $respondent->getRespondentByDateFilter($start, $end, true);
-$respondentsWithNoFilter = $respondent->getRespondentByDateFilter($start, $end, false);
+$respondents = $respondent->getRespondentByDateFilter($start, $end, true, $faskes_id);
+$respondentsWithNoFilter = $respondent->getRespondentByDateFilter($start, $end, false, $faskes_id);
 $respondentsChart = $respondent->getRespondentChart($respondentsWithNoFilter);
 $total = count($respondents['data']);
 $dataRespondent = [
