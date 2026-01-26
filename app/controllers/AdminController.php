@@ -136,6 +136,7 @@ class AdminController
     require __DIR__ . '/../logic/ikm_result.php';
 
     return getView('admin.results-page', [
+      'allFaskes' => $allFaskes,
       'respondents' => $respondents,
       'chartData' => $respondentsChart,
       'jumlahPertanyaan' => $jumlahPertanyaan,
