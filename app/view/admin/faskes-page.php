@@ -27,6 +27,7 @@
           <th class="px-6 py-4 text-left text-sm font-semibold">No</th>
           <th class="px-6 py-4 text-left text-sm font-semibold">Nama Faskes</th>
           <th class="px-6 py-4 text-left text-sm font-semibold">Jenis Faskes</th>
+          <th class="px-6 py-4 text-left text-sm font-semibold">Status</th>
           <th class="px-6 py-4 text-left text-sm font-semibold">Aksi</th>
         </tr>
       </thead>

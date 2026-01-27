@@ -24,6 +24,15 @@
         </select>
       </div>
 
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Jenis faskes</label>
+        <select name="statusFaskes" id="statusFaskes" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" required>
+          <option value="">Pilih status</option>
+          <option value="1">Aktif</option>
+          <option value="0">Tidak Aktif</option>
+        </select>
+      </div>
+
       <div class="flex gap-3 pt-4">
         <button type="button" onclick="closeFaskesModal()" class="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition cursor-pointer">
           Batal

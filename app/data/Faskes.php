@@ -23,9 +23,23 @@ class Faskes
     return $data;
   }
 
+  public function getActiveFaskes()
+  {
+    $data = [];
+
+    $query = "SELECT * FROM tb_faskes WHERE is_active = 1 ORDER BY id DESC";
+    $result = $this->conn->query($query);
+
+    while ($row = $result->fetch_assoc()) {
+      $data[] = $row;
+    }
+
+    return $data;
+  }
+
   public function insertFaskes($data)
   {
-    $sql = "INSERT INTO tb_faskes (nama_faskes, jenis) VALUES (?, ?)";
+    $sql = "INSERT INTO tb_faskes (nama_faskes, jenis, is_active) VALUES (?, ?, ?)";
 
     $stmt = $this->conn->prepare($sql);
 
@@ -33,7 +47,7 @@ class Faskes
       return false;
     }
 
-    $stmt->bind_param('ss', $data['nama_faskes'], $data['jenis_faskes']);
+    $stmt->bind_param('ssi', $data['nama_faskes'], $data['jenis_faskes'], $data['is_active']);
 
     if ($stmt->execute()) {
       return true;
@@ -49,7 +63,8 @@ class Faskes
     $sql = "UPDATE tb_faskes
     SET
     nama_faskes = ?,
-    jenis = ?
+    jenis = ?,
+    is_active = ?
     WHERE id = ?";
 
     $stmt = $this->conn->prepare($sql);
@@ -58,7 +73,7 @@ class Faskes
       return False;
     }
 
-    $stmt->bind_param('ssi', $data['nama_faskes'], $data['jenis_faskes'], $id);
+    $stmt->bind_param('ssii', $data['nama_faskes'], $data['jenis_faskes'], $data['is_active'], $id);
 
     if ($stmt->execute()) {
       return True;

@@ -20,6 +20,7 @@ if ($getMode === "delete") {
   $faskes->insertFaskes([
     'nama_faskes' => $_POST['namaFaskes'],
     'jenis_faskes' => $_POST['jenisFaskes'],
+    'is_active' => $_POST['statusFaskes'],
   ]);
 
   $_SESSION['flash'] = [
@@ -30,6 +31,7 @@ if ($getMode === "delete") {
   $faskes->updateFaskes([
     'nama_faskes' => $_POST['namaFaskes'],
     'jenis_faskes' => $_POST['jenisFaskes'],
+    'is_active' => $_POST['statusFaskes'],
   ], $getId);
 
   $_SESSION['flash'] = [

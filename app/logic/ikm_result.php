@@ -13,7 +13,7 @@ $start = $_GET['start'] ?? null;
 $end = $_GET['end'] ?? null;
 $faskes_id = $_GET['faskes_id'] ?? null;
 
-$allFaskes = $faskes->getAllFaskes();
+$allFaskes = $faskes->getActiveFaskes();
 $jumlahPertanyaan = count($question->getQuestion(false));
 $respondents = $respondent->getRespondentByDateFilter($start, $end, true, $faskes_id);
 $respondentsWithNoFilter = $respondent->getRespondentByDateFilter($start, $end, false, $faskes_id);

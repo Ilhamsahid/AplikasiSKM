@@ -11,7 +11,7 @@ class SurveyController
         $question = new \Pertanyaan($conn);
         $faskes = new \Faskes($conn);
         $questions = $question->getQuestion(false);
-        $allFaskes = $faskes->getAllFaskes();
+        $allFaskes = $faskes->getActiveFaskes();
 
         $title = 'E-SKM Survei Kepuasan Masyarakat';
         $nav = getView('components.public.navbar');
