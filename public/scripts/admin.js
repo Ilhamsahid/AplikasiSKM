@@ -166,15 +166,17 @@ function renderFaskesTable(page) {
 		return;
 	}
 
-	console.log(faskes);
+	toggleNotFound(false, "faskes");
+
 	let html = "";
+	let cardMobile = "";
 	slicedFaskes.forEach((f, i) => {
 		html += `
       <tr>
         <td class="px-6 py-4">${start + i + 1}</td>
         <td class="px-6 py-4">${f.nama_faskes}</td>
-        <td class="px-6 py-4">${f.jenis}</td>
-        <td class="px-6 py-4">${f.is_active == 1 ? "Aktif" : "Tidak Aktif"}</td>
+        <td class="px-6 py-4">${f.jenis == "PUSKESMAS" ? "Puskesmas" : "Rumah Sakit"}</td>
+        <td class="px-6 py-4">${f.is_active == 1 ? "Aktif" : "tidak aktif"}</td>
         <td class="px-6 py-4 text-center">
                 <div class="flex items-center justify-center gap-2">
                     <button onclick="openFaskesModal('edit', ${f.id})" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition cursor-pointer" title="Edit">
@@ -186,9 +188,46 @@ function renderFaskesTable(page) {
             </td>
       </tr>
     `;
+
+		cardMobile += `
+        <div class="md:hidden space-y-6">
+            <div class="bg-white rounded-xl shadow-md p-5">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center gap-4">
+                        <div>
+                            <h2 class="font-semibold text-gray-800">${f.nama_faskes}</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3 mb-3">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-gray-601">Jenis:</span>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-medium">${f.jenis}</span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-gray-601">status:</span>
+                        <span class="px-3 py-1 text-xs font-medium bg-green-100 text-green-700 rounded-full">
+                            ${f.is_active == 1 ? "Aktif" : "tidak aktif"}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 pt-3 border-t border-gray-200">
+                    <button onclick="openFaskesModal('edit',${f.id})" class="flex-2 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 transition flex items-center justify-center gap-2">
+                        <svg class="w-5 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                        </svg>
+                        Edit
+                    </button>
+                </div>
+            </div>
+        </div>
+        `;
 	});
 
 	document.getElementById("faskesTableBody").innerHTML = html;
+	document.getElementById("mobileCardFaskes").innerHTML = cardMobile;
 }
 
 function renderUserTable(page) {
@@ -735,6 +774,18 @@ function toggleSidebar() {
 	overlay.classList.toggle("hidden");
 }
 
+function searchFaskes(value) {
+	paginations.faskes.data = faskes.filter((faskes) => {
+		return faskes.nama_faskes
+			.toLowerCase()
+			.includes(value.toLowerCase().trim());
+	});
+
+	paginations.faskes.currentPage = 1;
+	renderFaskesTable(1);
+	renderPagination("faskes");
+}
+
 function searchUser(value) {
 	paginations.users.data = users.filter((user) => {
 		return user.responden.toLowerCase().includes(value.toLowerCase().trim());
@@ -925,6 +976,7 @@ renderQuestions(1);
 renderResults(1);
 renderResultsChart();
 
+renderPagination("faskes");
 renderPagination("users");
 renderPagination("questions");
 renderPagination("results");
