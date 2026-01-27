@@ -154,6 +154,18 @@ function toggleNotFound(show, table) {
 	document.getElementById(table + "TableBody").classList.toggle("hidden", show);
 }
 
+function getInitials(nama) {
+	if (!nama) return "";
+
+	const kata = nama.trim().split(/\s+/);
+
+	if (kata.length === 1) {
+		return kata[0][0].toUpperCase();
+	}
+
+	return (kata[0][0] + kata[1][0]).toUpperCase();
+}
+
 function renderFaskesTable(page) {
 	const p = paginations.faskes;
 
@@ -298,7 +310,7 @@ function renderUserTable(page) {
                 <div class="flex items-start justify-between mb-4">
                     <div class="flex items-center gap-4">
                         <div class="w-13 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <span class="text-sm font-bold text-green-701">Ad</span>
+                            <span class="text-sm font-bold text-green-701">${getInitials(u.responden)}</span>
                         </div>
                         <div>
                             <h2 class="font-semibold text-gray-800">${u.responden}</h3>
