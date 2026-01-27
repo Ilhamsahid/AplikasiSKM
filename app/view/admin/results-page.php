@@ -57,9 +57,10 @@ $nilaiIKM = $jumlahNnrPerTimbang * 25;
         <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Faskes</label>
         <select name="faskes_id" id="" class="w-full rounded-lg border border-gray-300 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500/30 outline-none" required>
           <option value="">Pilih Faskes</option>
-          <option value="all">Semua Faskes</option>
+          <option value="all" <?= (string)($_GET['faskes_id'] ?? '') === 'all' ? 'selected' : '' ?>>Semua Faskes</option>
           <?php foreach ($allFaskes as $fk): ?>
-            <option value="<?= $fk['id'] ?>"><?= $fk['nama_faskes'] ?></option>
+            <option value="<?= $fk['id'] ?>"
+              <?= (string)($_GET['faskes_id'] ?? '') === (string)$fk['id'] ? 'selected' : ''; ?>><?= $fk['nama_faskes'] ?></option>
           <?php endforeach; ?>
         </select>
       </div>
@@ -109,13 +110,13 @@ $nilaiIKM = $jumlahNnrPerTimbang * 25;
       </div>
 
       <a
-        href="/pdf/result_pdf.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&nilaiRataRata=<?= $jumlahNnrPerTimbang * 25 ?>"
+        href="/pdf/result_pdf.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&nilaiRataRata=<?= $jumlahNnrPerTimbang * 25 ?>&faskes_id=<?= $_GET['faskes_id'] ?>"
         class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-red-50 transition">
         Export Hasil IKM (PDF)
       </a>
 
       <a
-        href="/pdf/respondent_pdf.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>"
+        href="/pdf/respondent_pdf.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&faskes_id=<?= $_GET['faskes_id'] ?>"
         class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-red-50 transition">
         Export Responden (PDF)
       </a>
@@ -127,25 +128,25 @@ $nilaiIKM = $jumlahNnrPerTimbang * 25;
       </div>
 
       <a
-        href="/excel/result_excel.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&nilaiRataRata=<?= $jumlahNnrPerTimbang * 25 ?>"
+        href="/excel/result_excel.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&nilaiRataRata=<?= $jumlahNnrPerTimbang * 25 ?>&faskes_id=<?= $_GET['faskes_id'] ?>"
         class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
         Export Hasil IKM (Excel)
       </a>
 
       <a
-        href="/excel/respondent_excel.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>"
+        href="/excel/respondent_excel.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&faskes_id=<?= $_GET['faskes_id'] ?>"
         class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
         Export Responden (Excel)
       </a>
 
       <a
-        href="/excel/pertanyaan_per_respondent.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>"
+        href="/excel/pertanyaan_per_respondent.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&faskes_id=<?= $_GET['faskes_id'] ?>"
         class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
         Export Pertanyaan Per Responden (Excel)
       </a>
 
       <a
-        href="/excel/grafik_pertanyaan.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>"
+        href="/excel/grafik_pertanyaan.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&faskes_id=<?= $_GET['faskes_id'] ?>"
         class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
         Export Grafik Responden (Excel)
       </a>
