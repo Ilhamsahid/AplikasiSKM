@@ -65,6 +65,9 @@ CREATE TABLE IF NOT EXISTS `tb_faskes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+ALTER TABLE `tb_faskes`
+ADD COLUMN `is_active` TINYINT(1) NOT NULL DEFAULT 1 AFTER `nama_faskes`;
+
 INSERT INTO `tb_pertanyaan` (`id`, `pertanyaan`, `tipe`, `jawaban`) VALUES
 (1, 'Kemudahan akses informasi layanan  Dinas Kesehatan Pengendalian Penduduk dan KB Kota Probolinggo. (informasi layanan tersedia di berbagai media elektronik dan nonelektronik)', 'SelectOne', 'Tidak Mudah:Kurang Mudah:Mudah:Sangat Mudah'),
 (2, 'Kesesuaian persyaratan pelayanan dengan jenis pelayanannya', 'SelectOne', 'Tidak Sesuai:Kurang Sesuai:Sesuai:Sangat Sesuai'),
@@ -219,12 +222,12 @@ INSERT INTO `tb_jawaban` (`id`, `id_pertanyaan`, `id_responden`, `jawaban`, `nil
 (491, 12, 20, 'Sangat Baik', 4),
 (492, 13, 20, 'Sangat Sesuai', 4);
 
-INSERT INTO `tb_faskes` (`id`, `nama_faskes`, `jenis`) VALUES
-(1, 'Puskesmas Wonoasih', 'PUSKESMAS'),
-(2, 'Puskesmas Kanigaran', 'PUSKESMAS'),
-(3, 'Puskesmas Kedopok', 'PUSKESMAS'),
-(4, 'Puskesmas Ketapang', 'PUSKESMAS'),
-(5, 'RSUD Kota Probolinggo', 'RUMAH_SAKIT');
+INSERT INTO `tb_faskes` (`id`, `nama_faskes`, `is_active`, `jenis`) VALUES
+(1, 'Puskesmas Wonoasih', 1, 'PUSKESMAS'),
+(2, 'Puskesmas Kanigaran', 1, 'PUSKESMAS'),
+(3, 'Puskesmas Kedopok', 1, 'PUSKESMAS'),
+(4, 'Puskesmas Ketapang', 1, 'PUSKESMAS'),
+(5, 'RSUD Kota Probolinggo', 1, 'RUMAH_SAKIT');
 
 ALTER TABLE `tb_responden`
 ADD COLUMN `faskes_id` INT NULL AFTER `id`;
