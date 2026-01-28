@@ -58,10 +58,12 @@ class Responden
         r.pekerjaan,
         r.jenis_pelayanan,
         r.tanggal,
+        f.nama_faskes,
         j.jawaban,
         j.nilai
         FROM tb_responden r LEFT JOIN tb_jawaban j
         ON j.id_responden = r.id
+        LEFT JOIN tb_faskes f ON f.id = r.faskes_id
         WHERE r.tanggal BETWEEN ? AND ?
         ORDER BY r.tanggal DESC
       " :
@@ -75,10 +77,12 @@ class Responden
         r.pekerjaan,
         r.jenis_pelayanan,
         r.tanggal,
+        f.nama_faskes,
         j.jawaban,
         j.nilai
         FROM tb_responden r LEFT JOIN tb_jawaban j
         ON j.id_responden = r.id
+        LEFT JOIN tb_faskes f ON f.id = r.faskes_id
         WHERE r.tanggal BETWEEN ? AND ?
         AND r.faskes_id = ?
         ORDER BY r.tanggal DESC
@@ -111,6 +115,7 @@ class Responden
         $grouped[$id] = [
           'id' => $row['id'],
           'responden' => $row['responden'],
+          'nama_faskes' => $row['nama_faskes'], // ⬅️ TAMBAHKAN
           'umur' => $row['umur'],
           'kelamin' => $row['kelamin'],
           'lulusan' => $row['lulusan'],

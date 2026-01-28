@@ -74,6 +74,7 @@ ob_start();
         <thead>
             <tr>
                 <th class="text-center">No</th>
+                <th>Faskes</th>
                 <th>Nama</th>
                 <th class="text-center">Umur</th>
                 <th class="text-center">Kelamin</th>
@@ -88,6 +89,7 @@ ob_start();
             <?php foreach ($respondents['data'] as $i => $r): ?>
                 <tr>
                     <td class="text-center"><?= $i + 1 ?></td>
+                    <td><?= $r['nama_faskes'] ?></td>
                     <td><?= htmlspecialchars($r['responden']) ?></td>
                     <td class="text-center"><?= $r['umur'] ?></td>
                     <td class="text-center"><?= $r['kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan' ?></td>

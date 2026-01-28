@@ -19,6 +19,7 @@ $sheet->setTitle('Data Responden');
 // ================= HEADER =================
 $headers = [
     'No',
+    'Faskes',
     'Nama',
     'Umur',
     'Jenis Kelamin',
@@ -32,7 +33,7 @@ $headers = [
 
 $sheet->fromArray($headers, null, 'A1');
 
-$lastColumn = 'J';
+$lastColumn = 'K';
 
 // Style header
 $sheet->getStyle("A1:{$lastColumn}1")->applyFromArray([
@@ -55,22 +56,23 @@ $sheet->getStyle("A1:{$lastColumn}1")->applyFromArray([
 $row = 2;
 foreach ($respondent as $i => $item) {
     $sheet->setCellValue("A{$row}", $i + 1);
-    $sheet->setCellValue("B{$row}", $item['responden']);
-    $sheet->setCellValue("C{$row}", $item['umur']);
-    $sheet->setCellValue("D{$row}", $item['kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan');
-    $sheet->setCellValue("E{$row}", $item['lulusan']);
+    $sheet->setCellValue("B{$row}", $item['nama_faskes']);
+    $sheet->setCellValue("C{$row}", $item['responden']);
+    $sheet->setCellValue("D{$row}", $item['umur']);
+    $sheet->setCellValue("E{$row}", $item['kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan');
+    $sheet->setCellValue("F{$row}", $item['lulusan']);
 
     // No HP harus TEXT (biar gak rusak)
     $sheet->setCellValueExplicit(
-        "F{$row}",
+        "G{$row}",
         $item['no_hp'],
         DataType::TYPE_STRING
     );
 
-    $sheet->setCellValue("G{$row}", $item['pekerjaan']);
-    $sheet->setCellValue("H{$row}", $item['jenis_pelayanan']);
-    $sheet->setCellValue("I{$row}", $item['tanggal']);
+    $sheet->setCellValue("H{$row}", $item['pekerjaan']);
+    $sheet->setCellValue("I{$row}", $item['jenis_pelayanan']);
     $sheet->setCellValue("J{$row}", $item['tanggal']);
+    $sheet->setCellValue("K{$row}", $item['tanggal']);
 
     $row++;
 }
