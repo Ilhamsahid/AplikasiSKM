@@ -18,17 +18,17 @@ $sheet->setTitle('Data Responden');
 
 // ================= HEADER =================
 $headers = [
-    'No',
-    'Faskes',
-    'Nama',
-    'Umur',
-    'Jenis Kelamin',
-    'Pendidikan',
-    'No HP',
-    'Pekerjaan',
-    'Jenis Pelayanan terakhir kali',
-    'tanggal terakhir kali',
-    'tanggal',
+  'No',
+  'Faskes',
+  'Nama',
+  'Umur',
+  'Jenis Kelamin',
+  'Pendidikan',
+  'No HP',
+  'Pekerjaan',
+  'Jenis Pelayanan terakhir kali',
+  'tanggal_terakhir_kali',
+  'tanggal',
 ];
 
 $sheet->fromArray($headers, null, 'A1');
@@ -37,44 +37,44 @@ $lastColumn = 'K';
 
 // Style header
 $sheet->getStyle("A1:{$lastColumn}1")->applyFromArray([
-    'font' => [
-        'bold' => true,
+  'font' => [
+    'bold' => true,
+  ],
+  'alignment' => [
+    'horizontal' => Alignment::HORIZONTAL_CENTER,
+    'vertical'   => Alignment::VERTICAL_CENTER,
+  ],
+  'borders' => [
+    'allBorders' => [
+      'borderStyle' => Border::BORDER_MEDIUM,
     ],
-    'alignment' => [
-        'horizontal' => Alignment::HORIZONTAL_CENTER,
-        'vertical'   => Alignment::VERTICAL_CENTER,
-    ],
-    'borders' => [
-        'allBorders' => [
-            'borderStyle' => Border::BORDER_MEDIUM,
-        ],
-    ],
+  ],
 ]);
 
 
 // ================= DATA =================
 $row = 2;
 foreach ($respondent as $i => $item) {
-    $sheet->setCellValue("A{$row}", $i + 1);
-    $sheet->setCellValue("B{$row}", $item['nama_faskes']);
-    $sheet->setCellValue("C{$row}", $item['responden']);
-    $sheet->setCellValue("D{$row}", $item['umur']);
-    $sheet->setCellValue("E{$row}", $item['kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan');
-    $sheet->setCellValue("F{$row}", $item['lulusan']);
+  $sheet->setCellValue("A{$row}", $i + 1);
+  $sheet->setCellValue("B{$row}", $item['nama_faskes']);
+  $sheet->setCellValue("C{$row}", $item['responden']);
+  $sheet->setCellValue("D{$row}", $item['umur']);
+  $sheet->setCellValue("E{$row}", $item['kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan');
+  $sheet->setCellValue("F{$row}", $item['lulusan']);
 
-    // No HP harus TEXT (biar gak rusak)
-    $sheet->setCellValueExplicit(
-        "G{$row}",
-        $item['no_hp'],
-        DataType::TYPE_STRING
-    );
+  // No HP harus TEXT (biar gak rusak)
+  $sheet->setCellValueExplicit(
+    "G{$row}",
+    $item['no_hp'],
+    DataType::TYPE_STRING
+  );
 
-    $sheet->setCellValue("H{$row}", $item['pekerjaan']);
-    $sheet->setCellValue("I{$row}", $item['jenis_pelayanan']);
-    $sheet->setCellValue("J{$row}", $item['tanggal']);
-    $sheet->setCellValue("K{$row}", $item['tanggal']);
+  $sheet->setCellValue("H{$row}", $item['pekerjaan']);
+  $sheet->setCellValue("I{$row}", $item['jenis_pelayanan']);
+  $sheet->setCellValue("J{$row}", $item['tanggal_terakhir_kali']);
+  $sheet->setCellValue("K{$row}", $item['tanggal']);
 
-    $row++;
+  $row++;
 }
 
 $lastRow = $row - 1;
@@ -82,34 +82,34 @@ $lastRow = $row - 1;
 
 // ================= STYLE DATA =================
 $sheet->getStyle("A2:{$lastColumn}{$lastRow}")->applyFromArray([
-    'alignment' => [
-        'horizontal' => Alignment::HORIZONTAL_LEFT,
-        'vertical'   => Alignment::VERTICAL_CENTER,
+  'alignment' => [
+    'horizontal' => Alignment::HORIZONTAL_LEFT,
+    'vertical'   => Alignment::VERTICAL_CENTER,
+  ],
+  'borders' => [
+    'allBorders' => [
+      'borderStyle' => Border::BORDER_MEDIUM,
     ],
-    'borders' => [
-        'allBorders' => [
-            'borderStyle' => Border::BORDER_MEDIUM,
-        ],
-    ],
+  ],
 ]);
 
 
 // ================= COLUMN WIDTH =================
 $widths = [
-    'A' => 5,
-    'B' => 20,
-    'C' => 8,
-    'D' => 15,
-    'E' => 12,
-    'F' => 18,
-    'G' => 18,
-    'H' => 43,
-    'I' => 18,
-    'J' => 18,
+  'A' => 5,
+  'B' => 20,
+  'C' => 8,
+  'D' => 15,
+  'E' => 12,
+  'F' => 18,
+  'G' => 18,
+  'H' => 43,
+  'I' => 18,
+  'J' => 18,
 ];
 
 foreach ($widths as $col => $width) {
-    $sheet->getColumnDimension($col)->setWidth($width);
+  $sheet->getColumnDimension($col)->setWidth($width);
 }
 
 // Tinggi header

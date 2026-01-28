@@ -57,6 +57,7 @@ class Responden
         r.no_hp,
         r.pekerjaan,
         r.jenis_pelayanan,
+        r.tanggal_terakhir_kali,
         r.tanggal,
         f.nama_faskes,
         j.jawaban,
@@ -77,6 +78,7 @@ class Responden
         r.pekerjaan,
         r.jenis_pelayanan,
         r.tanggal,
+        r.tanggal_terakhir_kali, 
         f.nama_faskes,
         j.jawaban,
         j.nilai
@@ -122,6 +124,7 @@ class Responden
           'no_hp' => $row['no_hp'],
           'pekerjaan' => $row['pekerjaan'],
           'jenis_pelayanan' => $row['jenis_pelayanan'],
+          'tanggal_terakhir_kali' => $row['tanggal_terakhir_kali'],
           'tanggal' => $row['tanggal'],
           'jawaban' => [],
           'nilaiSatuan' => [],
