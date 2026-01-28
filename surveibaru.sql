@@ -49,7 +49,6 @@ CREATE TABLE tb_opsi_jawaban (
   label VARCHAR(100) NOT NULL,
   nilai INT NOT NULL,
   urutan INT NOT NULL,
-  is_active TINYINT(1) NOT NULL DEFAULT 1,
 
   CONSTRAINT fk_opsi_pertanyaan
     FOREIGN KEY (pertanyaan_id)
@@ -81,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `tb_faskes` (
 ALTER TABLE `tb_faskes`
 ADD COLUMN `is_active` TINYINT(1) NOT NULL DEFAULT 1 AFTER `nama_faskes`;
 
-INSERT INTO `tb_pertanyaan` (`id`, `pertanyaan`, `tipe`, `jawaban`) VALUES
+INSERT INTO `tb_pertanyaan` (`id`, `pertanyaan`) VALUES
 (1, 'Kemudahan akses informasi layanan  Dinas Kesehatan Pengendalian Penduduk dan KB Kota Probolinggo. (informasi layanan tersedia di berbagai media elektronik dan nonelektronik)'),
 (2, 'Kesesuaian persyaratan pelayanan dengan jenis pelayanannya'),
 (3, 'Bagaimana pendapat Saudara tentang kemudahan Sistem, mekanisme dan prosedur pelayanan'),
@@ -95,6 +94,89 @@ INSERT INTO `tb_pertanyaan` (`id`, `pertanyaan`, `tipe`, `jawaban`) VALUES
 (11, 'Bagaimana pendapat Saudara tentang kualitas sarana dan prasarana pelayanan?'),
 (12, 'Bagaimana pendapat Saudara tentang transparansi pelayanan (informasi dan proses pelayanan transparan akuntabel)'),
 (13, 'Integritas petugas pelayanan, apakah berintegritas tinggi dan tidak melakukan KKN');
+
+INSERT INTO `tb_opsi_jawaban`
+(`id`, `pertanyaan_id`, `label`, `nilai`, `urutan`) VALUES
+
+-- PERTANYAAN 1
+(NULL, 1, 'Tidak Mudah', 1, 1),
+(NULL, 1, 'Kurang Mudah', 2, 2),
+(NULL, 1, 'Mudah', 3, 3),
+(NULL, 1, 'Sangat Mudah', 4, 4),
+
+-- PERTANYAAN 2
+(NULL, 2, 'Tidak Sesuai', 1, 1),
+(NULL, 2, 'Kurang Sesuai', 2, 2),
+(NULL, 2, 'Sesuai', 3, 3),
+(NULL, 2, 'Sangat Sesuai', 4, 4),
+
+-- PERTANYAAN 3
+(NULL, 3, 'Tidak Mudah', 1, 1),
+(NULL, 3, 'Kurang Mudah', 2, 2),
+(NULL, 3, 'Mudah', 3, 3),
+(NULL, 3, 'Sangat Mudah', 4, 4),
+
+-- PERTANYAAN 4
+(NULL, 4, 'Tidak Cepat', 1, 1),
+(NULL, 4, 'Kurang Cepat', 2, 2),
+(NULL, 4, 'Cepat', 3, 3),
+(NULL, 4, 'Sangat Cepat', 4, 4),
+
+-- PERTANYAAN 5
+(NULL, 5, 'Tidak Tepat', 1, 1),
+(NULL, 5, 'Kurang Tepat', 2, 2),
+(NULL, 5, 'Tepat', 3, 3),
+(NULL, 5, 'Sangat Tepat', 4, 4),
+
+-- PERTANYAAN 6
+(NULL, 6, 'Tidak Sesuai', 1, 1),
+(NULL, 6, 'Kurang Sesuai', 2, 2),
+(NULL, 6, 'Sesuai', 3, 3),
+(NULL, 6, 'Sangat Sesuai', 4, 4),
+
+-- PERTANYAAN 7
+(NULL, 7, 'Tidak Sesuai', 1, 1),
+(NULL, 7, 'Kurang Sesuai', 2, 2),
+(NULL, 7, 'Sesuai', 3, 3),
+(NULL, 7, 'Sangat Sesuai', 4, 4),
+
+-- PERTANYAAN 8
+(NULL, 8, 'Tidak Baik', 1, 1),
+(NULL, 8, 'Kurang Baik', 2, 2),
+(NULL, 8, 'Baik', 3, 3),
+(NULL, 8, 'Sangat Baik', 4, 4),
+
+-- PERTANYAAN 9
+(NULL, 9, 'Tidak Kompeten', 1, 1),
+(NULL, 9, 'Kurang Kompeten', 2, 2),
+(NULL, 9, 'Kompeten', 3, 3),
+(NULL, 9, 'Sangat Kompeten', 4, 4),
+
+-- PERTANYAAN 10
+(NULL, 10, 'Tidak Sopan', 1, 1),
+(NULL, 10, 'Kurang Sopan', 2, 2),
+(NULL, 10, 'Sopan', 3, 3),
+(NULL, 10, 'Sangat Sopan', 4, 4),
+
+-- PERTANYAAN 11
+(NULL, 11, 'Tidak Baik', 1, 1),
+(NULL, 11, 'Kurang Baik', 2, 2),
+(NULL, 11, 'Baik', 3, 3),
+(NULL, 11, 'Sangat Baik', 4, 4),
+
+-- PERTANYAAN 12
+(NULL, 12, 'Tidak Transparan', 1, 1),
+(NULL, 12, 'Kurang Transparan', 2, 2),
+(NULL, 12, 'Transparan', 3, 3),
+(NULL, 12, 'Sangat Transparan', 4, 4),
+
+-- PERTANYAAN 13
+(NULL, 13, 'Tidak Berintegritas', 1, 1),
+(NULL, 13, 'Kurang Berintegritas', 2, 2),
+(NULL, 13, 'Berintegritas', 3, 3),
+(NULL, 13, 'Sangat Berintegritas', 4, 4);
+
+
 
 INSERT INTO `tb_faskes` (`id`, `nama_faskes`, `is_active`, `jenis`) VALUES
 (1, 'Puskesmas Wonoasih', 1, 'PUSKESMAS'),
@@ -111,4 +193,3 @@ ADD CONSTRAINT fk_responden_faskes
 FOREIGN KEY (faskes_id)
 REFERENCES tb_faskes(id)
 ON DELETE RESTRICT;
-
