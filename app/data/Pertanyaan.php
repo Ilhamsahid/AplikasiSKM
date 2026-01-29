@@ -2,93 +2,124 @@
 
 class Pertanyaan
 {
-    private $conn;
+  private $conn;
 
-    public function __construct($conn)
-    {
-        $this->conn = $conn;
+  public function __construct($conn)
+  {
+    $this->conn = $conn;
+  }
+
+  public function getQuestion($isDesc)
+  {
+    $data = [];
+
+    $order = $isDesc ? 'DESC' : 'ASC';
+
+    $query = "SELECT * FROM tb_pertanyaan ORDER BY id $order";
+    $result = $this->conn->query($query);
+
+    while ($row = $result->fetch_assoc()) {
+      $data[] = $row;
     }
 
-    public function getQuestion($isDesc)
-    {
-        $data = [];
+    return $data;
+  }
 
-        $order = $isDesc ? 'DESC' : 'ASC';
+  public function getAnswerAndQuestion()
+  {
+    $data = [];
+    $query = "SELECT *
+    FROM tb_pertanyaan AS p JOIN
+    tb_opsi_jawaban o ON o.pertanyaan_id = p.id
+    ORDER BY p.id, o.urutan";
 
-        $query = "SELECT * FROM tb_pertanyaan ORDER BY id $order";
-        $result = $this->conn->query($query);
+    $result = $this->conn->query($query);
 
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
+    while ($row = $result->fetch_assoc()) {
+      $id = $row['pertanyaan_id'];
 
-        return $data;
+      if (!isset($data[$id])) {
+        $data[$id] = [
+          'pertanyaan' => $row['pertanyaan'],
+          'opsi' => [],
+        ];
+      }
+
+      $data[$id]['opsi']['id'][] = $row['id'];
+      $data[$id]['opsi']['label'][] = $row['label'];
+      $data[$id]['opsi']['nilai'][] = $row['nilai'];
     }
 
-    public function insertPertanyaan($data)
-    {
-        $sql = "INSERT INTO tb_pertanyaan (pertanyaan, jawaban) VALUES (?, ?)";
 
-        $stmt = $this->conn->prepare($sql);
+    $results = array_values($data);
 
-        if (!$stmt) {
-            return false;
-        }
+    return $results;
+  }
 
-        $stmt->bind_param(
-            'ss',
-            $data['pertanyaan'],
-            $data['jawaban'],
-        );
+  public function insertPertanyaan($data)
+  {
+    $sql = "INSERT INTO tb_pertanyaan (pertanyaan, jawaban) VALUES (?, ?)";
 
-        if ($stmt->execute()) {
-            return true;
-        }
+    $stmt = $this->conn->prepare($sql);
 
-        return False;
+    if (!$stmt) {
+      return false;
     }
 
-    public function updatePertanyaan($data, $id)
-    {
-        $sql = "UPDATE
+    $stmt->bind_param(
+      'ss',
+      $data['pertanyaan'],
+      $data['jawaban'],
+    );
+
+    if ($stmt->execute()) {
+      return true;
+    }
+
+    return False;
+  }
+
+  public function updatePertanyaan($data, $id)
+  {
+    $sql = "UPDATE
         tb_pertanyaan SET pertanyaan = ?, jawaban = ? WHERE id = ?";
 
-        $stmt = $this->conn->prepare($sql);
+    $stmt = $this->conn->prepare($sql);
 
-        if (!$stmt) {
-            return false;
-        }
-
-        $stmt->bind_param(
-            'ssi',
-            $data['pertanyaan'],
-            $data['jawaban'],
-            $id
-        );
-
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        return False;
+    if (!$stmt) {
+      return false;
     }
 
-    public function deletePertanyaan($id)
-    {
-        $sql = "DELETE FROM tb_pertanyaan WHERE id = ?";
+    $stmt->bind_param(
+      'ssi',
+      $data['pertanyaan'],
+      $data['jawaban'],
+      $id
+    );
 
-        $stmt = $this->conn->prepare($sql);
-
-        if (!$stmt) {
-            return false;
-        }
-
-        $stmt->bind_param('i', $id);
-
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        return false;
+    if ($stmt->execute()) {
+      return true;
     }
+
+    return False;
+  }
+
+  public function deletePertanyaan($id)
+  {
+    $sql = "DELETE FROM tb_pertanyaan WHERE id = ?";
+
+    $stmt = $this->conn->prepare($sql);
+
+    if (!$stmt) {
+      return false;
+    }
+
+    $stmt->bind_param('i', $id);
+
+    if ($stmt->execute()) {
+      return true;
+    }
+
+    return false;
+  }
 }

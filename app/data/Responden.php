@@ -20,7 +20,11 @@ class Responden
     while ($row = $result->fetch_assoc()) {
       if ($limit == true) {
         $stmt = $this->conn->prepare(
-          "SELECT nilai, jawaban FROM tb_jawaban WHERE id_responden = ?"
+          "SELECT o.nilai, o.label 
+          FROM tb_jawaban j
+          JOIN tb_opsi_jawaban o
+          ON j.opsi_jawaban_id = o.id
+          WHERE id_responden = ?"
         );
         $stmt->bind_param("i", $row['id']);
         $stmt->execute();
@@ -31,7 +35,7 @@ class Responden
         $jawabanRespondent = [];
         while ($j = $jawaban->fetch_assoc()) {
           $nilai += $j['nilai'];
-          $jawabanRespondent[] = $j['jawaban'];
+          $jawabanRespondent[] = $j['label'];
         }
 
         $row['nilai'] = $nilai;
@@ -49,75 +53,78 @@ class Responden
     $sql = $faskesId === "all"
       ?
       "SELECT
-        r.id,
-        r.responden,
-        r.umur,
-        r.kelamin,
-        r.lulusan,
-        r.no_hp,
-        r.pekerjaan,
-        r.jenis_pelayanan,
-        r.tanggal_terakhir_kali,
-        r.tanggal,
-        f.nama_faskes,
-        j.jawaban,
-        j.nilai
-        FROM tb_responden r LEFT JOIN tb_jawaban j
-        ON j.id_responden = r.id
-        LEFT JOIN tb_faskes f ON f.id = r.faskes_id
-        WHERE r.tanggal BETWEEN ? AND ?
-        ORDER BY r.tanggal DESC
-      " :
+      r.id,
+      r.responden,
+      r.umur,
+      r.kelamin,
+      r.lulusan,
+      r.no_hp,
+      r.pekerjaan,
+      r.jenis_pelayanan,
+      r.tanggal_terakhir_kali,
+      r.tanggal,
+      f.nama_faskes,
+      o.label AS jawaban,
+      o.nilai
+    FROM tb_responden r
+    LEFT JOIN tb_jawaban j ON j.id_responden = r.id
+    LEFT JOIN tb_opsi_jawaban o ON o.id = j.opsi_jawaban_id
+    LEFT JOIN tb_faskes f ON f.id = r.faskes_id
+    WHERE r.tanggal BETWEEN ? AND ?
+    ORDER BY r.tanggal DESC
+    "
+      :
       "SELECT
-        r.id,
-        r.responden,
-        r.umur,
-        r.kelamin,
-        r.lulusan,
-        r.no_hp,
-        r.pekerjaan,
-        r.jenis_pelayanan,
-        r.tanggal,
-        r.tanggal_terakhir_kali, 
-        f.nama_faskes,
-        j.jawaban,
-        j.nilai
-        FROM tb_responden r LEFT JOIN tb_jawaban j
-        ON j.id_responden = r.id
-        LEFT JOIN tb_faskes f ON f.id = r.faskes_id
-        WHERE r.tanggal BETWEEN ? AND ?
-        AND r.faskes_id = ?
-        ORDER BY r.tanggal DESC
-      ";
+      r.id,
+      r.responden,
+      r.umur,
+      r.kelamin,
+      r.lulusan,
+      r.no_hp,
+      r.pekerjaan,
+      r.jenis_pelayanan,
+      r.tanggal,
+      r.tanggal_terakhir_kali,
+      f.nama_faskes,
+      o.label AS jawaban,
+      o.nilai
+    FROM tb_responden r
+    LEFT JOIN tb_jawaban j ON j.id_responden = r.id
+    LEFT JOIN tb_opsi_jawaban o ON o.id = j.opsi_jawaban_id
+    LEFT JOIN tb_faskes f ON f.id = r.faskes_id
+    WHERE r.tanggal BETWEEN ? AND ?
+    AND r.faskes_id = ?
+    ORDER BY r.tanggal DESC
+    ";
 
     $stmt = $this->conn->prepare($sql);
+
     if ($faskesId === "all") {
       $stmt->bind_param("ss", $start, $end);
     } else {
       $stmt->bind_param("ssi", $start, $end, $faskesId);
     }
-    $stmt->execute();
 
+    $stmt->execute();
     $result = $stmt->get_result();
 
     $grouped = [];
     $jumlahSemua = 0;
 
-
     while ($row = $result->fetch_assoc()) {
-      // Kalau baris ini TIDAK punya jawaban → skip
+
+      // Kalau tidak ada jawaban → skip
       if (empty($row['jawaban'])) {
         continue;
       }
 
       $id = $row['id'];
 
-      // Kalau responden belum ada, buat dulu
       if (!isset($grouped[$id])) {
         $grouped[$id] = [
           'id' => $row['id'],
           'responden' => $row['responden'],
-          'nama_faskes' => $row['nama_faskes'], // ⬅️ TAMBAHKAN
+          'nama_faskes' => $row['nama_faskes'],
           'umur' => $row['umur'],
           'kelamin' => $row['kelamin'],
           'lulusan' => $row['lulusan'],
@@ -128,30 +135,28 @@ class Responden
           'tanggal' => $row['tanggal'],
           'jawaban' => [],
           'nilaiSatuan' => [],
-          'nilai' => $filterJumlah == true ? 0 : [],
+          'nilai' => $filterJumlah ? 0 : [],
         ];
       }
 
-      // Masukkan jawaban (kalau ada)
       $grouped[$id]['jawaban'][] = $row['jawaban'];
       $grouped[$id]['nilaiSatuan'][] = $row['nilai'];
+
       if ($filterJumlah) {
         $grouped[$id]['nilai'] += (int)$row['nilai'];
       } else {
         $grouped[$id]['nilai'][] = $row['nilai'];
       }
 
-      $jumlahSemua += $row['nilai'];
+      $jumlahSemua += (int)$row['nilai'];
     }
 
-    // Reset index biar jadi array normal
-    $data = array_values($grouped);
-
     return [
-      'data' => $data,
+      'data' => array_values($grouped),
       'jumlahSemua' => $jumlahSemua,
     ];
   }
+
 
   public function getRespondentChart($respondents)
   {

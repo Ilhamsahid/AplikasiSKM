@@ -4,57 +4,57 @@ namespace app\controllers;
 
 class SurveyController
 {
-    public function index()
-    {
-        global $conn;
+  public function index()
+  {
+    global $conn;
 
-        $question = new \Pertanyaan($conn);
-        $faskes = new \Faskes($conn);
-        $questions = $question->getQuestion(false);
-        $allFaskes = $faskes->getActiveFaskes();
+    $question = new \Pertanyaan($conn);
+    $faskes = new \Faskes($conn);
+    $allFaskes = $faskes->getActiveFaskes();
+    $questionsAndAnswer = $question->getAnswerAndQuestion();
 
-        $title = 'E-SKM Survei Kepuasan Masyarakat';
-        $nav = getView('components.public.navbar');
-        $footer = getView('components.public.footer');
-        $content = getView('public.index-main', [
-            'questions' => $questions,
-            'faskes' => $allFaskes
-        ]);
+    $title = 'E-SKM Survei Kepuasan Masyarakat';
+    $nav = getView('components.public.navbar');
+    $footer = getView('components.public.footer');
+    $content = getView('public.index-main', [
+      'questionsAndAnswer' => $questionsAndAnswer,
+      'faskes' => $allFaskes,
+    ]);
 
-        include __DIR__ . '/../view/layouts/guest.php';
+    include __DIR__ . '/../view/layouts/guest.php';
+  }
+
+
+  public function hasilIkm()
+  {
+    require __DIR__ . '/../logic/ikm_result.php';
+    $jumlahNnrPerUnsur = 0;
+    $jumlahNnrPerTimbang = 0;
+
+    foreach ($respondentsChart as $res) {
+      $nilaiPerUnsur = array_sum($res['values']);
+      $nnrPerUnsur = $nilaiPerUnsur / count($respondents['data']);
+      $nnrPerTimbang = $nnrPerUnsur  / $jumlahPertanyaan;
+
+      $jumlahNnrPerUnsur += $nnrPerUnsur;
+      $jumlahNnrPerTimbang += $nnrPerTimbang;
     }
 
+    $title = 'E-SKM Hasil IKM';
+    $nav = getView('components.public.navbar');
+    $footer = getView('components.public.footer');
+    $content = getView('public.hasil-ikm', [
+      'nilaiRataRata' => $jumlahNnrPerTimbang * 25,
+      'nnrPerUnsur' => $jumlahNnrPerTimbang,
+      'totalResponden' => count($respondents['data']),
+      'jumlahPertanyaan' => $jumlahPertanyaan,
+    ]);
 
-    public function hasilIkm()
-    {
-        require __DIR__ . '/../logic/ikm_result.php';
-        $jumlahNnrPerUnsur = 0;
-        $jumlahNnrPerTimbang = 0;
+    include __DIR__ . '/../view/layouts/guest.php';
+  }
 
-        foreach ($respondentsChart as $res) {
-            $nilaiPerUnsur = array_sum($res['values']);
-            $nnrPerUnsur = $nilaiPerUnsur / count($respondents['data']);
-            $nnrPerTimbang = $nnrPerUnsur  / $jumlahPertanyaan;
-
-            $jumlahNnrPerUnsur += $nnrPerUnsur;
-            $jumlahNnrPerTimbang += $nnrPerTimbang;
-        }
-
-        $title = 'E-SKM Hasil IKM';
-        $nav = getView('components.public.navbar');
-        $footer = getView('components.public.footer');
-        $content = getView('public.hasil-ikm', [
-            'nilaiRataRata' => $jumlahNnrPerTimbang * 25,
-            'nnrPerUnsur' => $jumlahNnrPerTimbang,
-            'totalResponden' => count($respondents['data']),
-            'jumlahPertanyaan' => $jumlahPertanyaan,
-        ]);
-
-        include __DIR__ . '/../view/layouts/guest.php';
-    }
-
-    public function submit()
-    {
-        require __DIR__ . '/../process/ProsesSubmit.php';
-    }
+  public function submit()
+  {
+    require __DIR__ . '/../process/ProsesSubmit.php';
+  }
 }

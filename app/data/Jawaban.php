@@ -2,29 +2,29 @@
 
 class Jawaban
 {
-    private $conn;
+  private $conn;
 
-    public function __construct($conn)
-    {
-        $this->conn = $conn;
+  public function __construct($conn)
+  {
+    $this->conn = $conn;
+  }
+
+  public function insertJawaban($idResponden, $idOpsi)
+  {
+    $sql = "INSERT INTO tb_jawaban (id_responden, opsi_jawaban_id) VALUES (?, ?)";
+
+    $stmt = $this->conn->prepare($sql);
+
+    if (!$stmt) {
+      return false;
     }
 
-    public function insertJawaban($idResponden, $idPertanyaan, $jawaban, $nilai)
-    {
-        $sql = "INSERT INTO tb_jawaban (id_pertanyaan, id_responden, jawaban, nilai) VALUES (?, ?, ?, ?)";
+    $stmt->bind_param('ii', $idResponden, $idOpsi);
 
-        $stmt = $this->conn->prepare($sql);
+    $success = $stmt->execute();
 
-        if (!$stmt) {
-            return false;
-        }
+    $stmt->close();
 
-        $stmt->bind_param('iisi', $idPertanyaan, $idResponden, $jawaban, $nilai);
-
-        $success = $stmt->execute();
-
-        $stmt->close();
-
-        return $success;
-    }
+    return $success;
+  }
 }

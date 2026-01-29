@@ -110,13 +110,13 @@ $nilaiIKM = $jumlahNnrPerTimbang * 25;
       </div>
 
       <a
-        href="/pdf/result_pdf.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&nilaiRataRata=<?= $jumlahNnrPerTimbang * 25 ?>&faskes_id=<?= $_GET['faskes_id'] ?>"
+        href="/pdf/result_pdf.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&nilaiRataRata=<?= $jumlahNnrPerTimbang * 25 ?>&faskes_id=<?= $_GET['faskes_id'] ?? '' ?>"
         class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-red-50 transition">
         Export Hasil IKM (PDF)
       </a>
 
       <a
-        href="/pdf/respondent_pdf.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&faskes_id=<?= $_GET['faskes_id'] ?>"
+        href="/pdf/respondent_pdf.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&faskes_id=<?= $_GET['faskes_id'] ?? '' ?>"
         class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-red-50 transition">
         Export Responden (PDF)
       </a>
@@ -128,25 +128,25 @@ $nilaiIKM = $jumlahNnrPerTimbang * 25;
       </div>
 
       <a
-        href="/excel/result_excel.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&nilaiRataRata=<?= $jumlahNnrPerTimbang * 25 ?>&faskes_id=<?= $_GET['faskes_id'] ?>"
+        href="/excel/result_excel.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&nilaiRataRata=<?= $jumlahNnrPerTimbang * 25 ?>&faskes_id=<?= $_GET['faskes_id'] ?? '' ?>"
         class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
         Export Hasil IKM (Excel)
       </a>
 
       <a
-        href="/excel/respondent_excel.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&faskes_id=<?= $_GET['faskes_id'] ?>"
+        href="/excel/respondent_excel.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&faskes_id=<?= $_GET['faskes_id'] ?? '' ?>"
         class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
         Export Responden (Excel)
       </a>
 
       <a
-        href="/excel/pertanyaan_per_respondent.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&faskes_id=<?= $_GET['faskes_id'] ?>"
+        href="/excel/pertanyaan_per_respondent.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&faskes_id=<?= $_GET['faskes_id'] ?? '' ?>"
         class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
         Export Pertanyaan Per Responden (Excel)
       </a>
 
       <a
-        href="/excel/grafik_pertanyaan.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&faskes_id=<?= $_GET['faskes_id'] ?>"
+        href="/excel/grafik_pertanyaan.php?start=<?= $_GET['start'] ?? '' ?>&end=<?= $_GET['end'] ?? '' ?>&faskes_id=<?= $_GET['faskes_id'] ?? '' ?>"
         class="export-link block px-4 py-3 text-sm text-gray-700 hover:bg-green-50 transition">
         Export Grafik Responden (Excel)
       </a>
