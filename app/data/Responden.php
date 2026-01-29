@@ -160,45 +160,63 @@ class Responden
 
   public function getRespondentChart($respondents)
   {
-    $question = new Pertanyaan($this->conn);
-    $respondent = $respondents['data'];
-    $getQuestion = $question->getQuestion(false);
+    $questionModel = new Pertanyaan($this->conn);
+
+    $respondentData = $respondents['data'] ?? [];
+    $questionsData  = $questionModel->getQuestion(false);
 
     $result = [];
-    $questions = '';
-    $labels = [];
 
-    if ($respondent === []) {
+    if (empty($respondentData)) {
       return $result;
     }
 
-    foreach ($getQuestion as $qIdx => $q) {
-      $questions = $q['pertanyaan'];
-      $labels = explode(':', $q['jawaban']);
+    foreach ($questionsData as $qIdx => $q) {
+
+      $labels = [];
+      foreach ($q['opsi'] as $opt) {
+        $labels[] = $opt['label'];
+      }
+
       $labelIndexMap = array_flip($labels);
-      $values = [0, 0, 0, 0];
-      $user = [0, 0, 0, 0];
 
-      foreach ($respondent as $idx => $res) {
+      $nilaiMap = [];
+      foreach ($q['opsi'] as $opt) {
+        $nilaiMap[$opt['label']] = (int) $opt['nilai'];
+      }
+
+      $values = array_fill(0, count($labels), 0);
+      $users  = array_fill(0, count($labels), 0);
+
+      foreach ($respondentData as $res) {
+
         $answer = $res['jawaban'][$qIdx] ?? null;
-        $score = isset($res['nilai'][$qIdx]) ? (int)$res['nilai'][$qIdx] : 0;
 
-        if (isset($labelIndexMap[$answer])) {
-          $values[$labelIndexMap[$answer]] += $score;
-          $user[$labelIndexMap[$answer]] += 1;
+        if ($answer === null) {
+          continue;
         }
+
+        if (!isset($labelIndexMap[$answer])) {
+          continue; // jawaban tidak valid
+        }
+
+        $idx = $labelIndexMap[$answer];
+
+        $values[$idx] += $nilaiMap[$answer];
+        $users[$idx]  += 1;
       }
 
       $result[] = [
-        'question' => $questions,
-        'labels' => $labels,
-        'values' => $values,
-        'user' => $user,
+        'question' => $q['pertanyaan'],
+        'labels'   => $labels,
+        'values'   => $values,
+        'users'    => $users,
       ];
     }
 
     return $result;
   }
+
 
   public function insertResponden($data)
   {

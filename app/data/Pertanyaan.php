@@ -15,12 +15,31 @@ class Pertanyaan
 
     $order = $isDesc ? 'DESC' : 'ASC';
 
-    $query = "SELECT * FROM tb_pertanyaan ORDER BY id $order";
+    $query = "SELECT 
+    p.id AS pertanyaan_id, p.pertanyaan, o.label as jawaban, o.nilai
+    FROM tb_pertanyaan p
+    JOIN tb_opsi_jawaban o ON o.pertanyaan_id = p.id
+    ORDER BY p.id $order";
     $result = $this->conn->query($query);
 
+
     while ($row = $result->fetch_assoc()) {
-      $data[] = $row;
+      $pid = $row['pertanyaan_id'];
+
+      if (!isset($data[$pid])) {
+        $data[$pid] = [
+          'pertanyaan' => $row['pertanyaan'],
+          'opsi' => []
+        ];
+      }
+
+      $data[$pid]['opsi'][] = [
+        'label' => $row['jawaban'],
+        'nilai' => (int)$row['nilai']
+      ];
     }
+
+    $data = array_values($data);
 
     return $data;
   }
