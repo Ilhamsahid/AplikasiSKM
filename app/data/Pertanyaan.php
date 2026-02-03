@@ -19,6 +19,7 @@ class Pertanyaan
     p.id AS pertanyaan_id, p.pertanyaan, o.id as opsi_id, o.label as jawaban, o.nilai
     FROM tb_pertanyaan p
     JOIN tb_opsi_jawaban o ON o.pertanyaan_id = p.id
+    WHERE p.is_active = 1
     ORDER BY p.id $order";
     $result = $this->conn->query($query);
 

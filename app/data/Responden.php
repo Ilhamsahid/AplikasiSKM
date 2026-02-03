@@ -20,11 +20,13 @@ class Responden
     while ($row = $result->fetch_assoc()) {
       if ($limit == true) {
         $stmt = $this->conn->prepare(
-          "SELECT o.nilai, o.label 
+          "SELECT o.nilai, o.label, p.pertanyaan
           FROM tb_jawaban j
           JOIN tb_opsi_jawaban o
           ON j.opsi_jawaban_id = o.id
-          WHERE id_responden = ?"
+          JOIN tb_pertanyaan p
+          ON p.id = o.pertanyaan_id
+          WHERE j.id_responden = ?"
         );
         $stmt->bind_param("i", $row['id']);
         $stmt->execute();
@@ -33,13 +35,16 @@ class Responden
 
         $nilai = 0;
         $jawabanRespondent = [];
+        $pertanyaanRespondent = [];
         while ($j = $jawaban->fetch_assoc()) {
           $nilai += $j['nilai'];
           $jawabanRespondent[] = $j['label'];
+          $pertanyaanRespondent[] = $j['pertanyaan'];
         }
 
         $row['nilai'] = $nilai;
         $row['jawaban'] = $jawabanRespondent;
+        $row['pertanyaan'] = $pertanyaanRespondent;
       }
 
       $data[] = $row;
