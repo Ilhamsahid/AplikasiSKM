@@ -193,3 +193,5 @@ ADD CONSTRAINT fk_responden_faskes
 FOREIGN KEY (faskes_id)
 REFERENCES tb_faskes(id)
 ON DELETE RESTRICT;
+
+ALTER TABLE tb_pertanyaan ADD is_active TINYINT(1) DEFAULT 1;
