@@ -713,10 +713,22 @@ function renderResultsChart() {
 function confirmDelete(type, userId, name) {
   idUser = userId;
   typeNow = type;
+
   if (type == "user") {
     document.getElementById("deleteUserName").textContent = `user ${name}`;
   } else if (type == "question") {
-    document.getElementById("deleteUserName").textContent = `${name}`;
+    str = "";
+    if (name.length >= 40) {
+      for (let i = 0; i < name.length; i++) {
+        str += name[i];
+        if (i === 50) {
+          str += '...';
+          break;
+        }
+      }
+    }
+    document.getElementById("deleteUserName").textContent = `${name.length >= 40 ? str : name}`;
+    document.getElementById("questionWarning").textContent = "Note: data ini akan dinonaktifkan";
   } else if (type == "faskes") {
     document.getElementById("deleteUserName").textContent = `faskes ${name}`;
   }
