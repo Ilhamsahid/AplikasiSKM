@@ -34,7 +34,7 @@ $input = [
 
 
 if ($getMode === 'delete') {
-  $Pertanyaan->deletePertanyaan($getId);
+  $Pertanyaan->softDeletePertanyaan($getId);
 
   // Membuat flash message
   $_SESSION['flash'] = [

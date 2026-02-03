@@ -9,7 +9,7 @@ class Pertanyaan
     $this->conn = $conn;
   }
 
-  public function getQuestion($isDesc)
+  public function getQuestion($isDesc, $isActive)
   {
     $data = [];
 
@@ -18,9 +18,14 @@ class Pertanyaan
     $query = "SELECT 
     p.id AS pertanyaan_id, p.pertanyaan, o.id as opsi_id, o.label as jawaban, o.nilai
     FROM tb_pertanyaan p
-    JOIN tb_opsi_jawaban o ON o.pertanyaan_id = p.id
-    WHERE p.is_active = 1
-    ORDER BY p.id $order";
+    JOIN tb_opsi_jawaban o ON o.pertanyaan_id = p.id";
+
+    if ($isActive) {
+      $query .= " WHERE p.is_active = 1 ";
+    }
+
+    $query .= " ORDER BY p.id $order";
+
     $result = $this->conn->query($query);
 
 
@@ -171,22 +176,24 @@ class Pertanyaan
     return False;
   }
 
-  public function deletePertanyaan($id)
+  public function softDeletePertanyaan($id)
   {
-    $sql = "DELETE FROM tb_pertanyaan WHERE id = ?";
+    $sql = "UPDATE tb_pertanyaan SET is_active = 0 WHERE id = ?";
 
     $stmt = $this->conn->prepare($sql);
 
     if (!$stmt) {
-      return false;
+      return False;
     }
 
     $stmt->bind_param('i', $id);
 
     if ($stmt->execute()) {
-      return true;
+      return True;
     }
 
-    return false;
+    $stmt->close();
+
+    return False;
   }
 }

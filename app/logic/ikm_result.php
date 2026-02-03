@@ -14,10 +14,10 @@ $end = $_GET['end'] ?? null;
 $faskes_id = $_GET['faskes_id'] ?? null;
 
 $allFaskes = $faskes->getActiveFaskes();
-$jumlahPertanyaan = count($question->getQuestion(false));
 $respondents = $respondent->getRespondentByDateFilter($start, $end, true, $faskes_id);
 $respondentsWithNoFilter = $respondent->getRespondentByDateFilter($start, $end, false, $faskes_id);
 $respondentsChart = $respondent->getRespondentChart($respondentsWithNoFilter);
+$jumlahPertanyaan = count($respondentsChart);
 $total = count($respondents['data']);
 $dataRespondent = [
   'kelamin' => [

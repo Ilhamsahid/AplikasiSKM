@@ -174,7 +174,7 @@ class Responden
     $questionModel = new Pertanyaan($this->conn);
 
     $respondentData = $respondents['data'] ?? [];
-    $questionsData  = $questionModel->getQuestion(false);
+    $questionsData  = $questionModel->getQuestion(false, false);
 
     $result = [];
 
@@ -215,6 +215,10 @@ class Responden
 
         $values[$idx] += $nilaiMap[$answer];
         $users[$idx]  += 1;
+      }
+
+      if (array_sum($users) === 0) {
+        continue;
       }
 
       $result[] = [

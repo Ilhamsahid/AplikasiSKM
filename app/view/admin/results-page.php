@@ -3,6 +3,7 @@ $totalResponden = count($respondents['data']);
 $jumlahNnrPerUnsur = 0;
 $jumlahNnrPerTimbang = 0;
 
+
 foreach ($chartData as $index => $item) {
 
   // 1. Nilai per unsur (total nilai jawaban)
@@ -360,7 +361,7 @@ $nilaiIKM = $jumlahNnrPerTimbang * 25;
               </td>
               <td
                 class="px-6 py-4 font-bold text-green-900 text-lg">
-                <?= number_format($jumlahNnrPerTimbang) ?>
+                <?= number_format($jumlahNnrPerTimbang, 2) ?>
               </td>
             </tr>
           </tfoot>
