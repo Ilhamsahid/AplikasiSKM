@@ -126,6 +126,7 @@ class AdminController
     $question = new \Pertanyaan($conn);
     $questions = $question->getQuestion(true);
 
+
     return getView('admin.survey-question-page', [
       'pertanyaan' => $questions
     ]);

@@ -16,7 +16,7 @@ class Pertanyaan
     $order = $isDesc ? 'DESC' : 'ASC';
 
     $query = "SELECT 
-    p.id AS pertanyaan_id, p.pertanyaan, o.label as jawaban, o.nilai
+    p.id AS pertanyaan_id, p.pertanyaan, o.id as opsi_id, o.label as jawaban, o.nilai
     FROM tb_pertanyaan p
     JOIN tb_opsi_jawaban o ON o.pertanyaan_id = p.id
     ORDER BY p.id $order";
@@ -28,12 +28,14 @@ class Pertanyaan
 
       if (!isset($data[$pid])) {
         $data[$pid] = [
+          'id' => $row['pertanyaan_id'],
           'pertanyaan' => $row['pertanyaan'],
           'opsi' => []
         ];
       }
 
       $data[$pid]['opsi'][] = [
+        'id' => $row['opsi_id'],
         'label' => $row['jawaban'],
         'nilai' => (int)$row['nilai']
       ];
@@ -59,6 +61,7 @@ class Pertanyaan
 
       if (!isset($data[$id])) {
         $data[$id] = [
+          'id' => $row['pertanyaan_id'],
           'pertanyaan' => $row['pertanyaan'],
           'opsi' => [],
         ];
@@ -69,7 +72,6 @@ class Pertanyaan
       $data[$id]['opsi']['nilai'][] = $row['nilai'];
     }
 
-
     $results = array_values($data);
 
     return $results;
@@ -77,7 +79,7 @@ class Pertanyaan
 
   public function insertPertanyaan($data)
   {
-    $sql = "INSERT INTO tb_pertanyaan (pertanyaan, jawaban) VALUES (?, ?)";
+    $sql = "INSERT INTO tb_pertanyaan (pertanyaan) VALUES (?)";
 
     $stmt = $this->conn->prepare($sql);
 
@@ -86,39 +88,84 @@ class Pertanyaan
     }
 
     $stmt->bind_param(
-      'ss',
+      's',
       $data['pertanyaan'],
-      $data['jawaban'],
     );
 
     if ($stmt->execute()) {
-      return true;
+      return $this->conn->insert_id;
     }
+
+    $stmt->close();
 
     return False;
   }
 
-  public function updatePertanyaan($data, $id)
+  public function changePertanyaan($data, $idPertanyaan)
   {
-    $sql = "UPDATE
-        tb_pertanyaan SET pertanyaan = ?, jawaban = ? WHERE id = ?";
+    $sql = "UPDATE tb_pertanyaan SET pertanyaan = ? WHERE id = ?";
 
     $stmt = $this->conn->prepare($sql);
 
     if (!$stmt) {
-      return false;
+      return False;
+    }
+
+    $stmt->bind_param('si', $data['pertanyaan'], $idPertanyaan);
+
+    if ($stmt->execute()) {
+      return True;
+    }
+
+    $stmt->close();
+
+    return False;
+  }
+
+  public function insertOpsiJawaban($data, $pertanyaan_id)
+  {
+    $sql = "INSERT INTO tb_opsi_jawaban (pertanyaan_id, label, nilai, urutan) VALUES (?, ?, ?, ?)";
+
+    $stmt = $this->conn->prepare($sql);
+
+    if (!$stmt) {
+      return False;
     }
 
     $stmt->bind_param(
-      'ssi',
-      $data['pertanyaan'],
-      $data['jawaban'],
-      $id
+      'isss',
+      $pertanyaan_id,
+      $data['label'],
+      $data['nilai'],
+      $data['urutan'],
     );
 
     if ($stmt->execute()) {
       return true;
     }
+
+    $stmt->close();
+
+    return False;
+  }
+
+  public function changeOpsiJawaban($data, $id)
+  {
+    $sql = "UPDATE tb_opsi_jawaban SET label = ?, nilai = ?, urutan = ? WHERE id = ?";
+
+    $stmt = $this->conn->prepare($sql);
+
+    if (!$stmt) {
+      return False;
+    }
+
+    $stmt->bind_param('siii', $data['label'], $data['nilai'], $data['urutan'], $id);
+
+    if ($stmt->execute()) {
+      return True;
+    }
+
+    $stmt->close();
 
     return False;
   }

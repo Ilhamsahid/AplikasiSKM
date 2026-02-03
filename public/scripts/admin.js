@@ -626,7 +626,6 @@ function renderResultsChart() {
     return;
   }
 
-  console.log(chartResults);
   row = "";
   chartResults.forEach((c, i) => {
     row += `
@@ -850,11 +849,12 @@ function viewDetailRespondent(id) {
 
   jawabanContainer.innerHTML = "";
 
+  console.log(responden);
   let cards = "";
   for (let i = 0; i < responden.jawaban.length; i++) {
     cards += `
             <div class="border border-gray-200 rounded-lg p-4 hover:border-green-500 transition">
-                <p class="text-sm font-medium text-gray-700 mb-2">${i + 1}. ${pertanyaan[i].pertanyaan
+                <p class="text-sm font-medium text-gray-700 mb-2">${i + 1}. ${responden.pertanyaan[i]
       }</p>
                 <div class="bg-green-100 text-green-700 px-3 py-2 rounded-lg text-sm font-semibold inline-block">
                     ${responden.jawaban[i]}
@@ -925,13 +925,17 @@ function openQuestionModal(mode, questionId = null) {
   } else {
     modalTitle.textContent = "Edit Pertanyaan";
     const questionEdit = pertanyaan.find((p) => p.id == questionId);
-    const answerSplit = questionEdit.jawaban.split(":");
 
     document.getElementById("pertanyaanSurvei").value = questionEdit.pertanyaan;
-    document.getElementById("jawabanA").value = answerSplit[0];
-    document.getElementById("jawabanB").value = answerSplit[1];
-    document.getElementById("jawabanC").value = answerSplit[2];
-    document.getElementById("jawabanD").value = answerSplit[3];
+    document.getElementById("jawabanA").value = questionEdit.opsi[0].label;
+    document.getElementById("jawabanB").value = questionEdit.opsi[1].label;
+    document.getElementById("jawabanC").value = questionEdit.opsi[2].label;
+    document.getElementById("jawabanD").value = questionEdit.opsi[3].label;
+
+    document.getElementById("opsiIdA").value = questionEdit.opsi[0].id;
+    document.getElementById("opsiIdB").value = questionEdit.opsi[1].id;
+    document.getElementById("opsiIdC").value = questionEdit.opsi[2].id;
+    document.getElementById("opsiIdD").value = questionEdit.opsi[3].id;
   }
 
   modal.classList.remove("hidden");
@@ -1081,7 +1085,6 @@ const colors = ["#dc2626", "#f59e0b", "#3b82f6", "#16a34a"];
 
 chartResults.forEach((data, index) => {
   const ctx = document.getElementById(`chart${index}`).getContext("2d");
-  console.log(data)
 
   // Total untuk hitung persentase
   const total = data.values.reduce((a, b) => a + b, 0);

@@ -64,11 +64,13 @@ class Responden
       r.tanggal_terakhir_kali,
       r.tanggal,
       f.nama_faskes,
+      p.pertanyaan AS pertanyaan,
       o.label AS jawaban,
       o.nilai
     FROM tb_responden r
     LEFT JOIN tb_jawaban j ON j.id_responden = r.id
     LEFT JOIN tb_opsi_jawaban o ON o.id = j.opsi_jawaban_id
+    LEFT JOIN tb_pertanyaan p ON p.id = o.pertanyaan_id
     LEFT JOIN tb_faskes f ON f.id = r.faskes_id
     WHERE r.tanggal BETWEEN ? AND ?
     ORDER BY r.tanggal DESC
@@ -86,11 +88,13 @@ class Responden
       r.tanggal,
       r.tanggal_terakhir_kali,
       f.nama_faskes,
+      p.pertanyaan AS pertanyaan,
       o.label AS jawaban,
       o.nilai
     FROM tb_responden r
     LEFT JOIN tb_jawaban j ON j.id_responden = r.id
     LEFT JOIN tb_opsi_jawaban o ON o.id = j.opsi_jawaban_id
+    LEFT JOIN tb_pertanyaan p ON p.id = o.pertanyaan_id
     LEFT JOIN tb_faskes f ON f.id = r.faskes_id
     WHERE r.tanggal BETWEEN ? AND ?
     AND r.faskes_id = ?
@@ -133,12 +137,14 @@ class Responden
           'jenis_pelayanan' => $row['jenis_pelayanan'],
           'tanggal_terakhir_kali' => $row['tanggal_terakhir_kali'],
           'tanggal' => $row['tanggal'],
+          'pertanyaan' => [],
           'jawaban' => [],
           'nilaiSatuan' => [],
           'nilai' => $filterJumlah ? 0 : [],
         ];
       }
 
+      $grouped[$id]['pertanyaan'][] = $row['pertanyaan'];
       $grouped[$id]['jawaban'][] = $row['jawaban'];
       $grouped[$id]['nilaiSatuan'][] = $row['nilai'];
 
