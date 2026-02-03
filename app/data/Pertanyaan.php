@@ -16,7 +16,7 @@ class Pertanyaan
     $order = $isDesc ? 'DESC' : 'ASC';
 
     $query = "SELECT 
-    p.id AS pertanyaan_id, p.pertanyaan, o.id as opsi_id, o.label as jawaban, o.nilai
+    p.id AS pertanyaan_id, p.pertanyaan, o.id as opsi_id, o.label as jawaban, o.nilai, p.is_active
     FROM tb_pertanyaan p
     JOIN tb_opsi_jawaban o ON o.pertanyaan_id = p.id";
 
@@ -36,6 +36,7 @@ class Pertanyaan
         $data[$pid] = [
           'id' => $row['pertanyaan_id'],
           'pertanyaan' => $row['pertanyaan'],
+          'is_active' => $row['is_active'],
           'opsi' => []
         ];
       }
@@ -58,6 +59,7 @@ class Pertanyaan
     $query = "SELECT *
     FROM tb_pertanyaan AS p JOIN
     tb_opsi_jawaban o ON o.pertanyaan_id = p.id
+    WHERE p.is_active = 1 
     ORDER BY p.id, o.urutan";
 
     $result = $this->conn->query($query);
@@ -166,6 +168,27 @@ class Pertanyaan
     }
 
     $stmt->bind_param('siii', $data['label'], $data['nilai'], $data['urutan'], $id);
+
+    if ($stmt->execute()) {
+      return True;
+    }
+
+    $stmt->close();
+
+    return False;
+  }
+
+  public function restorePertanyaan($id)
+  {
+    $sql = "UPDATE tb_pertanyaan SET is_active = 1 WHERE id = ?";
+
+    $stmt = $this->conn->prepare($sql);
+
+    if (!$stmt) {
+      return False;
+    }
+
+    $stmt->bind_param('i', $id);
 
     if ($stmt->execute()) {
       return True;

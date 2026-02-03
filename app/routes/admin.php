@@ -26,7 +26,7 @@ if (
 
 if (
   $method === 'POST' &&
-  preg_match('#^/admin/(tambah|edit|delete)/question#', $path)
+  preg_match('#^/admin/(tambah|edit|delete|restore)/question#', $path)
 ) {
   $admin->processQuestion($path);
   exit;

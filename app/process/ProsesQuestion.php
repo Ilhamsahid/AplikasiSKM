@@ -59,6 +59,14 @@ if ($getMode === 'delete') {
     'type' => 'success',
     'message' => 'Berhasil menambah data pertanyaan',
   ];
+} else if ($getMode == 'restore') {
+  $Pertanyaan->restorePertanyaan($getId);
+
+  // Membuat flash message
+  $_SESSION['flash'] = [
+    'type' => 'success',
+    'message' => 'Berhasil merestore data pertanyaan',
+  ];
 } else {
   $pertanyaan = $Pertanyaan->changePertanyaan([
     'pertanyaan' => $input['pertanyaan'],

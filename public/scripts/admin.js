@@ -4,6 +4,9 @@ let idUser = null;
 let idQuestion = null;
 let idFaskes = null;
 let typeNow = null;
+let questionFilterStatus = "all";
+let searchKeyword = "";
+
 const formUser = document.getElementById("formUser");
 const formFaskes = document.getElementById("formFaskes");
 const formQuestion = document.getElementById("formQuestion");
@@ -379,6 +382,7 @@ function renderQuestions(page) {
 
   document.getElementById("mobileCardQuestions").innerHTML = "";
 
+  console.log(p);
   if (p.data.length === 0) {
     toggleNotFound(true, "questions");
     return;
@@ -402,18 +406,50 @@ function renderQuestions(page) {
             <td class="px-6 py-4 text-sm text-gray-600">${opsi[3]?.label ?? "-"}</td>
             <td class="px-6 py-4">
                 <div class="flex items-center justify-center gap-2">
-                    <button onclick="openQuestionModal('edit', ${q.id
-      })" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Edit">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                        </svg>
-                    </button>
-                    <button onclick="confirmDelete('question', ${q.id}, '${q.pertanyaan
-      }')" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Hapus">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                        </svg>
-                    </button>
+                    ${q.is_active == 1
+        ? `
+          <!-- EDIT -->
+          <button onclick="openQuestionModal('edit', ${q.id})"
+            class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
+            title="Edit">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5
+                   m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828
+                   l8.586-8.586z"/>
+            </svg>
+          </button>
+
+          <!-- DELETE -->
+          <button onclick="confirmDelete('question', ${q.id}, '${q.pertanyaan}')"
+            class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
+            title="Hapus">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862
+                   a2 2 0 01-1.995-1.858L5 7
+                   m5 4v6m4-6v6
+                   m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3
+                   M4 7h16"/>
+            </svg>
+          </button>
+        `
+        : `
+          <!-- RESTORE -->
+          <button onclick="restoreQuestion(${q.id}, '${q.pertanyaan}')"
+            class="p-2 text-green-600 hover:bg-green-50 rounded-lg transition"
+            title="Restore">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 4v6h6
+                   M20 20v-6h-6
+                   M5.6 18.4a9 9 0 0014.8-3.4
+                   M18.4 5.6A9 9 0 003.6 9"/>
+            </svg>
+          </button>
+        `
+      }
+
                 </div>
             </td>
         </tr>
@@ -458,20 +494,52 @@ function renderQuestions(page) {
                 </div>
 
                 <div class="flex gap-2 pt-3 border-t border-gray-200">
-                    <button onclick="openQuestionModal('edit', ${q.id
-      })" class="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 transition flex items-center justify-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                        </svg>
-                        Edit
-                    </button>
-                    <button onclick="confirmDelete('question', ${q.id}, '${q.pertanyaan
-      }')" class="flex-1 bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-100 transition flex items-center justify-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                        </svg>
-                        Hapus
-                    </button>
+                  ${q.is_active == 1
+        ? `
+        <button onclick="openQuestionModal('edit', ${q.id})"
+          class="flex-1 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg
+                 text-sm font-medium hover:bg-blue-100 transition
+                 flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5
+                 m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828
+                 l8.586-8.586z"/>
+          </svg>
+          Edit
+        </button>
+
+        <button onclick="confirmDelete('question', ${q.id}, '${q.pertanyaan}')"
+          class="flex-1 bg-red-50 text-red-600 px-4 py-2 rounded-lg
+                 text-sm font-medium hover:bg-red-100 transition
+                 flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862
+                 a2 2 0 01-1.995-1.858L5 7
+                 m5 4v6m4-6v6
+                 m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3
+                 M4 7h16"/>
+          </svg>
+          Hapus
+        </button>
+      `
+        : `
+        <button onclick="restoreQuestion(${q.id}, '${q.pertanyaan}')"
+          class="flex-1 bg-green-50 text-green-600 px-4 py-2 rounded-lg
+                 text-sm font-medium hover:bg-green-100 transition
+                 flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 4v6h6
+                 M20 20v-6h-6
+                 M5.6 18.4a9 9 0 0014.8-3.4
+                 M18.4 5.6A9 9 0 003.6 9"/>
+          </svg>
+          Restore
+        </button>
+      `
+      }
                 </div>
             </div>
         </div>
@@ -655,6 +723,22 @@ function confirmDelete(type, userId, name) {
   document.getElementById("deleteModal").classList.remove("hidden");
 }
 
+function restoreQuestion(id, name) {
+  idQuestion = id;
+
+  document.getElementById("restoreQuestionName").innerText = name;
+  document.getElementById("restoreModal").classList.remove("hidden");
+}
+
+function restoreModal() {
+  const form = document.getElementById("formRestore");
+  let url = `/admin/restore/question/${idQuestion}`;
+
+  form.addEventListener("submit", function(e) {
+    form.action = url;
+  });
+}
+
 function renderPagination(key) {
   const p = paginations[key];
 
@@ -782,10 +866,49 @@ function searchUser(value) {
 }
 
 function searchQuestions(value) {
-  paginations.questions.data = pertanyaan.filter((pty) => {
-    return pty.pertanyaan.toLowerCase().includes(value.toLowerCase().trim());
+  searchKeyword = value.toLowerCase().trim();
+  applyQuestionFilter();
+}
+
+function setQuestionFilter(status) {
+  questionFilterStatus = status;
+
+  // reset semua tombol
+  ["all", "active", "inactive"].forEach(s => {
+    const btn = document.getElementById("question" + s);
+    btn.classList.remove("bg-green-600", "text-white");
+    btn.classList.add("text-gray-700");
+    btn.classList.add("bg-gray-100");
   });
 
+  // aktifkan tombol yang dipilih
+  const activeBtn = document.getElementById("question" + status);
+  activeBtn.classList.remove("text-gray-700");
+  activeBtn.classList.add("bg-green-600", "text-white");
+
+  applyQuestionFilter();
+}
+
+function applyQuestionFilter() {
+  let data = [...pertanyaan];
+
+  // filter status
+  if (questionFilterStatus === "active") {
+    data = data.filter(q => q.is_active == 1);
+  }
+
+  if (questionFilterStatus === "inactive") {
+    data = data.filter(q => q.is_active == 0);
+  }
+
+  // filter search
+  if (searchKeyword) {
+    data = data.filter(q =>
+      q.pertanyaan.toLowerCase().includes(searchKeyword)
+    );
+  }
+
+  paginations.questions.data = data;
   paginations.questions.currentPage = 1;
   renderQuestions(1);
   renderPagination("questions");

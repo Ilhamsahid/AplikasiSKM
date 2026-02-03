@@ -1,5 +1,24 @@
 <div id="questionsPage" class="page-content hidden p-4 sm:p-6 lg:p-8">
   <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="flex gap-2">
+      <button onclick="setQuestionFilter('all')"
+        class="px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-medium"
+        id="questionall">
+        Semua
+      </button>
+
+      <button onclick="setQuestionFilter('inactive')"
+        class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 text-sm font-medium"
+        id="questioninactive">
+        Nonaktif
+      </button>
+
+      <button onclick="setQuestionFilter('active')"
+        class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 text-sm font-medium"
+        id="questionactive">
+        Aktif
+      </button>
+    </div>
     <div class="flex-1">
       <div class="relative">
         <input type="text" placeholder="Cari pertanyaan..."
