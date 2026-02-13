@@ -16,8 +16,8 @@
 
 
 -- Dumping database structure for survei_kepuasan
-CREATE DATABASE IF NOT EXISTS `survei_baru` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `survei_baru`;
+CREATE DATABASE IF NOT EXISTS `survei_kepuasan` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `survei_kepuasan`;
 
 -- Dumping structure for table survei_kepuasan.tb_instansi
 CREATE TABLE IF NOT EXISTS `tb_responden` (

@@ -41,6 +41,8 @@
                         max="<?= date('Y-m-d') ?>">
                 </div>
 
+                <input type="hidden" name="faskes_id" value="all">
+
                 <div class="flex items-end space-x-3">
                     <button
                         class="w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-2 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg" type="submit">

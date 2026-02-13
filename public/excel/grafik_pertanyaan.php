@@ -188,7 +188,7 @@ foreach ($respondentsChart as $i => $item) {
 
     for ($j = 0; $j < $labelCount; $j++) {
         $colLetter = chr(67 + $j);
-        $sheet->setCellValue("{$colLetter}{$row}", $item['user'][$j]);
+        $sheet->setCellValue("{$colLetter}{$row}", $item['users'][$j]);
     }
 
     $sheet->getStyle("A{$row}")->applyFromArray($numberStyle);

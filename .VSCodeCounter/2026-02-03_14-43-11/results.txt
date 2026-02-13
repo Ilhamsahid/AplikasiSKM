@@ -1,0 +1,87 @@
+Date : 2026-02-03 14:43:11
+Directory : c:\xampp\htdocs\AplikasiSKM\app
+Total : 45 files,  2898 codes, 17 comments, 504 blanks, all 3419 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| PHP      |         45 |      2,898 |         17 |        504 |      3,419 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                 | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                    |         45 |      2,898 |         17 |        504 |      3,419 |
+| configs                                                                              |          1 |          9 |          0 |          4 |         13 |
+| controllers                                                                          |          2 |        188 |          0 |         47 |        235 |
+| data                                                                                 |          4 |        523 |          1 |        167 |        691 |
+| helpers                                                                              |          1 |         12 |          0 |          3 |         15 |
+| logic                                                                                |          1 |         64 |          0 |         11 |         75 |
+| process                                                                              |          6 |        225 |         10 |         50 |        285 |
+| routes                                                                               |          2 |         62 |          0 |         15 |         77 |
+| view                                                                                 |         28 |      1,815 |          6 |        207 |      2,028 |
+| view\admin                                                                           |          5 |        749 |          6 |         79 |        834 |
+| view\components                                                                      |         16 |        601 |          0 |         73 |        674 |
+| view\components\admin                                                                |         11 |        453 |          0 |         51 |        504 |
+| view\components\admin (Files)                                                        |          9 |        418 |          0 |         49 |        467 |
+| view\components\admin\partials                                                       |          2 |         35 |          0 |          2 |         37 |
+| view\components\public                                                               |          5 |        148 |          0 |         22 |        170 |
+| view\layouts                                                                         |          2 |         63 |          0 |         12 |         75 |
+| view\public                                                                          |          5 |        402 |          0 |         43 |        445 |
+| view\public (Files)                                                                  |          4 |        359 |          0 |         31 |        390 |
+| view\public\mobile                                                                   |          1 |         43 |          0 |         12 |         55 |
++--------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                             | language | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\xampp\htdocs\AplikasiSKM\app\configs\database.php                                 | PHP      |          9 |          0 |          4 |         13 |
+| c:\xampp\htdocs\AplikasiSKM\app\controllers\AdminController.php                      | PHP      |        140 |          0 |         34 |        174 |
+| c:\xampp\htdocs\AplikasiSKM\app\controllers\SurveyController.php                     | PHP      |         48 |          0 |         13 |         61 |
+| c:\xampp\htdocs\AplikasiSKM\app\data\Faskes.php                                      | PHP      |         76 |          0 |         30 |        106 |
+| c:\xampp\htdocs\AplikasiSKM\app\data\Jawaban.php                                     | PHP      |         21 |          0 |         10 |         31 |
+| c:\xampp\htdocs\AplikasiSKM\app\data\Pertanyaan.php                                  | PHP      |        159 |          0 |         64 |        223 |
+| c:\xampp\htdocs\AplikasiSKM\app\data\Responden.php                                   | PHP      |        267 |          1 |         63 |        331 |
+| c:\xampp\htdocs\AplikasiSKM\app\helpers\app_helpers.php                              | PHP      |         12 |          0 |          3 |         15 |
+| c:\xampp\htdocs\AplikasiSKM\app\logic\ikm_result.php                                 | PHP      |         64 |          0 |         11 |         75 |
+| c:\xampp\htdocs\AplikasiSKM\app\process\ProsesFaskes.php                             | PHP      |         35 |          0 |          9 |         44 |
+| c:\xampp\htdocs\AplikasiSKM\app\process\ProsesLogin.php                              | PHP      |          9 |          0 |          4 |         13 |
+| c:\xampp\htdocs\AplikasiSKM\app\process\ProsesLogout.php                             | PHP      |          3 |          0 |          3 |          6 |
+| c:\xampp\htdocs\AplikasiSKM\app\process\ProsesQuestion.php                           | PHP      |         74 |          4 |         13 |         91 |
+| c:\xampp\htdocs\AplikasiSKM\app\process\ProsesSubmit.php                             | PHP      |         41 |          2 |         10 |         53 |
+| c:\xampp\htdocs\AplikasiSKM\app\process\ProsesUser.php                               | PHP      |         63 |          4 |         11 |         78 |
+| c:\xampp\htdocs\AplikasiSKM\app\routes\admin.php                                     | PHP      |         48 |          0 |         11 |         59 |
+| c:\xampp\htdocs\AplikasiSKM\app\routes\web.php                                       | PHP      |         14 |          0 |          4 |         18 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\admin\dashboard.php                             | PHP      |        200 |          0 |         10 |        210 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\admin\faskes-page.php                           | PHP      |         56 |          0 |          6 |         62 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\admin\results-page.php                          | PHP      |        362 |          6 |         46 |        414 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\admin\survey-question-page.php                  | PHP      |         76 |          0 |         10 |         86 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\admin\users-page.php                            | PHP      |         55 |          0 |          7 |         62 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\admin\delete-confirmation-modal.php  | PHP      |         24 |          0 |          4 |         28 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\admin\header.php                     | PHP      |         16 |          0 |          2 |         18 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\admin\modal-detail-responden.php     | PHP      |         45 |          0 |          3 |         48 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\admin\modal-faskes.php               | PHP      |         42 |          0 |          4 |         46 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\admin\modal-question.php             | PHP      |        117 |          0 |          8 |        125 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\admin\modal-user.php                 | PHP      |         73 |          0 |         10 |         83 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\admin\navbar.php                     | PHP      |         46 |          0 |          5 |         51 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\admin\partials\logo-sidebar.php      | PHP      |         18 |          0 |          1 |         19 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\admin\partials\user-info.php         | PHP      |         17 |          0 |          1 |         18 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\admin\restore-confirmation-modal.php | PHP      |         44 |          0 |          9 |         53 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\admin\sidebar.php                    | PHP      |         11 |          0 |          4 |         15 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\public\footer.php                    | PHP      |          6 |          0 |          2 |          8 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\public\modal-login.php               | PHP      |         63 |          0 |          8 |         71 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\public\modal-notification.php        | PHP      |         36 |          0 |          6 |         42 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\public\navbar.php                    | PHP      |         39 |          0 |          5 |         44 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\components\public\page-title.php                | PHP      |          4 |          0 |          1 |          5 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\layouts\admin.php                               | PHP      |         37 |          0 |          6 |         43 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\layouts\guest.php                               | PHP      |         26 |          0 |          6 |         32 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\public\hasil-ikm.php                            | PHP      |        142 |          0 |         12 |        154 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\public\index-main.php                           | PHP      |         27 |          0 |          5 |         32 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\public\mobile\question-view.php                 | PHP      |         43 |          0 |         12 |         55 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\public\question-view.php                        | PHP      |         41 |          0 |          2 |         43 |
+| c:\xampp\htdocs\AplikasiSKM\app\view\public\responden-view.php                       | PHP      |        149 |          0 |         12 |        161 |
+| Total                                                                                |          |      2,898 |         17 |        504 |      3,419 |
++--------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

@@ -36,7 +36,7 @@ if ($_POST['umur'] < 1 || $_POST['umur'] > 120) {
   return;
 }
 
-for ($i = 0; $i  < count($Question->getQuestion(false)); $i++) {
+for ($i = 0; $i  < count($Question->getQuestion(false, true)); $i++) {
   $Jawaban->insertJawaban(
     $respondenId,
     $_POST['q' . $i],
